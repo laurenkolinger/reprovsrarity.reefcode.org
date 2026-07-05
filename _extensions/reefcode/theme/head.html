@@ -52,6 +52,16 @@ body.section-publications #title-block-header .subtitle,
 body.section-publications #title-block-header .quarto-title-meta{ color:#6d685e !important; font-weight:400; }
 body.section-publications main#quarto-document-content.content > section:first-of-type > :first-child{ margin-top:16px !important; }
 
+/* "Last updated" stamp: Quarto's title-block date reads junky, so hide it and re-place the date
+   (lifted by after.html from date: today) as a small right-aligned line just under the menu, on
+   every page. */
+#title-block-header .quarto-title-meta{ display:none !important; }
+.rc-lastupdated{
+  max-width:var(--wrap); margin:0 auto; padding:10px var(--gut) 0;
+  text-align:right; font-size:.72rem; letter-spacing:.03em; color:#9aa2b0;
+  font-family:'Space Grotesk',system-ui,sans-serif;
+}
+
 /* ============================================================
    Unified site menu — identical on every page
    brand (left) + main menu (center) + section submenu (horizontal)

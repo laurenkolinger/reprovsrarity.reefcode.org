@@ -21,6 +21,9 @@ website:
 format:
   reefcode-html:
     include-before-body: _nav.html
+    date: today                     # programmatic "Last updated" stamp, resolved at render
+    date-format: "MMMM D, YYYY"
+    published-title: "Last updated"
 
 execute:
   freeze: auto

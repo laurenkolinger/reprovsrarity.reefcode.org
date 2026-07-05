@@ -1,14 +1,14 @@
 
 ```{r stream-setup-vinps}
 #| code-summary: "Setup: packages, color palette"
-suppressPackageStartupMessages({
+suppressWarnings(suppressPackageStartupMessages({
   library(tidyverse)
   library(sandwich)
   library(lmtest)
   library(broom)
   library(patchwork)
   library(kableExtra)
-})
+}))
 
 palette_grp <- c(
   "Common.Broadcaster" = "#0072B2", "Rare.Broadcaster" = "#56B4E9",

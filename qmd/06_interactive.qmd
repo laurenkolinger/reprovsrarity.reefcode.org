@@ -10,7 +10,7 @@ format:
 
 ```{r setup}
 #| include: false
-suppressPackageStartupMessages({library(dplyr); library(ggplot2); library(patchwork); library(kableExtra)})
+suppressWarnings(suppressPackageStartupMessages({library(dplyr); library(ggplot2); library(patchwork); library(kableExtra)}))
 pre <- readRDS("../data/app/precomputed.rds")
 palette_grp <- c("Common.Broadcaster" = "#0072B2", "Rare.Broadcaster" = "#56B4E9",
                  "Common.Brooder" = "#D55E00", "Rare.Brooder" = "#E69F00")

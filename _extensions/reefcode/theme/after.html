@@ -29,5 +29,20 @@
     var active = document.querySelector('.rn-main a[data-sec="' + sec + '"]');
     if (active) active.classList.add('rn-active');
   }
+
+  // "Last updated" stamp: Quarto puts the render date (date: today) in the title block, which the
+  // theme hides. Lift that date into a small right-aligned line just under the menu, on every page.
+  var dateEl = document.querySelector('#title-block-header p.date, .quarto-title-meta .date, p.date');
+  var navEl = document.querySelector('.rn');
+  var navHeader = navEl ? (navEl.closest('header') || navEl.parentNode) : null;
+  if (dateEl && navHeader && navHeader.parentNode) {
+    var when = (dateEl.textContent || '').trim();
+    if (when) {
+      var stamp = document.createElement('div');
+      stamp.className = 'rc-lastupdated';
+      stamp.textContent = 'Last updated: ' + when;
+      navHeader.parentNode.insertBefore(stamp, navHeader.nextSibling);
+    }
+  }
 })();
 </script>
