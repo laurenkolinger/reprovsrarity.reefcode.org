@@ -879,6 +879,8 @@ Table&nbsp;2: Group-specific temporal slopes (octocorals), with robust SEs and a
   if (p.indexOf('/7_publications/') >= 0) sec = 'publications';
   else if (/\/(2_benthiccover|3_drivers_internal|4_drivers_external|5_resilience_vals|6_analyses)\//.test(p)) sec = 'analyses';
   else if (p.indexOf('/1_about/') >= 0) sec = 'about';
+  // On a publication site (its own subdomain), every page is a publication page:
+  else if (/\/(aspublished|updated)\//.test(p) || /(00_overview|06_interactive|01_example)\.html$/.test(p)) sec = 'publications';
   if (sec) {
     document.body.classList.add('section-' + sec);
     var active = document.querySelector('.rn-main a[data-sec="' + sec + '"]');
