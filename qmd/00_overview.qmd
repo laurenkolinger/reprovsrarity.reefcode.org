@@ -13,7 +13,7 @@ The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the R
 
 ### Two versions of each analysis
 
-Each of the four analyses appears on this site in two versions, reachable from the menu above.
+Each of the four analyses appears on this site in two versions. Open a program from the Publications menu to read the as-published version, then use the toggle at the top of the page to switch to the updated version and back.
 
 The **as published** version reruns the analysis exactly as it appears in the manuscript. Each program clips the coral-cover or colony-survey data to the years used in the paper. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024. A manuscript reports a result for a fixed dataset, so the published version locks the year range to match. Locking the year range is what lets a reader trace every number in the paper back to a specific, unchanging slice of the monitoring record, regardless of how much new data has been collected since.
 

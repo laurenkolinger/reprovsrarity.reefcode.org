@@ -3,6 +3,12 @@ title: "4. CSUN (as published)"
 subtitle: "California State University Northridge, genus level, 1992 to 2023"
 ---
 
+
+<p class="rc-vtoggle" style="display:inline-flex;align-items:stretch;border:1px solid #cfc8b9;border-radius:999px;overflow:hidden;font-size:.82rem;margin:.2rem 0 1.1rem;font-family:'Space Grotesk',system-ui,sans-serif">
+<span style="padding:5px 16px;background:#0b2444;color:#fff;font-weight:600">As published</span>
+<a href="../updated/04_csun.html" style="padding:5px 16px;color:#0b2444;text-decoration:none">Updated since publication &#8594;</a>
+</p>
+
 > Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
 
 The coral-cover data for this analysis comes from the Reef Code benthic cover section: [coral genera cover download]({{< var data-source-genera >}}).
