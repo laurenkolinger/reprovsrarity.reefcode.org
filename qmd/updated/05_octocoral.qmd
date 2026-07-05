@@ -1,0 +1,26 @@
+---
+title: "5. Octocorals (updated since publication)"
+subtitle: "Lasker octocoral program, colony density, 2014 to present"
+---
+
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+This page reruns the published octocoral analysis on the full monitoring record rather than
+stopping at the published window. The method, the code, and the site scoping are identical to
+the published page; only the year range differs. As new monitoring years are added to the
+bundled Lasker survey file, this page picks them up automatically and shows how the
+trajectories continue.
+
+This analysis uses colony density from the Lasker octocoral survey program, a standalone collaborator dataset bundled with this site, not the Reef Code benthic cover section.
+
+## Summary
+
+The Lasker octocoral program counts octocoral colonies in fixed quadrats at 3 sites off St. John. Octocorals are the soft corals and sea fans. The published analysis covered 2014 through 2024. This page runs the same analysis over the full bundled record, from 2014 through the most recent year available. The full analysis runs below, from the colony survey file to the figure (@fig-octo) and the statistics table (@tbl-octo-coef). Every step is folded. Open any block to read the code and the plain-language notes.
+
+```{r params-octo}
+#| code-summary: "Set the parameters for this version: open the range to the full bundled record"
+octo_years <- readr::read_csv("../../data/collab/octocoral_adultSurveys_Lasker_20250409.csv", show_col_types = FALSE)[["Census Year"]]
+max_year <- max(floor(as.numeric(octo_years)), na.rm = TRUE)
+pub_range <- c(2014, max_year); program <- "octocoral"; taxon_level <- "species"
+```
+{{< include ../../_includes/_analysis_octo.qmd >}}

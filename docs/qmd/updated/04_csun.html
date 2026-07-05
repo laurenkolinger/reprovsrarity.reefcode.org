@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2. TCRMP (as published) – Reproductive mode and rarity</title>
+<title>4. CSUN (updated since publication) – Reproductive mode and rarity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -138,7 +138,7 @@ main#quarto-document-content.content > :not(:first-child){
 }
 /* Quarto's banner title block was the reef-art hero (its own copy of the page title, plus a
    hard-coded 250px height). The image is gone and each page repeats its title as a body heading
-   (# 2. TCRMP (as published)), so the title block is now a redundant duplicate. Hide it and let the
+   (# 4. CSUN (updated since publication)), so the title block is now a redundant duplicate. Hide it and let the
    body heading be the single title, sitting a tight, consistent gap below the nav. */
 #title-block-header{ display:none !important; }
 main#quarto-document-content.content > section:first-of-type{ padding-top:0 !important; }
@@ -277,8 +277,8 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2. TCRMP (as published)</h1>
-<p class="subtitle lead">Territorial Coral Reef Monitoring Program, species level, 2001 to 2023</p>
+<h1 class="title">4. CSUN (updated since publication)</h1>
+<p class="subtitle lead">California State University Northridge, genus level, 1992 to present</p>
 </div>
 
 
@@ -298,14 +298,17 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 <blockquote class="blockquote">
 <p>Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.</p>
 </blockquote>
-<p>The coral-cover data for this analysis comes from the Reef Code benthic cover section: <a href="https://reefcode.org/qmd/2_benthiccover/05_coral_species.html">coral species cover download</a>.</p>
+<p>This page reruns the published CSUN analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.</p>
+<p>The coral-cover data for this analysis comes from the Reef Code benthic cover section: <a href="https://reefcode.org/qmd/2_benthiccover/04_coral_genera.html">coral genera cover download</a>.</p>
 <section id="summary" class="level2">
 <h2 data-anchor-id="summary">Summary</h2>
-<p>The Territorial Coral Reef Monitoring Program records coral cover at the species level across 20 shallow reef sites. Broadcast-spawning corals decline steeply, brooding corals decline slowly, and rare and common taxa decline at the same proportional rate. This page renders the published analysis over its paper range, 2001 through 2023. The full analysis runs below, from the coral-cover file to the figure (<a href="#fig-tcrmp" class="quarto-xref">Figure&nbsp;1</a>) and the statistics table (<a href="#tbl-tcrmp-coef" class="quarto-xref">Table&nbsp;1</a>). Every step is folded. Open any block to read the code and the plain-language notes.</p>
+<p>The California State University Northridge program records coral cover at the genus level across 8 sites off St.&nbsp;John, and it holds the longest record in the analysis, starting in 1992. The published analysis covered 1992 through 2023. This page runs the same analysis over the full bundled record, from 1992 through the most recent year available. The full analysis runs below, from the coral-cover file to the figure (<a href="#fig-csun" class="quarto-xref">Figure&nbsp;1</a>) and the statistics table (<a href="#tbl-csun-coef" class="quarto-xref">Table&nbsp;1</a>). Every step is folded. Open any block to read the code and the plain-language notes.</p>
 <div class="cell">
 <details class="code-fold">
-<summary>Set the publication parameters for this version</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2001</span>, <span class="dv">2023</span>); program <span class="ot">&lt;-</span> <span class="st">"TCRMP"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"species"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>Set the parameters for this version: open the range to the full bundled record</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cover_files <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(<span class="st">"../../data/cover"</span>, <span class="at">pattern =</span> <span class="st">"s2pt4.*</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>max_year <span class="ot">&lt;-</span> <span class="fu">max</span>(readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="fu">tail</span>(cover_files, <span class="dv">1</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>year)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1992</span>, max_year); program <span class="ot">&lt;-</span> <span class="st">"CSUN"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"genera"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
@@ -328,215 +331,198 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 </div>
 <details class="code-fold">
 <summary>Setup: packages, color palette</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The four analysis groups keep one color across every page. Warm hues mark</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># brooders, cool hues mark broadcasters; the darker shade of each pair marks</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># common taxa, the lighter marks rare.</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>palette_grp <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Broadcaster"</span> <span class="ot">=</span> <span class="st">"#0072B2"</span>, <span class="st">"Rare.Broadcaster"</span> <span class="ot">=</span> <span class="st">"#56B4E9"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Brooder"</span>     <span class="ot">=</span> <span class="st">"#D55E00"</span>, <span class="st">"Rare.Brooder"</span>     <span class="ot">=</span> <span class="st">"#E69F00"</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>label_grp <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Broadcaster"</span> <span class="ot">=</span> <span class="st">"Common broadcaster"</span>, <span class="st">"Rare.Broadcaster"</span> <span class="ot">=</span> <span class="st">"Rare broadcaster"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Brooder"</span>     <span class="ot">=</span> <span class="st">"Common brooder"</span>,     <span class="st">"Rare.Brooder"</span>     <span class="ot">=</span> <span class="st">"Rare brooder"</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>palette_grp <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Broadcaster"</span> <span class="ot">=</span> <span class="st">"#0072B2"</span>, <span class="st">"Rare.Broadcaster"</span> <span class="ot">=</span> <span class="st">"#56B4E9"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Brooder"</span>     <span class="ot">=</span> <span class="st">"#D55E00"</span>, <span class="st">"Rare.Brooder"</span>     <span class="ot">=</span> <span class="st">"#E69F00"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>label_grp <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Broadcaster"</span> <span class="ot">=</span> <span class="st">"Common broadcaster"</span>, <span class="st">"Rare.Broadcaster"</span> <span class="ot">=</span> <span class="st">"Rare broadcaster"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common.Brooder"</span>     <span class="ot">=</span> <span class="st">"Common brooder"</span>,     <span class="st">"Rare.Brooder"</span>     <span class="ot">=</span> <span class="st">"Rare brooder"</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
 <section id="step-1-read-the-coral-cover-data" class="level2">
 <h2 data-anchor-id="step-1-read-the-coral-cover-data">Step 1 — Read the coral cover data</h2>
-<p>The analysis begins from the species-level coral-cover file and the site master table. The cover file holds one row per transect observation: a site, a year, a survey period, a coral species, and its percent cover. The site master holds each site’s program, depth, and the year monitoring began. The cover file is matched by pattern in <code>data/cover/</code>, so this step reads whichever species-level file is bundled, and the analysis grows as that file grows.</p>
+<p>The analysis begins from the genus-level coral-cover file and the site master table. The cover file holds one row per observation: a site, a year, a survey period, a coral genus, and its percent cover. The site master holds each site’s program, depth, and the year monitoring began. The cover file is matched by pattern in <code>data/cover/</code>, so this step reads whichever genus-level file is bundled, and the analysis grows as that file grows.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Step 1 code: read the bundled cover file (most-recent match) and the site master</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cover_files <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(<span class="st">"../../data/cover"</span>, <span class="at">pattern =</span> <span class="st">"s2pt5.*</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cover_files <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(<span class="st">"../../data/cover"</span>, <span class="at">pattern =</span> <span class="st">"s2pt4.*</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cover_file <span class="ot">&lt;-</span> <span class="fu">tail</span>(cover_files, <span class="dv">1</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(cover_file) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, program, site, period, coralSpecies, perccover)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, program, site, period, coralGenera, perccover)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>sitedat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/site/00_RRS_siteMaster_allSites_data.csv"</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cover_file =</span> <span class="fu">basename</span>(cover_file), <span class="at">cover_rows =</span> <span class="fu">nrow</span>(benthiccover), <span class="at">sites_listed =</span> <span class="fu">nrow</span>(sitedat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                            cover_file 
-"s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv" 
-                                            cover_rows 
-                                              "481351" 
-                                          sites_listed 
-                                                  "50" </code></pre>
+<pre><code>                                           cover_file 
+"s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv" 
+                                           cover_rows 
+                                             "234551" 
+                                         sites_listed 
+                                                 "50" </code></pre>
 </div>
 </div>
 </section>
 <section id="step-2-set-the-scope-publication-range-sites-years-taxa" class="level2">
 <h2 data-anchor-id="step-2-set-the-scope-publication-range-sites-years-taxa">Step 2 — Set the scope (publication range, sites, years, taxa)</h2>
-<p>The first move is the explicit publication-range clip: every downstream step runs only on years inside <code>pub_range</code>. At the published range this clip is harmless, since the bundled file does not extend beyond it; as the cover file grows in later monitoring years, the same clip is what keeps this page reproducing the published analysis exactly. After the clip, the analysis holds the rest of the sampling design constant so that trends reflect coral change rather than changes in which reefs or taxa were surveyed: the shallow TCRMP sites established before 2006, the annual surveys, and the coral species identified to species. It drops the fire corals (Millepora), the generic catch-all entries, the Orbicella complex placeholder, and any taxon left at the genus level. The site scope comes first, because the cover scope depends on the surviving site list.</p>
+<p>The first move is the explicit publication-range clip: every downstream step runs only on years inside <code>pub_range</code>. At the published range this clip is harmless, since the bundled file does not extend beyond it; as the cover file grows in later monitoring years, the same clip is what keeps this page reproducing the published analysis exactly. After the clip, the analysis holds the rest of the sampling design constant so that trends reflect coral change rather than changes in which reefs or genera were surveyed: the CSUN sites and the coral genera. CSUN identifies corals to genus, so no species-level exclusions apply. One genus name is corrected. The shallow-site rule is applied in the next step, after the year grouping, to match the original analysis order.</p>
 <div class="cell">
 <details class="code-fold">
-<summary>Step 2 code: clip to pub_range, then restrict sites, taxa</summary>
+<summary>Step 2 code: clip to pub_range; define the CSUN sites; scope the cover to CSUN genera</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Publication-range clip: the explicit first step of scope.</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">&gt;=</span> pub_range[<span class="dv">1</span>], year <span class="sc">&lt;=</span> pub_range[<span class="dv">2</span>])</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Sites: shallow TCRMP reefs established before 2006 (Ginsburg Fringe excluded).</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Sites: CSUN reefs, with a depth category.</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>sitedat <span class="ot">&lt;-</span> sitedat <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(program <span class="sc">==</span> <span class="st">"TCRMP"</span>, yearadded <span class="sc">&lt;</span> <span class="dv">2006</span>, site <span class="sc">!=</span> <span class="st">"Ginsburg Fringe"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">depth_cat =</span> <span class="fu">ifelse</span>(depth <span class="sc">&lt;</span> <span class="dv">21</span>, <span class="st">"Shallow"</span>, <span class="st">"Deep"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(depth_cat <span class="sc">==</span> <span class="st">"Shallow"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Cover: TCRMP annual surveys.</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(program <span class="sc">==</span> <span class="st">"TCRMP"</span>, period <span class="sc">==</span> <span class="st">"Annual"</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Taxa: fix one spelling, drop non-species and non-coral entries, keep scoped sites.</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coralSpecies =</span> <span class="fu">ifelse</span>(coralSpecies <span class="sc">==</span> <span class="st">"Orbicella franksii"</span>, <span class="st">"Orbicella franksi"</span>, coralSpecies)) <span class="sc">|&gt;</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>coralSpecies <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Millepora alcicornis"</span>, <span class="st">"Millepora complanata"</span>, <span class="st">"Millepora squarrosa"</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"Coral spp."</span>, <span class="st">"Juvenile coral spp."</span>, <span class="st">"Orbicella species complex"</span>),</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">" spp</span><span class="sc">\\</span><span class="st">.$"</span>, coralSpecies),</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    site <span class="sc">%in%</span> sitedat<span class="sc">$</span>site</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cover_rows =</span> <span class="fu">nrow</span>(benthiccover), <span class="at">sites_kept =</span> <span class="fu">n_distinct</span>(benthiccover<span class="sc">$</span>site),</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">species =</span> <span class="fu">n_distinct</span>(benthiccover<span class="sc">$</span>coralSpecies))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(program <span class="sc">==</span> <span class="st">"CSUN"</span>, yearadded <span class="sc">&lt;</span> <span class="dv">2025</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">depth_cat =</span> <span class="fu">ifelse</span>(depth <span class="sc">&lt;</span> <span class="dv">21</span>, <span class="st">"Shallow"</span>, <span class="st">"Deep"</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cover: CSUN genera, with one genus-name correction.</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(program <span class="sc">==</span> <span class="st">"CSUN"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coralGenera =</span> <span class="fu">ifelse</span>(coralGenera <span class="sc">==</span> <span class="st">"Isopyhyllastrea"</span>, <span class="st">"Isophyllastrea"</span>, coralGenera))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cover_rows =</span> <span class="fu">nrow</span>(benthiccover), <span class="at">genera =</span> <span class="fu">n_distinct</span>(benthiccover<span class="sc">$</span>coralGenera))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover_rows sites_kept    species 
-    124411         20         49 </code></pre>
+<pre><code>cover_rows     genera 
+      5502         21 </code></pre>
 </div>
 </div>
-<p><strong>Validation note:</strong> the scoped dataset spans 2001 through 2023, holds 124,411 transect records across 20 TCRMP sites and 49 coral species.</p>
 </section>
 <section id="step-3-bin-years-and-set-the-baseline-period" class="level2">
 <h2 data-anchor-id="step-3-bin-years-and-set-the-baseline-period">Step 3 — Bin years and set the baseline period</h2>
-<p>The analysis compares a baseline period to the full record. It bins the survey years into five-year groups and treats the first group as the baseline. Binning smooths the year-to-year noise in the baseline abundance ranking without changing the annual data used later in the model. The helper below builds the five-year groups from the data range and labels each year with its group.</p>
+<p>The analysis compares a baseline period to the full record. It bins the survey years into five-year groups and treats the first group as the baseline. CSUN uses its own binning rule for the long record, which drops a trailing group only when it would be shorter than half an interval.</p>
 <div class="cell">
 <details class="code-fold">
-<summary>Step 3 code: bin years into five-year groups; set the baseline</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bin_years: label each year with a five-year group, dropping a trailing stub</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># group so the last bin holds a full span where possible.</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>bin_years <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">interval =</span> <span class="dv">5</span>) {</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  min_yr <span class="ot">&lt;-</span> <span class="fu">min</span>(df<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>); max_yr <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(min_yr, max_yr, <span class="at">by =</span> interval)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">tail</span>(breaks, <span class="dv">1</span>) <span class="sc">&gt;</span> max_yr <span class="sc">-</span> (interval <span class="sc">-</span> <span class="dv">1</span>)) breaks <span class="ot">&lt;-</span> <span class="fu">head</span>(breaks, <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  labels <span class="ot">&lt;-</span> <span class="fu">paste</span>(breaks, <span class="fu">pmin</span>(breaks <span class="sc">+</span> (interval <span class="sc">-</span> <span class="dv">1</span>), max_yr), <span class="at">sep =</span> <span class="st">"-"</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  map <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> <span class="fu">seq</span>(min_yr, max_yr)) <span class="sc">|&gt;</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">year_group =</span> <span class="fu">cut</span>(year, <span class="at">breaks =</span> <span class="fu">c</span>(breaks, max_yr <span class="sc">+</span> <span class="dv">1</span>), <span class="at">labels =</span> labels,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">right =</span> <span class="cn">FALSE</span>, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span> <span class="fu">left_join</span>(map, <span class="at">by =</span> <span class="st">"year"</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">year_group =</span> <span class="fu">as.factor</span>(year_group))</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> <span class="fu">bin_years</span>(benthiccover, <span class="dv">5</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>earliest_year_group <span class="ot">&lt;-</span> <span class="fu">levels</span>(benthiccover<span class="sc">$</span>year_group)[<span class="dv">1</span>]</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># earliest_year_group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>Step 3 code: bin years (CSUN rule); scope to shallow CSUN sites</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bin_years_csun <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">interval =</span> <span class="dv">5</span>) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  min_yr <span class="ot">&lt;-</span> <span class="fu">min</span>(df<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>); max_yr <span class="ot">&lt;-</span> <span class="fu">max</span>(df<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(min_yr, max_yr, <span class="at">by =</span> interval)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(breaks) <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> <span class="fu">tail</span>(breaks, <span class="dv">1</span>) <span class="sc">&gt;</span> max_yr <span class="sc">-</span> (interval <span class="sc">/</span> <span class="dv">2</span>)) breaks <span class="ot">&lt;-</span> <span class="fu">head</span>(breaks, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  labels <span class="ot">&lt;-</span> <span class="fu">paste</span>(breaks, <span class="fu">pmin</span>(breaks <span class="sc">+</span> (interval <span class="sc">-</span> <span class="dv">1</span>), max_yr), <span class="at">sep =</span> <span class="st">"-"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  map <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> <span class="fu">seq</span>(min_yr, max_yr)) <span class="sc">|&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">year_group =</span> <span class="fu">cut</span>(year, <span class="at">breaks =</span> <span class="fu">c</span>(breaks, max_yr <span class="sc">+</span> <span class="dv">1</span>), <span class="at">labels =</span> labels,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">right =</span> <span class="cn">FALSE</span>, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span> <span class="fu">left_join</span>(map, <span class="at">by =</span> <span class="st">"year"</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">year_group =</span> <span class="fu">as.factor</span>(year_group))</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> <span class="fu">bin_years_csun</span>(benthiccover, <span class="dv">5</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>earliest_year_group <span class="ot">&lt;-</span> <span class="fu">levels</span>(benthiccover<span class="sc">$</span>year_group)[<span class="dv">1</span>]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep the shallow CSUN sites.</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site <span class="sc">%in%</span> sitedat<span class="sc">$</span>site) <span class="sc">|&gt;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(sitedat, site, depth_cat), <span class="at">by =</span> <span class="st">"site"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(depth_cat <span class="sc">==</span> <span class="st">"Shallow"</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># earliest_year_group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>The baseline period is the first five-year group, 2001-2005. Two presence rules keep the analysis on taxa that were part of the community at baseline and at sites within their range. The first keeps species recorded during the baseline period. The second drops species-site pairs where the species was never seen, since a site outside a species range would enter the model as a structural zero rather than a decline.</p>
+<p><strong>Validation note:</strong> the scoped dataset spans 1992 through 2023, holds 4,809 records across 7 CSUN sites and 21 coral genera. The baseline period is the first five-year group, 1992-1996.</p>
+<p>Two presence rules keep the analysis on genera that were part of the community at baseline and at sites within their range. The first keeps genera recorded during the baseline period. The second drops genus-site pairs where the genus was never seen, since a site outside a genus range would enter the model as a structural zero rather than a decline.</p>
 <div class="cell">
 <details class="code-fold">
-<summary>Step 3 code: keep baseline-present species and in-range sites</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep species observed during the baseline period.</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>spp_in_baseline <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralSpecies, year_group) <span class="sc">|&gt;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">seen =</span> <span class="fu">max</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen, year_group <span class="sc">==</span> earliest_year_group) <span class="sc">|&gt;</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(coralSpecies) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span> <span class="fu">filter</span>(coralSpecies <span class="sc">%in%</span> spp_in_baseline)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop species-site pairs where the species was never observed (out of range).</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>in_range <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralSpecies, site) <span class="sc">|&gt;</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">seen =</span> <span class="fu">max</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">paste</span>(coralSpecies, site))</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">paste</span>(coralSpecies, site) <span class="sc">%in%</span> in_range<span class="sc">$</span>key)</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Average across the transects at each site and year.</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_group, coralSpecies, year, site) <span class="sc">|&gt;</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">perccover =</span> <span class="fu">mean</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(benthiccover), <span class="at">species =</span> <span class="fu">n_distinct</span>(benthiccover<span class="sc">$</span>coralSpecies))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>Step 3 code: keep baseline-present genera and in-range sites</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gen_in_baseline <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralGenera, year_group) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">seen =</span> <span class="fu">max</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen, year_group <span class="sc">==</span> earliest_year_group) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(coralGenera) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span> <span class="fu">filter</span>(coralGenera <span class="sc">%in%</span> gen_in_baseline)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>in_range <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralGenera, site) <span class="sc">|&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">seen =</span> <span class="fu">max</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">paste</span>(coralGenera, site))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">paste</span>(coralGenera, site) <span class="sc">%in%</span> in_range<span class="sc">$</span>key)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_group, coralGenera, year, site) <span class="sc">|&gt;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">perccover =</span> <span class="fu">mean</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(benthiccover), <span class="at">genera =</span> <span class="fu">n_distinct</span>(benthiccover<span class="sc">$</span>coralGenera))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>   rows species 
-  10073      40 </code></pre>
+<pre><code>  rows genera 
+  3520     17 </code></pre>
 </div>
 </div>
 </section>
 <section id="step-4-rank-baseline-abundance" class="level2">
 <h2 data-anchor-id="step-4-rank-baseline-abundance">Step 4 — Rank baseline abundance</h2>
-<p>Each species receives its mean percent cover during the baseline period. Ranking the species by that mean sets the order used in the figure and sets up the commonness split. The cumulative proportion of cover, summed down the ranked list, measures how much of the reef’s baseline cover the top species account for.</p>
+<p>Each genus receives its mean percent cover during the baseline period. Ranking the genera by that mean sets the order used in the figure and sets up the commonness split. The cumulative proportion of cover, summed down the ranked list, measures how much of the reef’s baseline cover the top genera account for.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Step 4 code: mean baseline cover, rank, cumulative cover</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year_group <span class="sc">==</span> earliest_year_group) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralSpecies) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralGenera) <span class="sc">|&gt;</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meancov =</span> <span class="fu">mean</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(meancov)) <span class="sc">|&gt;</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">row_number</span>(),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">normcov =</span> meancov <span class="sc">/</span> <span class="fu">sum</span>(meancov, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">cumsumcov =</span> <span class="fu">cumsum</span>(normcov))</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># head(baseline, 6)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(meancov <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(meancov)) <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">row_number</span>(),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">normcov =</span> meancov <span class="sc">/</span> <span class="fu">sum</span>(meancov, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">cumsumcov =</span> <span class="fu">cumsum</span>(normcov))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># head(baseline, 6)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
 <section id="step-5-classify-common-and-rare-9010" class="level2">
 <h2 data-anchor-id="step-5-classify-common-and-rare-9010">Step 5 — Classify common and rare (90/10)</h2>
-<p>The commonness split follows one rule: the species that together hold the top 90 percent of baseline cumulative cover are common, and the rest are rare. The manuscript identified 0.90 through a sliding-window analysis as the strictest rarity definition that leaves the temporal slopes stable.</p>
+<p>The commonness split follows one rule: the genera that together hold the top 90 percent of baseline cumulative cover are common, and the rest are rare. The manuscript identified 0.90 through a sliding-window analysis as the strictest rarity definition that leaves the temporal slopes stable.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Step 5 code: split common from rare at 0.90 cumulative cover</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> baseline <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">commonness =</span> <span class="fu">ifelse</span>(cumsumcov <span class="sc">&lt;=</span> <span class="fl">0.900001</span>, <span class="st">"Common"</span>, <span class="st">"Rare"</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">commonness =</span> <span class="fu">ifelse</span>(cumsumcov <span class="sc">&lt;=</span> <span class="fl">0.90</span>, <span class="st">"Common"</span>, <span class="st">"Rare"</span>))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(baseline<span class="sc">$</span>commonness)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Common   Rare 
-    10     30 </code></pre>
+     3     14 </code></pre>
 </div>
 </div>
 </section>
 <section id="step-6-assign-reproductive-mode" class="level2">
 <h2 data-anchor-id="step-6-assign-reproductive-mode">Step 6 — Assign reproductive mode</h2>
-<p>Each species carries a reproductive mode, brooder or broadcaster. The assignment reads a compiled trait table, drops unknown entries, and joins the mode onto the baseline species. A second trait table fills any species the first leaves unassigned. Species that still lack a mode after both sources leave the analysis, because the model compares brooders to broadcasters and cannot place an unassigned species.</p>
+<p>Each genus carries a reproductive mode, brooder or broadcaster. CSUN reports corals at the genus level, so the assignment reads a genus-level trait table from Edmunds, corrects one label, drops unknown entries, and joins the mode onto the baseline genera. Genera that lack a mode leave the analysis, because the model compares brooders to broadcasters and cannot place an unassigned genus.</p>
 <div class="cell">
 <details class="code-fold">
-<summary>Step 6 code: join reproductive mode from two trait tables</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>repro1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/collab/reproMode_coralSpecies_Mahoney_20250108.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">coralSpecies =</span> Species) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Reproductive_mode <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Brooder"</span>, <span class="st">"Broadcaster"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(coralSpecies, Reproductive_mode)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>repro2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/collab/reproMode_coralSpecies_Olinger_20250108.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Reproductive_mode <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Brooder"</span>, <span class="st">"Broadcaster"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(coralSpecies, Reproductive_mode)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> baseline <span class="sc">|&gt;</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(repro1, <span class="at">by =</span> <span class="st">"coralSpecies"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(repro2, <span class="at">by =</span> <span class="st">"coralSpecies"</span>, <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">".2"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Reproductive_mode =</span> <span class="fu">coalesce</span>(Reproductive_mode, Reproductive_mode<span class="fl">.2</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Reproductive_mode<span class="fl">.2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Reproductive_mode <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Brooder"</span>, <span class="st">"Broadcaster"</span>))</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># with(baseline, table(Commonness = commonness, `Reproductive mode` = Reproductive_mode))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>Step 6 code: join genus-level reproductive mode (Edmunds)</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>repro <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/collab/reproMode_coralGenera_commonRare_Edmunds.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">coralGenera =</span> Genus, <span class="at">Reproductive_mode =</span> LH.Strategy) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coralGenera =</span> <span class="fu">ifelse</span>(coralGenera <span class="sc">==</span> <span class="st">"Montastrea cav"</span>, <span class="st">"Montastraea"</span>, coralGenera)) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Reproductive_mode <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Brooder"</span>, <span class="st">"Broadcaster"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(coralGenera, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> baseline <span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(repro <span class="sc">|&gt;</span> <span class="fu">select</span>(coralGenera, Reproductive_mode), <span class="at">by =</span> <span class="st">"coralGenera"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Reproductive_mode <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Brooder"</span>, <span class="st">"Broadcaster"</span>))</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># with(baseline, table(Commonness = commonness, `Reproductive mode` = Reproductive_mode))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
 <section id="step-7-build-the-analysis-dataset" class="level2">
 <h2 data-anchor-id="step-7-build-the-analysis-dataset">Step 7 — Build the analysis dataset</h2>
-<p>The model works on group means rather than individual species, so that a single abundant species cannot dominate the trend. This step joins the commonness and reproductive-mode labels onto the full cover series, averages cover within each group at each site and year, adds a year index that starts at zero, and takes the log10 of cover. Log10 cover is the response, because coral loss acts proportionally, and a proportional change is a straight line on the log scale.</p>
+<p>The model works on group means rather than individual genera, so that a single abundant genus cannot dominate the trend. This step joins the commonness and reproductive-mode labels onto the full cover series, averages cover within each group at each site and year, adds a year index that starts at zero, and takes the log10 of cover. Log10 cover is the response, because coral loss acts proportionally, and a proportional change is a straight line on the log scale.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Step 7 code: aggregate to group-site-year means</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>analysis_data <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(baseline <span class="sc">|&gt;</span> <span class="fu">select</span>(coralSpecies, commonness, Reproductive_mode), <span class="at">by =</span> <span class="st">"coralSpecies"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(baseline <span class="sc">|&gt;</span> <span class="fu">select</span>(coralGenera, commonness, Reproductive_mode), <span class="at">by =</span> <span class="st">"coralGenera"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">category =</span> commonness, Reproductive_mode, year, site) <span class="sc">|&gt;</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">perccover =</span> <span class="fu">mean</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yearind =</span> year <span class="sc">-</span> <span class="fu">min</span>(year), <span class="at">perccoverLog =</span> <span class="fu">log10</span>(perccover)) <span class="sc">|&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(perccover <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(perccover <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">is.finite</span>(perccoverLog)) <span class="sc">|&gt;</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">category =</span> <span class="fu">factor</span>(category, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Common"</span>, <span class="st">"Rare"</span>)),</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">Reproductive_mode =</span> <span class="fu">factor</span>(Reproductive_mode, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Broadcaster"</span>, <span class="st">"Brooder"</span>)))</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">model_rows =</span> <span class="fu">nrow</span>(analysis_data), <span class="at">groups =</span> <span class="fu">nlevels</span>(<span class="fu">interaction</span>(analysis_data<span class="sc">$</span>category, analysis_data<span class="sc">$</span>Reproductive_mode)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>model_rows     groups 
-      1442          4 </code></pre>
+       854          4 </code></pre>
 </div>
 </div>
 </section>
@@ -589,15 +575,15 @@ Common   Rare
 </section>
 <section id="step-11-figure-abundance-distribution-and-temporal-trends" class="level2">
 <h2 data-anchor-id="step-11-figure-abundance-distribution-and-temporal-trends">Step 11 — Figure: abundance distribution and temporal trends</h2>
-<p>The figure pairs the baseline abundance distribution with the temporal trends. The left panel ranks species by baseline cover and colors each by group. The right panel shows site-level group mean cover over time on a log scale, with a linear fit per group.</p>
+<p>The figure pairs the baseline abundance distribution with the temporal trends. The left panel ranks genera by baseline cover and colors each by group. The right panel shows site-level group mean cover over time on a log scale, with a linear fit per group.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Step 11 code: build the two-panel figure</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sad_df <span class="ot">&lt;-</span> baseline <span class="sc">|&gt;</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(meancov <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coralSpecies =</span> <span class="fu">factor</span>(coralSpecies, <span class="at">levels =</span> <span class="fu">rev</span>(baseline<span class="sc">$</span>coralSpecies[<span class="fu">order</span>(baseline<span class="sc">$</span>rank)])),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coralGenera =</span> <span class="fu">factor</span>(coralGenera, <span class="at">levels =</span> <span class="fu">rev</span>(baseline<span class="sc">$</span>coralGenera[<span class="fu">order</span>(baseline<span class="sc">$</span>rank)])),</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">grp =</span> <span class="fu">interaction</span>(commonness, Reproductive_mode))</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p_sad <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sad_df, <span class="fu">aes</span>(coralSpecies, meancov, <span class="at">fill =</span> grp)) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p_sad <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sad_df, <span class="fu">aes</span>(coralGenera, meancov, <span class="at">fill =</span> grp)) <span class="sc">+</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette_grp, <span class="at">labels =</span> label_grp, <span class="at">name =</span> <span class="cn">NULL</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
@@ -619,13 +605,13 @@ Common   Rare
 <span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>p_sad <span class="sc">+</span> p_trend</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-tcrmp" class="quarto-float quarto-figure quarto-figure-center">
+<div id="fig-csun" class="quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-tcrmp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="02_tcrmp_files/figure-html/fig-tcrmp-1.png" class="img-fluid figure-img" width="1056">
+<div aria-describedby="fig-csun-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04_csun_files/figure-html/fig-csun-1.png" class="img-fluid figure-img" width="1056">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tcrmp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: TCRMP. Left: baseline abundance distribution, species ranked by mean baseline cover, colored by commonness and reproductive mode. Right: site-level group mean cover over time on a log scale, with per-group linear fits.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-csun-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: CSUN. Left: baseline abundance distribution, genera ranked by mean baseline cover, colored by commonness and reproductive mode. Right: site-level group mean cover over time on a log scale, with per-group linear fits.
 </figcaption>
 </figure>
 </div>
@@ -652,7 +638,7 @@ Figure&nbsp;1: TCRMP. Left: baseline abundance distribution, species ranked by m
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">.sig =</span> p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(coef_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>.sig), <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Table 1 (TCRMP). Linear-model coefficients with HC3 robust standard errors."</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Table 1 (CSUN). Linear-model coefficients with HC3 robust standard errors."</span>) <span class="sc">|&gt;</span></span>
 <span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="fu">which</span>(coef_tbl<span class="sc">$</span>.sig), <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -661,12 +647,12 @@ Figure&nbsp;1: TCRMP. Left: baseline abundance distribution, species ranked by m
 Use 'xfun::attr2()' instead.
 See help("Deprecated")</code></pre>
 </div>
-<div id="tbl-tcrmp-coef" class="cell quarto-float quarto-figure quarto-figure-center">
+<div id="tbl-csun-coef" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tcrmp-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Table 1 (TCRMP). Linear-model coefficients with HC3 robust standard errors.
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-csun-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Table 1 (CSUN). Linear-model coefficients with HC3 robust standard errors.
 </figcaption>
-<div aria-describedby="tbl-tcrmp-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-csun-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small">
 <thead>
@@ -678,44 +664,44 @@ Table&nbsp;1: Table 1 (TCRMP). Linear-model coefficients with HC3 robust standar
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Intercept</td>
-<td style="text-align: right;">0.042 (0.039)</td>
-<td style="text-align: right;">0.287</td>
+<td style="text-align: left; font-weight: bold;">Intercept</td>
+<td style="text-align: right; font-weight: bold;">0.350 (0.081)</td>
+<td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold;">Year</td>
-<td style="text-align: right; font-weight: bold;">-0.019 (0.003)</td>
-<td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
+<td style="text-align: right; font-weight: bold;">-0.011 (0.004)</td>
+<td style="text-align: right; font-weight: bold;">0.006</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold;">Category (rare)</td>
-<td style="text-align: right; font-weight: bold;">-1.047 (0.056)</td>
+<td style="text-align: right; font-weight: bold;">-1.431 (0.118)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold;">Repro. mode (brooder)</td>
-<td style="text-align: right; font-weight: bold;">-0.245 (0.055)</td>
+<td style="text-align: right; font-weight: bold;">-0.611 (0.097)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Year x Category</td>
-<td style="text-align: right;">-0.007 (0.005)</td>
-<td style="text-align: right;">0.141</td>
+<td style="text-align: right;">-0.001 (0.006)</td>
+<td style="text-align: right;">0.919</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold;">Year x Repro. mode</td>
-<td style="text-align: right; font-weight: bold;">0.011 (0.004)</td>
-<td style="text-align: right; font-weight: bold;">0.011</td>
+<td style="text-align: right; font-weight: bold;">0.019 (0.005)</td>
+<td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold;">Category x Repro. mode</td>
-<td style="text-align: right; font-weight: bold;">-0.339 (0.084)</td>
-<td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
+<td style="text-align: right; font-weight: bold;">0.463 (0.154)</td>
+<td style="text-align: right; font-weight: bold;">0.003</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Year x Category x Repro. mode</td>
-<td style="text-align: right;">0.009 (0.007)</td>
-<td style="text-align: right;">0.150</td>
+<td style="text-align: left; font-weight: bold;">Year x Category x Repro. mode</td>
+<td style="text-align: right; font-weight: bold;">-0.016 (0.008)</td>
+<td style="text-align: right; font-weight: bold;">0.049</td>
 </tr>
 </tbody>
 </table>
@@ -732,7 +718,7 @@ Table&nbsp;1: Table 1 (TCRMP). Linear-model coefficients with HC3 robust standar
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Annual % change</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, <span class="st">`</span><span class="at">Annual % change</span><span class="st">`</span>),</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">P-value</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="st">`</span><span class="at">P-value</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt; 0.001"</span>, <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, <span class="st">`</span><span class="at">P-value</span><span class="st">`</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Group-specific temporal slopes (TCRMP), with robust SEs and annual percent change."</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Group-specific temporal slopes (CSUN), with robust SEs and annual percent change."</span>) <span class="sc">|&gt;</span></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
@@ -740,12 +726,12 @@ Table&nbsp;1: Table 1 (TCRMP). Linear-model coefficients with HC3 robust standar
 Use 'xfun::attr2()' instead.
 See help("Deprecated")</code></pre>
 </div>
-<div id="tbl-tcrmp-slopes" class="cell quarto-float quarto-figure quarto-figure-center">
+<div id="tbl-csun-slopes" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tcrmp-slopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Group-specific temporal slopes (TCRMP), with robust SEs and annual percent change.
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-csun-slopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Group-specific temporal slopes (CSUN), with robust SEs and annual percent change.
 </figcaption>
-<div aria-describedby="tbl-tcrmp-slopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-csun-slopes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small">
 <thead>
@@ -760,31 +746,31 @@ Table&nbsp;2: Group-specific temporal slopes (TCRMP), with robust SEs and annual
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Common broadcaster</td>
-<td style="text-align: right;">-0.0189</td>
-<td style="text-align: right;">0.0032</td>
-<td style="text-align: right;">-4.26</td>
-<td style="text-align: right;">&lt; 0.001</td>
+<td style="text-align: right;">-0.0115</td>
+<td style="text-align: right;">0.0041</td>
+<td style="text-align: right;">-2.61</td>
+<td style="text-align: right;">0.006</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Rare broadcaster</td>
-<td style="text-align: right;">-0.0257</td>
-<td style="text-align: right;">0.0033</td>
-<td style="text-align: right;">-5.75</td>
-<td style="text-align: right;">&lt; 0.001</td>
+<td style="text-align: right;">-0.0121</td>
+<td style="text-align: right;">0.0045</td>
+<td style="text-align: right;">-2.75</td>
+<td style="text-align: right;">0.008</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Common brooder</td>
-<td style="text-align: right;">-0.0083</td>
-<td style="text-align: right;">0.0027</td>
-<td style="text-align: right;">-1.90</td>
-<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.0080</td>
+<td style="text-align: right;">0.0028</td>
+<td style="text-align: right;">1.86</td>
+<td style="text-align: right;">0.004</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Rare brooder</td>
-<td style="text-align: right;">-0.0057</td>
-<td style="text-align: right;">0.0038</td>
-<td style="text-align: right;">-1.31</td>
-<td style="text-align: right;">0.131</td>
+<td style="text-align: right;">-0.0083</td>
+<td style="text-align: right;">0.0042</td>
+<td style="text-align: right;">-1.89</td>
+<td style="text-align: right;">0.050</td>
 </tr>
 </tbody>
 </table>

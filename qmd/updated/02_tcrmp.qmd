@@ -1,0 +1,26 @@
+---
+title: "2. TCRMP (updated since publication)"
+subtitle: "Territorial Coral Reef Monitoring Program, species level, 2001 to present"
+---
+
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+This page reruns the published TCRMP analysis on the full monitoring record rather than
+stopping at the published window. The method, the code, and the site and taxon scoping are
+identical to the published page; only the year range differs. As new monitoring years are
+added to the bundled cover file, this page picks them up automatically and shows how the
+trajectories continue.
+
+The coral-cover data for this analysis comes from the Reef Code benthic cover section: [coral species cover download]({{< var data-source-species >}}).
+
+## Summary
+
+The Territorial Coral Reef Monitoring Program records coral cover at the species level across 20 shallow reef sites. The published analysis covered 2001 through 2023. This page runs the same analysis over the full bundled record, from 2001 through the most recent year available. The full analysis runs below, from the coral-cover file to the figure (@fig-tcrmp) and the statistics table (@tbl-tcrmp-coef). Every step is folded. Open any block to read the code and the plain-language notes.
+
+```{r params-tcrmp}
+#| code-summary: "Set the parameters for this version: open the range to the full bundled record"
+cover_files <- sort(list.files("../../data/cover", pattern = "s2pt5.*\\.csv$", full.names = TRUE))
+max_year <- max(readr::read_csv(tail(cover_files, 1), show_col_types = FALSE)$year)
+pub_range <- c(2001, max_year); program <- "TCRMP"; taxon_level <- "species"
+```
+{{< include ../../_includes/_analysis_tcrmp.qmd >}}

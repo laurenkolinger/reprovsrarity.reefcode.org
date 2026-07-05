@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2. TCRMP (as published) – Reproductive mode and rarity</title>
+<title>2. TCRMP (updated since publication) – Reproductive mode and rarity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -138,7 +138,7 @@ main#quarto-document-content.content > :not(:first-child){
 }
 /* Quarto's banner title block was the reef-art hero (its own copy of the page title, plus a
    hard-coded 250px height). The image is gone and each page repeats its title as a body heading
-   (# 2. TCRMP (as published)), so the title block is now a redundant duplicate. Hide it and let the
+   (# 2. TCRMP (updated since publication)), so the title block is now a redundant duplicate. Hide it and let the
    body heading be the single title, sitting a tight, consistent gap below the nav. */
 #title-block-header{ display:none !important; }
 main#quarto-document-content.content > section:first-of-type{ padding-top:0 !important; }
@@ -277,8 +277,8 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2. TCRMP (as published)</h1>
-<p class="subtitle lead">Territorial Coral Reef Monitoring Program, species level, 2001 to 2023</p>
+<h1 class="title">2. TCRMP (updated since publication)</h1>
+<p class="subtitle lead">Territorial Coral Reef Monitoring Program, species level, 2001 to present</p>
 </div>
 
 
@@ -298,14 +298,17 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 <blockquote class="blockquote">
 <p>Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.</p>
 </blockquote>
+<p>This page reruns the published TCRMP analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.</p>
 <p>The coral-cover data for this analysis comes from the Reef Code benthic cover section: <a href="https://reefcode.org/qmd/2_benthiccover/05_coral_species.html">coral species cover download</a>.</p>
 <section id="summary" class="level2">
 <h2 data-anchor-id="summary">Summary</h2>
-<p>The Territorial Coral Reef Monitoring Program records coral cover at the species level across 20 shallow reef sites. Broadcast-spawning corals decline steeply, brooding corals decline slowly, and rare and common taxa decline at the same proportional rate. This page renders the published analysis over its paper range, 2001 through 2023. The full analysis runs below, from the coral-cover file to the figure (<a href="#fig-tcrmp" class="quarto-xref">Figure&nbsp;1</a>) and the statistics table (<a href="#tbl-tcrmp-coef" class="quarto-xref">Table&nbsp;1</a>). Every step is folded. Open any block to read the code and the plain-language notes.</p>
+<p>The Territorial Coral Reef Monitoring Program records coral cover at the species level across 20 shallow reef sites. The published analysis covered 2001 through 2023. This page runs the same analysis over the full bundled record, from 2001 through the most recent year available. The full analysis runs below, from the coral-cover file to the figure (<a href="#fig-tcrmp" class="quarto-xref">Figure&nbsp;1</a>) and the statistics table (<a href="#tbl-tcrmp-coef" class="quarto-xref">Table&nbsp;1</a>). Every step is folded. Open any block to read the code and the plain-language notes.</p>
 <div class="cell">
 <details class="code-fold">
-<summary>Set the publication parameters for this version</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2001</span>, <span class="dv">2023</span>); program <span class="ot">&lt;-</span> <span class="st">"TCRMP"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"species"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>Set the parameters for this version: open the range to the full bundled record</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cover_files <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(<span class="st">"../../data/cover"</span>, <span class="at">pattern =</span> <span class="st">"s2pt5.*</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>max_year <span class="ot">&lt;-</span> <span class="fu">max</span>(readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="fu">tail</span>(cover_files, <span class="dv">1</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>year)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2001</span>, max_year); program <span class="ot">&lt;-</span> <span class="st">"TCRMP"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"species"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
@@ -398,10 +401,10 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover_rows sites_kept    species 
-    124411         20         49 </code></pre>
+    130291         20         49 </code></pre>
 </div>
 </div>
-<p><strong>Validation note:</strong> the scoped dataset spans 2001 through 2023, holds 124,411 transect records across 20 TCRMP sites and 49 coral species.</p>
+<p><strong>Validation note:</strong> the scoped dataset spans 2001 through 2024, holds 130,291 transect records across 20 TCRMP sites and 49 coral species.</p>
 </section>
 <section id="step-3-bin-years-and-set-the-baseline-period" class="level2">
 <h2 data-anchor-id="step-3-bin-years-and-set-the-baseline-period">Step 3 — Bin years and set the baseline period</h2>
@@ -455,7 +458,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   rows species 
-  10073      40 </code></pre>
+  10591      40 </code></pre>
 </div>
 </div>
 </section>
@@ -536,7 +539,7 @@ Common   Rare
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>model_rows     groups 
-      1442          4 </code></pre>
+      1503          4 </code></pre>
 </div>
 </div>
 </section>
@@ -679,43 +682,43 @@ Table&nbsp;1: Table 1 (TCRMP). Linear-model coefficients with HC3 robust standar
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Intercept</td>
-<td style="text-align: right;">0.042 (0.039)</td>
-<td style="text-align: right;">0.287</td>
+<td style="text-align: right;">0.056 (0.038)</td>
+<td style="text-align: right;">0.140</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold;">Year</td>
-<td style="text-align: right; font-weight: bold;">-0.019 (0.003)</td>
+<td style="text-align: right; font-weight: bold;">-0.021 (0.003)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold;">Category (rare)</td>
-<td style="text-align: right; font-weight: bold;">-1.047 (0.056)</td>
+<td style="text-align: right; font-weight: bold;">-1.049 (0.054)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold;">Repro. mode (brooder)</td>
-<td style="text-align: right; font-weight: bold;">-0.245 (0.055)</td>
+<td style="text-align: right; font-weight: bold;">-0.246 (0.053)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Year x Category</td>
-<td style="text-align: right;">-0.007 (0.005)</td>
-<td style="text-align: right;">0.141</td>
+<td style="text-align: right;">-0.007 (0.004)</td>
+<td style="text-align: right;">0.105</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold;">Year x Repro. mode</td>
 <td style="text-align: right; font-weight: bold;">0.011 (0.004)</td>
-<td style="text-align: right; font-weight: bold;">0.011</td>
+<td style="text-align: right; font-weight: bold;">0.006</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold;">Category x Repro. mode</td>
-<td style="text-align: right; font-weight: bold;">-0.339 (0.084)</td>
+<td style="text-align: right; font-weight: bold;">-0.347 (0.082)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Year x Category x Repro. mode</td>
-<td style="text-align: right;">0.009 (0.007)</td>
-<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0.011 (0.006)</td>
+<td style="text-align: right;">0.078</td>
 </tr>
 </tbody>
 </table>
@@ -760,31 +763,31 @@ Table&nbsp;2: Group-specific temporal slopes (TCRMP), with robust SEs and annual
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Common broadcaster</td>
-<td style="text-align: right;">-0.0189</td>
-<td style="text-align: right;">0.0032</td>
-<td style="text-align: right;">-4.26</td>
+<td style="text-align: right;">-0.0206</td>
+<td style="text-align: right;">0.0029</td>
+<td style="text-align: right;">-4.64</td>
 <td style="text-align: right;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Rare broadcaster</td>
-<td style="text-align: right;">-0.0257</td>
-<td style="text-align: right;">0.0033</td>
-<td style="text-align: right;">-5.75</td>
+<td style="text-align: right;">-0.0275</td>
+<td style="text-align: right;">0.0031</td>
+<td style="text-align: right;">-6.14</td>
 <td style="text-align: right;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Common brooder</td>
-<td style="text-align: right;">-0.0083</td>
-<td style="text-align: right;">0.0027</td>
-<td style="text-align: right;">-1.90</td>
-<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">-0.0100</td>
+<td style="text-align: right;">0.0025</td>
+<td style="text-align: right;">-2.28</td>
+<td style="text-align: right;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Rare brooder</td>
-<td style="text-align: right;">-0.0057</td>
-<td style="text-align: right;">0.0038</td>
-<td style="text-align: right;">-1.31</td>
-<td style="text-align: right;">0.131</td>
+<td style="text-align: right;">-0.0062</td>
+<td style="text-align: right;">0.0036</td>
+<td style="text-align: right;">-1.41</td>
+<td style="text-align: right;">0.088</td>
 </tr>
 </tbody>
 </table>

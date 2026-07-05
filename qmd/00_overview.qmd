@@ -1,5 +1,20 @@
 ---
 title: "Overview"
+subtitle: "About this study"
 ---
 
-This site presents the reproductive mode and rarity analysis, as published and as updated since publication.
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+## About this study
+
+This site accompanies a manuscript on how reproductive mode and rarity relate to coral population trajectories in the U.S. Virgin Islands. It presents four analyses, one per monitoring program: TCRMP, VINPS, and CSUN, which track coral cover on the reef, and the Lasker octocoral program, which tracks octocoral colony density.
+
+The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the Reef Code benthic cover section. The species-level file backs the TCRMP and VINPS analyses: [coral species cover download]({{< var data-source-species >}}). The genus-level file backs the CSUN analysis: [coral genera cover download]({{< var data-source-genera >}}). The octocoral analysis uses a separate, standalone collaborator dataset from the Lasker program, bundled with this site rather than drawn from the benthic cover section.
+
+### Two versions of each analysis
+
+Each of the four analyses appears on this site in two versions, reachable from the menu above.
+
+The **as published** version reruns the analysis exactly as it appears in the manuscript. Each program clips the coral-cover or colony-survey data to the years used in the paper. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024. A manuscript reports a result for a fixed dataset, so the published version locks the year range to match. Locking the year range is what lets a reader trace every number in the paper back to a specific, unchanging slice of the monitoring record, regardless of how much new data has been collected since.
+
+The **updated since publication** version reruns the identical analysis: the same code, the same site scoping, and the same taxon scoping. Only the year range changes. It opens the year range to the full monitoring record bundled with this site. Monitoring for each program continues past the cutoff used in the paper, so the updated version extends the window to the most recent year available and lets the trajectories keep going. As new years are added to the underlying data files, the updated pages pick them up automatically the next time this site is rendered. The analysis itself does not change. Comparing the two versions side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the monitoring record grows.
