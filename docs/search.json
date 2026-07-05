@@ -4,7 +4,7 @@
     "href": "qmd/updated/05_octocoral.html",
     "title": "5. Octocorals (updated since publication)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published octocoral analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled Lasker survey file, this page picks them up automatically and shows how the trajectories continue.\nThis analysis uses colony density from the Lasker octocoral survey program, a standalone collaborator dataset bundled with this site, not the Reef Code benthic cover section."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published octocoral analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled Lasker survey file, this page picks them up automatically and shows how the trajectories continue.\nThis analysis uses colony density from the Lasker octocoral survey program, a standalone collaborator dataset bundled with this site, not the Reef Code benthic cover section."
   },
   {
     "objectID": "qmd/updated/05_octocoral.html#summary",
@@ -102,7 +102,7 @@
     "href": "qmd/updated/03_vinps.html",
     "title": "3. VINPS (updated since publication)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published VINPS analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published VINPS analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
   },
   {
     "objectID": "qmd/updated/03_vinps.html#summary",
@@ -200,7 +200,7 @@
     "href": "qmd/aspublished/05_octocoral.html",
     "title": "5. Octocorals (as published)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis analysis uses colony density from the Lasker octocoral survey program, a standalone collaborator dataset bundled with this site, not the Reef Code benthic cover section."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis analysis uses colony density from the Lasker octocoral survey program, a standalone collaborator dataset bundled with this site, not the Reef Code benthic cover section."
   },
   {
     "objectID": "qmd/aspublished/05_octocoral.html#summary",
@@ -298,7 +298,7 @@
     "href": "qmd/aspublished/03_vinps.html",
     "title": "3. VINPS (as published)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
   },
   {
     "objectID": "qmd/aspublished/03_vinps.html#summary",
@@ -396,7 +396,7 @@
     "href": "qmd/00_overview.html",
     "title": "Overview",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral"
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral"
   },
   {
     "objectID": "qmd/00_overview.html#about-this-study",
@@ -410,7 +410,7 @@
     "href": "qmd/aspublished/02_tcrmp.html",
     "title": "2. TCRMP (as published)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
   },
   {
     "objectID": "qmd/aspublished/02_tcrmp.html#summary",
@@ -508,7 +508,7 @@
     "href": "qmd/aspublished/04_csun.html",
     "title": "4. CSUN (as published)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral genera cover download."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral genera cover download."
   },
   {
     "objectID": "qmd/aspublished/04_csun.html#summary",
@@ -606,7 +606,7 @@
     "href": "qmd/updated/02_tcrmp.html",
     "title": "2. TCRMP (updated since publication)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published TCRMP analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published TCRMP analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral species cover download."
   },
   {
     "objectID": "qmd/updated/02_tcrmp.html#summary",
@@ -704,7 +704,7 @@
     "href": "qmd/updated/04_csun.html",
     "title": "4. CSUN (updated since publication)",
     "section": "",
-    "text": "Reef Ensemble\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published CSUN analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral genera cover download."
+    "text": "Reef Code\n    \n      Overview\n      As published\n      Updated since publication\n    \n    \n  \n\n\n\n  \n  \n    overview\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\n  \n\n  \n  \n    overview\n    TCRMP\n    VINPS\n    CSUN\n    octocoral\nThis page reruns the published CSUN analysis on the full monitoring record rather than stopping at the published window. The method, the code, and the site and taxon scoping are identical to the published page; only the year range differs. As new monitoring years are added to the bundled cover file, this page picks them up automatically and shows how the trajectories continue.\nThe coral-cover data for this analysis comes from the Reef Code benthic cover section: coral genera cover download."
   },
   {
     "objectID": "qmd/updated/04_csun.html#summary",
