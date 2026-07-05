@@ -1,0 +1,19 @@
+---
+title: "4. CSUN (as published)"
+subtitle: "California State University Northridge, genus level, 1992 to 2023"
+---
+
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+The coral-cover data for this analysis comes from the Reef Code benthic cover section: [coral genera cover download]({{< var data-source-genera >}}).
+
+## Summary
+
+The California State University Northridge program records coral cover at the genus level across 8 sites off St. John, and it holds the longest record in the analysis, starting in 1992. Broadcast spawners decline, common brooders rise, and rare and common genera decline at the same proportional rate. The genus-level record confirms the pattern from the two species-level programs. This page renders the published analysis over its paper range, 1992 through 2023. The full analysis runs below, from the coral-cover file to the figure (@fig-csun) and the statistics table (@tbl-csun-coef). Every step is folded. Open any block to read the code and the plain-language notes.
+
+```{r params-csun}
+#| code-summary: "Set the publication parameters for this version"
+pub_range <- c(1992, 2023); program <- "CSUN"; taxon_level <- "genera"
+```
+
+{{< include ../../_includes/_analysis_csun.qmd >}}

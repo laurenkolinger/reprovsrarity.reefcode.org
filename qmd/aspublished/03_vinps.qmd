@@ -1,0 +1,19 @@
+---
+title: "3. VINPS (as published)"
+subtitle: "Virgin Islands National Park Service, species level, 2001 to 2023"
+---
+
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+The coral-cover data for this analysis comes from the Reef Code benthic cover section: [coral species cover download]({{< var data-source-species >}}).
+
+## Summary
+
+The Virgin Islands National Park Service program records coral cover at the species level across 7 sites around St. John and Buck Island. Broadcast spawners decline, and common brooders rise rather than fall, so reproductive mode separates the trajectories more strongly here than at the other programs. Rare and common taxa share the same proportional rate. This page renders the published analysis over its paper range, 2001 through 2023. The full analysis runs below, from the coral-cover file to the figure (@fig-vinps) and the statistics table (@tbl-vinps-coef). Every step is folded. Open any block to read the code and the plain-language notes.
+
+```{r params-vinps}
+#| code-summary: "Set the publication parameters for this version"
+pub_range <- c(2001, 2023); program <- "VINPS"; taxon_level <- "species"
+```
+
+{{< include ../../_includes/_analysis_vinps.qmd >}}

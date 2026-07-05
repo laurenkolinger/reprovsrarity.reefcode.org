@@ -1,0 +1,19 @@
+---
+title: "2. TCRMP (as published)"
+subtitle: "Territorial Coral Reef Monitoring Program, species level, 2001 to 2023"
+---
+
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+The coral-cover data for this analysis comes from the Reef Code benthic cover section: [coral species cover download]({{< var data-source-species >}}).
+
+## Summary
+
+The Territorial Coral Reef Monitoring Program records coral cover at the species level across 20 shallow reef sites. Broadcast-spawning corals decline steeply, brooding corals decline slowly, and rare and common taxa decline at the same proportional rate. This page renders the published analysis over its paper range, 2001 through 2023. The full analysis runs below, from the coral-cover file to the figure (@fig-tcrmp) and the statistics table (@tbl-tcrmp-coef). Every step is folded. Open any block to read the code and the plain-language notes.
+
+```{r params-tcrmp}
+#| code-summary: "Set the publication parameters for this version"
+pub_range <- c(2001, 2023); program <- "TCRMP"; taxon_level <- "species"
+```
+
+{{< include ../../_includes/_analysis_tcrmp.qmd >}}

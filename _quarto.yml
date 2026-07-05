@@ -3,6 +3,10 @@ project:
   output-dir: docs
   render:
     - qmd/00_overview.qmd
+    - qmd/aspublished/02_tcrmp.qmd
+    - qmd/aspublished/03_vinps.qmd
+    - qmd/aspublished/04_csun.qmd
+    - qmd/aspublished/05_octocoral.qmd
 
 website:
   title: "Reproductive mode and rarity"

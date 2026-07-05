@@ -1,0 +1,289 @@
+
+```{r stream-setup-csun}
+#| code-summary: "Setup: packages, color palette"
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(sandwich)
+  library(lmtest)
+  library(broom)
+  library(patchwork)
+  library(kableExtra)
+})
+
+palette_grp <- c(
+  "Common.Broadcaster" = "#0072B2", "Rare.Broadcaster" = "#56B4E9",
+  "Common.Brooder"     = "#D55E00", "Rare.Brooder"     = "#E69F00"
+)
+label_grp <- c(
+  "Common.Broadcaster" = "Common broadcaster", "Rare.Broadcaster" = "Rare broadcaster",
+  "Common.Brooder"     = "Common brooder",     "Rare.Brooder"     = "Rare brooder"
+)
+```
+
+## Step 1 — Read the coral cover data
+
+The analysis begins from the genus-level coral-cover file and the site master table. The cover file holds one row per observation: a site, a year, a survey period, a coral genus, and its percent cover. The site master holds each site's program, depth, and the year monitoring began. The cover file is matched by pattern in `data/cover/`, so this step reads whichever genus-level file is bundled, and the analysis grows as that file grows.
+
+```{r step1-read-csun}
+#| code-summary: "Step 1 code: read the bundled cover file (most-recent match) and the site master"
+cover_files <- sort(list.files("../../data/cover", pattern = "s2pt4.*\\.csv$", full.names = TRUE))
+cover_file <- tail(cover_files, 1)
+benthiccover <- read.csv(cover_file) |>
+  select(year, program, site, period, coralGenera, perccover)
+sitedat <- read.csv("../../data/site/00_RRS_siteMaster_allSites_data.csv")
+c(cover_file = basename(cover_file), cover_rows = nrow(benthiccover), sites_listed = nrow(sitedat))
+```
+
+## Step 2 — Set the scope (publication range, sites, years, taxa)
+
+The first move is the explicit publication-range clip: every downstream step runs only on years inside `pub_range`. At the published range this clip is harmless, since the bundled file does not extend beyond it; as the cover file grows in later monitoring years, the same clip is what keeps this page reproducing the published analysis exactly. After the clip, the analysis holds the rest of the sampling design constant so that trends reflect coral change rather than changes in which reefs or genera were surveyed: the CSUN sites and the coral genera. CSUN identifies corals to genus, so no species-level exclusions apply. One genus name is corrected. The shallow-site rule is applied in the next step, after the year grouping, to match the original analysis order.
+
+```{r step2-scope-csun}
+#| code-summary: "Step 2 code: clip to pub_range; define the CSUN sites; scope the cover to CSUN genera"
+# Publication-range clip: the explicit first step of scope.
+benthiccover <- benthiccover |> filter(year >= pub_range[1], year <= pub_range[2])
+
+# Sites: CSUN reefs, with a depth category.
+sitedat <- sitedat |>
+  filter(program == "CSUN", yearadded < 2025) |>
+  mutate(depth_cat = ifelse(depth < 21, "Shallow", "Deep"))
+
+# Cover: CSUN genera, with one genus-name correction.
+benthiccover <- benthiccover |>
+  filter(program == "CSUN") |>
+  mutate(coralGenera = ifelse(coralGenera == "Isopyhyllastrea", "Isophyllastrea", coralGenera))
+c(cover_rows = nrow(benthiccover), genera = n_distinct(benthiccover$coralGenera))
+```
+
+## Step 3 — Bin years and set the baseline period
+
+The analysis compares a baseline period to the full record. It bins the survey years into five-year groups and treats the first group as the baseline. CSUN uses its own binning rule for the long record, which drops a trailing group only when it would be shorter than half an interval.
+
+```{r step3-yeargroups-csun}
+#| code-summary: "Step 3 code: bin years (CSUN rule); scope to shallow CSUN sites"
+bin_years_csun <- function(df, interval = 5) {
+  min_yr <- min(df$year, na.rm = TRUE); max_yr <- max(df$year, na.rm = TRUE)
+  breaks <- seq(min_yr, max_yr, by = interval)
+  if (length(breaks) > 1 && tail(breaks, 1) > max_yr - (interval / 2)) breaks <- head(breaks, -1)
+  labels <- paste(breaks, pmin(breaks + (interval - 1), max_yr), sep = "-")
+  map <- data.frame(year = seq(min_yr, max_yr)) |>
+    mutate(year_group = cut(year, breaks = c(breaks, max_yr + 1), labels = labels,
+                            right = FALSE, include.lowest = TRUE))
+  df |> left_join(map, by = "year") |> mutate(year_group = as.factor(year_group))
+}
+
+benthiccover <- bin_years_csun(benthiccover, 5)
+earliest_year_group <- levels(benthiccover$year_group)[1]
+
+# Keep the shallow CSUN sites.
+benthiccover <- benthiccover |>
+  filter(site %in% sitedat$site) |>
+  left_join(select(sitedat, site, depth_cat), by = "site") |>
+  filter(depth_cat == "Shallow")
+# earliest_year_group
+```
+
+**Validation note:** the scoped dataset spans `r min(benthiccover$year)` through `r max(benthiccover$year)`, holds `r scales::comma(nrow(benthiccover))` records across `r n_distinct(benthiccover$site)` CSUN sites and `r n_distinct(benthiccover$coralGenera)` coral genera. The baseline period is the first five-year group, `r earliest_year_group`.
+
+Two presence rules keep the analysis on genera that were part of the community at baseline and at sites within their range. The first keeps genera recorded during the baseline period. The second drops genus-site pairs where the genus was never seen, since a site outside a genus range would enter the model as a structural zero rather than a decline.
+
+```{r step3-presence-csun}
+#| code-summary: "Step 3 code: keep baseline-present genera and in-range sites"
+gen_in_baseline <- benthiccover |>
+  group_by(coralGenera, year_group) |>
+  summarize(seen = max(perccover, na.rm = TRUE) > 0, .groups = "drop") |>
+  filter(seen, year_group == earliest_year_group) |>
+  pull(coralGenera) |> unique()
+benthiccover <- benthiccover |> filter(coralGenera %in% gen_in_baseline)
+
+in_range <- benthiccover |>
+  group_by(coralGenera, site) |>
+  summarize(seen = max(perccover, na.rm = TRUE) > 0, .groups = "drop") |>
+  filter(seen) |> mutate(key = paste(coralGenera, site))
+benthiccover <- benthiccover |>
+  filter(paste(coralGenera, site) %in% in_range$key)
+
+benthiccover <- benthiccover |>
+  group_by(year_group, coralGenera, year, site) |>
+  summarise(perccover = mean(perccover, na.rm = TRUE), .groups = "drop")
+c(rows = nrow(benthiccover), genera = n_distinct(benthiccover$coralGenera))
+```
+
+## Step 4 — Rank baseline abundance
+
+Each genus receives its mean percent cover during the baseline period. Ranking the genera by that mean sets the order used in the figure and sets up the commonness split. The cumulative proportion of cover, summed down the ranked list, measures how much of the reef's baseline cover the top genera account for.
+
+```{r step4-baseline-csun}
+#| code-summary: "Step 4 code: mean baseline cover, rank, cumulative cover"
+baseline <- benthiccover |>
+  filter(year_group == earliest_year_group) |>
+  group_by(coralGenera) |>
+  summarise(meancov = mean(perccover, na.rm = TRUE), .groups = "drop") |>
+  filter(meancov > 0) |>
+  arrange(desc(meancov)) |>
+  mutate(rank = row_number(),
+         normcov = meancov / sum(meancov, na.rm = TRUE),
+         cumsumcov = cumsum(normcov))
+# head(baseline, 6)
+```
+
+## Step 5 — Classify common and rare (90/10)
+
+The commonness split follows one rule: the genera that together hold the top 90 percent of baseline cumulative cover are common, and the rest are rare. The manuscript identified 0.90 through a sliding-window analysis as the strictest rarity definition that leaves the temporal slopes stable.
+
+```{r step5-classify-csun}
+#| code-summary: "Step 5 code: split common from rare at 0.90 cumulative cover"
+baseline <- baseline |>
+  mutate(commonness = ifelse(cumsumcov <= 0.90, "Common", "Rare"))
+table(baseline$commonness)
+```
+
+## Step 6 — Assign reproductive mode
+
+Each genus carries a reproductive mode, brooder or broadcaster. CSUN reports corals at the genus level, so the assignment reads a genus-level trait table from Edmunds, corrects one label, drops unknown entries, and joins the mode onto the baseline genera. Genera that lack a mode leave the analysis, because the model compares brooders to broadcasters and cannot place an unassigned genus.
+
+```{r step6-repro-csun}
+#| code-summary: "Step 6 code: join genus-level reproductive mode (Edmunds)"
+repro <- read.csv("../../data/collab/reproMode_coralGenera_commonRare_Edmunds.csv") |>
+  rename(coralGenera = Genus, Reproductive_mode = LH.Strategy) |>
+  mutate(coralGenera = ifelse(coralGenera == "Montastrea cav", "Montastraea", coralGenera)) |>
+  filter(Reproductive_mode %in% c("Brooder", "Broadcaster")) |>
+  distinct(coralGenera, .keep_all = TRUE)
+
+baseline <- baseline |>
+  left_join(repro |> select(coralGenera, Reproductive_mode), by = "coralGenera") |>
+  filter(Reproductive_mode %in% c("Brooder", "Broadcaster"))
+# with(baseline, table(Commonness = commonness, `Reproductive mode` = Reproductive_mode))
+```
+
+## Step 7 — Build the analysis dataset
+
+The model works on group means rather than individual genera, so that a single abundant genus cannot dominate the trend. This step joins the commonness and reproductive-mode labels onto the full cover series, averages cover within each group at each site and year, adds a year index that starts at zero, and takes the log10 of cover. Log10 cover is the response, because coral loss acts proportionally, and a proportional change is a straight line on the log scale.
+
+```{r step7-dataset-csun}
+#| code-summary: "Step 7 code: aggregate to group-site-year means"
+analysis_data <- benthiccover |>
+  inner_join(baseline |> select(coralGenera, commonness, Reproductive_mode), by = "coralGenera") |>
+  group_by(category = commonness, Reproductive_mode, year, site) |>
+  summarise(perccover = mean(perccover, na.rm = TRUE), .groups = "drop") |>
+  mutate(yearind = year - min(year), perccoverLog = log10(perccover)) |>
+  filter(perccover > 0 & is.finite(perccoverLog)) |>
+  mutate(category = factor(category, levels = c("Common", "Rare")),
+         Reproductive_mode = factor(Reproductive_mode, levels = c("Broadcaster", "Brooder")))
+c(model_rows = nrow(analysis_data), groups = nlevels(interaction(analysis_data$category, analysis_data$Reproductive_mode)))
+```
+
+## Step 8 — Fit the model
+
+The model predicts log10 percent cover from year, commonness, reproductive mode, and every interaction among them. Common and broadcaster are the reference levels, so the year term is the trend for common broadcasters, and the interactions measure how the other groups differ from it.
+
+```{r step8-fit-csun}
+#| code-summary: "Step 8 code: fit the three-way interaction model"
+model_full <- lm(perccoverLog ~ yearind * category * Reproductive_mode, data = analysis_data)
+```
+
+## Step 9 — Robust standard errors
+
+The residual variance is larger for the abundant groups than for the sparse groups, so ordinary standard errors would misstate the uncertainty. The analysis replaces them with HC3 heteroscedasticity-consistent standard errors, computed from a sandwich covariance matrix. Every standard error, p-value, and confidence interval below uses this robust covariance.
+
+```{r step9-robust-csun}
+#| code-summary: "Step 9 code: HC3 robust covariance and coefficient table"
+vcov_hc3 <- sandwich::vcovHC(model_full, type = "HC3")
+coef_robust <- broom::tidy(lmtest::coeftest(model_full, vcov = vcov_hc3))
+```
+
+## Step 10 — Group-specific slopes
+
+The four group trends are linear combinations of the model coefficients. The common-broadcaster slope is the year term. Each other group adds the interactions that apply to it. The standard error of each slope comes from the robust covariance, so the uncertainty carries through. Annual percent change back-transforms the log10 slope into a yearly rate.
+
+```{r step10-slopes-csun}
+#| code-summary: "Step 10 code: derive the four group slopes"
+group_slope <- function(terms) {
+  L <- setNames(rep(0, length(coef(model_full))), names(coef(model_full)))
+  L[terms] <- 1
+  est <- sum(L * coef(model_full))
+  se <- sqrt(as.numeric(t(L) %*% vcov_hc3 %*% L))
+  tibble(Slope = est, SE = se, `Annual % change` = 100 * (10^est - 1),
+         `P-value` = 2 * pnorm(-abs(est / se)))
+}
+group_slopes <- bind_rows(
+  "Common broadcaster" = group_slope("yearind"),
+  "Rare broadcaster"   = group_slope(c("yearind", "yearind:categoryRare")),
+  "Common brooder"     = group_slope(c("yearind", "yearind:Reproductive_modeBrooder")),
+  "Rare brooder"       = group_slope(c("yearind", "yearind:categoryRare",
+                                       "yearind:Reproductive_modeBrooder",
+                                       "yearind:categoryRare:Reproductive_modeBrooder")),
+  .id = "Group"
+)
+```
+
+## Step 11 — Figure: abundance distribution and temporal trends
+
+The figure pairs the baseline abundance distribution with the temporal trends. The left panel ranks genera by baseline cover and colors each by group. The right panel shows site-level group mean cover over time on a log scale, with a linear fit per group.
+
+```{r fig-csun}
+#| code-summary: "Step 11 code: build the two-panel figure"
+#| fig-width: 11
+#| fig-height: 5
+#| fig-cap: "CSUN. Left: baseline abundance distribution, genera ranked by mean baseline cover, colored by commonness and reproductive mode. Right: site-level group mean cover over time on a log scale, with per-group linear fits."
+sad_df <- baseline |>
+  filter(meancov > 0) |>
+  mutate(coralGenera = factor(coralGenera, levels = rev(baseline$coralGenera[order(baseline$rank)])),
+         grp = interaction(commonness, Reproductive_mode))
+p_sad <- ggplot(sad_df, aes(coralGenera, meancov, fill = grp)) +
+  geom_col(width = 0.8) +
+  scale_fill_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+  coord_flip() +
+  labs(x = NULL, y = "Mean baseline percent cover", title = "Baseline abundance") +
+  theme_classic(base_size = 11) +
+  theme(legend.position = "top", axis.text.y = element_text(face = "italic", size = 8))
+
+trend_df <- analysis_data |> mutate(grp = interaction(category, Reproductive_mode))
+p_trend <- ggplot(trend_df, aes(year, perccover, color = grp, fill = grp)) +
+  geom_jitter(shape = 21, color = "black", alpha = 0.2, width = 0.25, height = 0, show.legend = FALSE) +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE, alpha = 0.15, linewidth = 0.8) +
+  scale_color_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+  scale_fill_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+  scale_y_log10() + annotation_logticks(sides = "l", color = "grey70") +
+  labs(x = "Year", y = "Percent cover (log scale)", title = "Temporal trends") +
+  theme_classic(base_size = 11) +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 45, hjust = 1))
+
+p_sad + p_trend
+```
+
+## Step 12 — Table: model coefficients
+
+The table reports the model coefficients with HC3 robust standard errors and p-values. Bold marks terms significant at p less than 0.05.
+
+```{r tbl-csun-coef}
+#| code-summary: "Step 12 code: format the coefficient table and the group slopes"
+term_labels <- c(
+  "(Intercept)" = "Intercept", "yearind" = "Year",
+  "categoryRare" = "Category (rare)", "Reproductive_modeBrooder" = "Repro. mode (brooder)",
+  "yearind:categoryRare" = "Year x Category", "yearind:Reproductive_modeBrooder" = "Year x Repro. mode",
+  "categoryRare:Reproductive_modeBrooder" = "Category x Repro. mode",
+  "yearind:categoryRare:Reproductive_modeBrooder" = "Year x Category x Repro. mode"
+)
+coef_tbl <- coef_robust |>
+  transmute(Predictor = term_labels[term],
+            `Estimate (SE)` = sprintf("%.3f (%.3f)", estimate, std.error),
+            `P-value` = ifelse(p.value < 0.001, "< 0.001", sprintf("%.3f", p.value)),
+            .sig = p.value < 0.05)
+
+kbl(coef_tbl |> select(-.sig), align = c("l", "r", "r"),
+    caption = "Table 1 (CSUN). Linear-model coefficients with HC3 robust standard errors.") |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+  row_spec(which(coef_tbl$.sig), bold = TRUE)
+```
+
+```{r tbl-csun-slopes}
+#| code-summary: "Step 12 code: the four group slopes"
+group_slopes |>
+  mutate(Slope = sprintf("%.4f", Slope), SE = sprintf("%.4f", SE),
+         `Annual % change` = sprintf("%.2f", `Annual % change`),
+         `P-value` = ifelse(`P-value` < 0.001, "< 0.001", sprintf("%.3f", `P-value`))) |>
+  kbl(align = c("l", "r", "r", "r", "r"),
+      caption = "Group-specific temporal slopes (CSUN), with robust SEs and annual percent change.") |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+```

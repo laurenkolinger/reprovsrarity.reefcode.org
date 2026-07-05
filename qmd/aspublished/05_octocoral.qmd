@@ -1,0 +1,19 @@
+---
+title: "5. Octocorals (as published)"
+subtitle: "Lasker octocoral program, colony density, 2014 to 2024"
+---
+
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+This analysis uses colony density from the Lasker octocoral survey program, a standalone collaborator dataset bundled with this site, not the Reef Code benthic cover section.
+
+## Summary
+
+The Lasker octocoral program counts octocoral colonies in fixed quadrats at 3 sites off St. John. Octocorals are the soft corals and sea fans. This dataset is the supplementary comparison in the manuscript: it measures colony density rather than percent cover, and it tests whether the reproductive-mode pattern seen in stony corals extends to another cnidarian group on the same reefs. This page renders the published analysis over its paper range, 2014 through 2024. The full analysis runs below, from the colony survey file to the figure (@fig-octo) and the statistics table (@tbl-octo-coef). Every step is folded. Open any block to read the code and the plain-language notes.
+
+```{r params-octo}
+#| code-summary: "Set the publication parameters for this version"
+pub_range <- c(2014, 2024); program <- "octocoral"; taxon_level <- "species"
+```
+
+{{< include ../../_includes/_analysis_octo.qmd >}}

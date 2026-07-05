@@ -1,0 +1,306 @@
+
+```{r stream-setup-tcrmp}
+#| code-summary: "Setup: packages, color palette"
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(sandwich)
+  library(lmtest)
+  library(broom)
+  library(patchwork)
+  library(kableExtra)
+})
+
+# The four analysis groups keep one color across every page. Warm hues mark
+# brooders, cool hues mark broadcasters; the darker shade of each pair marks
+# common taxa, the lighter marks rare.
+palette_grp <- c(
+  "Common.Broadcaster" = "#0072B2", "Rare.Broadcaster" = "#56B4E9",
+  "Common.Brooder"     = "#D55E00", "Rare.Brooder"     = "#E69F00"
+)
+label_grp <- c(
+  "Common.Broadcaster" = "Common broadcaster", "Rare.Broadcaster" = "Rare broadcaster",
+  "Common.Brooder"     = "Common brooder",     "Rare.Brooder"     = "Rare brooder"
+)
+```
+
+## Step 1 — Read the coral cover data
+
+The analysis begins from the species-level coral-cover file and the site master table. The cover file holds one row per transect observation: a site, a year, a survey period, a coral species, and its percent cover. The site master holds each site's program, depth, and the year monitoring began. The cover file is matched by pattern in `data/cover/`, so this step reads whichever species-level file is bundled, and the analysis grows as that file grows.
+
+```{r step1-read-tcrmp}
+#| code-summary: "Step 1 code: read the bundled cover file (most-recent match) and the site master"
+cover_files <- sort(list.files("../../data/cover", pattern = "s2pt5.*\\.csv$", full.names = TRUE))
+cover_file <- tail(cover_files, 1)
+benthiccover <- read.csv(cover_file) |>
+  select(year, program, site, period, coralSpecies, perccover)
+sitedat <- read.csv("../../data/site/00_RRS_siteMaster_allSites_data.csv")
+c(cover_file = basename(cover_file), cover_rows = nrow(benthiccover), sites_listed = nrow(sitedat))
+```
+
+## Step 2 — Set the scope (publication range, sites, years, taxa)
+
+The first move is the explicit publication-range clip: every downstream step runs only on years inside `pub_range`. At the published range this clip is harmless, since the bundled file does not extend beyond it; as the cover file grows in later monitoring years, the same clip is what keeps this page reproducing the published analysis exactly. After the clip, the analysis holds the rest of the sampling design constant so that trends reflect coral change rather than changes in which reefs or taxa were surveyed: the shallow TCRMP sites established before 2006, the annual surveys, and the coral species identified to species. It drops the fire corals (Millepora), the generic catch-all entries, the Orbicella complex placeholder, and any taxon left at the genus level. The site scope comes first, because the cover scope depends on the surviving site list.
+
+```{r step2-scope-tcrmp}
+#| code-summary: "Step 2 code: clip to pub_range, then restrict sites, taxa"
+# Publication-range clip: the explicit first step of scope.
+benthiccover <- benthiccover |> filter(year >= pub_range[1], year <= pub_range[2])
+
+# Sites: shallow TCRMP reefs established before 2006 (Ginsburg Fringe excluded).
+sitedat <- sitedat |>
+  filter(program == "TCRMP", yearadded < 2006, site != "Ginsburg Fringe") |>
+  mutate(depth_cat = ifelse(depth < 21, "Shallow", "Deep")) |>
+  filter(depth_cat == "Shallow")
+
+# Cover: TCRMP annual surveys.
+benthiccover <- benthiccover |>
+  filter(program == "TCRMP", period == "Annual")
+
+# Taxa: fix one spelling, drop non-species and non-coral entries, keep scoped sites.
+benthiccover <- benthiccover |>
+  mutate(coralSpecies = ifelse(coralSpecies == "Orbicella franksii", "Orbicella franksi", coralSpecies)) |>
+  filter(
+    !coralSpecies %in% c("Millepora alcicornis", "Millepora complanata", "Millepora squarrosa",
+                         "Coral spp.", "Juvenile coral spp.", "Orbicella species complex"),
+    !grepl(" spp\\.$", coralSpecies),
+    site %in% sitedat$site
+  )
+c(cover_rows = nrow(benthiccover), sites_kept = n_distinct(benthiccover$site),
+  species = n_distinct(benthiccover$coralSpecies))
+```
+
+**Validation note:** the scoped dataset spans `r min(benthiccover$year)` through `r max(benthiccover$year)`, holds `r scales::comma(nrow(benthiccover))` transect records across `r n_distinct(benthiccover$site)` TCRMP sites and `r n_distinct(benthiccover$coralSpecies)` coral species.
+
+## Step 3 — Bin years and set the baseline period
+
+The analysis compares a baseline period to the full record. It bins the survey years into five-year groups and treats the first group as the baseline. Binning smooths the year-to-year noise in the baseline abundance ranking without changing the annual data used later in the model. The helper below builds the five-year groups from the data range and labels each year with its group.
+
+```{r step3-yeargroups-tcrmp}
+#| code-summary: "Step 3 code: bin years into five-year groups; set the baseline"
+# bin_years: label each year with a five-year group, dropping a trailing stub
+# group so the last bin holds a full span where possible.
+bin_years <- function(df, interval = 5) {
+  min_yr <- min(df$year, na.rm = TRUE); max_yr <- max(df$year, na.rm = TRUE)
+  breaks <- seq(min_yr, max_yr, by = interval)
+  if (tail(breaks, 1) > max_yr - (interval - 1)) breaks <- head(breaks, -1)
+  labels <- paste(breaks, pmin(breaks + (interval - 1), max_yr), sep = "-")
+  map <- data.frame(year = seq(min_yr, max_yr)) |>
+    mutate(year_group = cut(year, breaks = c(breaks, max_yr + 1), labels = labels,
+                            right = FALSE, include.lowest = TRUE))
+  df |> left_join(map, by = "year") |> mutate(year_group = as.factor(year_group))
+}
+
+benthiccover <- bin_years(benthiccover, 5)
+earliest_year_group <- levels(benthiccover$year_group)[1]
+# earliest_year_group
+```
+
+The baseline period is the first five-year group, `r earliest_year_group`. Two presence rules keep the analysis on taxa that were part of the community at baseline and at sites within their range. The first keeps species recorded during the baseline period. The second drops species-site pairs where the species was never seen, since a site outside a species range would enter the model as a structural zero rather than a decline.
+
+```{r step3-presence-tcrmp}
+#| code-summary: "Step 3 code: keep baseline-present species and in-range sites"
+# Keep species observed during the baseline period.
+spp_in_baseline <- benthiccover |>
+  group_by(coralSpecies, year_group) |>
+  summarize(seen = max(perccover, na.rm = TRUE) > 0, .groups = "drop") |>
+  filter(seen, year_group == earliest_year_group) |>
+  pull(coralSpecies) |> unique()
+benthiccover <- benthiccover |> filter(coralSpecies %in% spp_in_baseline)
+
+# Drop species-site pairs where the species was never observed (out of range).
+in_range <- benthiccover |>
+  group_by(coralSpecies, site) |>
+  summarize(seen = max(perccover, na.rm = TRUE) > 0, .groups = "drop") |>
+  filter(seen) |> mutate(key = paste(coralSpecies, site))
+benthiccover <- benthiccover |>
+  filter(paste(coralSpecies, site) %in% in_range$key)
+
+# Average across the transects at each site and year.
+benthiccover <- benthiccover |>
+  group_by(year_group, coralSpecies, year, site) |>
+  summarise(perccover = mean(perccover, na.rm = TRUE), .groups = "drop")
+c(rows = nrow(benthiccover), species = n_distinct(benthiccover$coralSpecies))
+```
+
+## Step 4 — Rank baseline abundance
+
+Each species receives its mean percent cover during the baseline period. Ranking the species by that mean sets the order used in the figure and sets up the commonness split. The cumulative proportion of cover, summed down the ranked list, measures how much of the reef's baseline cover the top species account for.
+
+```{r step4-baseline-tcrmp}
+#| code-summary: "Step 4 code: mean baseline cover, rank, cumulative cover"
+baseline <- benthiccover |>
+  filter(year_group == earliest_year_group) |>
+  group_by(coralSpecies) |>
+  summarise(meancov = mean(perccover, na.rm = TRUE), .groups = "drop") |>
+  arrange(desc(meancov)) |>
+  mutate(rank = row_number(),
+         normcov = meancov / sum(meancov, na.rm = TRUE),
+         cumsumcov = cumsum(normcov))
+# head(baseline, 6)
+```
+
+## Step 5 — Classify common and rare (90/10)
+
+The commonness split follows one rule: the species that together hold the top 90 percent of baseline cumulative cover are common, and the rest are rare. The manuscript identified 0.90 through a sliding-window analysis as the strictest rarity definition that leaves the temporal slopes stable.
+
+```{r step5-classify-tcrmp}
+#| code-summary: "Step 5 code: split common from rare at 0.90 cumulative cover"
+baseline <- baseline |>
+  mutate(commonness = ifelse(cumsumcov <= 0.900001, "Common", "Rare"))
+table(baseline$commonness)
+```
+
+## Step 6 — Assign reproductive mode
+
+Each species carries a reproductive mode, brooder or broadcaster. The assignment reads a compiled trait table, drops unknown entries, and joins the mode onto the baseline species. A second trait table fills any species the first leaves unassigned. Species that still lack a mode after both sources leave the analysis, because the model compares brooders to broadcasters and cannot place an unassigned species.
+
+```{r step6-repro-tcrmp}
+#| code-summary: "Step 6 code: join reproductive mode from two trait tables"
+repro1 <- read.csv("../../data/collab/reproMode_coralSpecies_Mahoney_20250108.csv") |>
+  rename(coralSpecies = Species) |>
+  filter(Reproductive_mode %in% c("Brooder", "Broadcaster")) |>
+  distinct(coralSpecies, Reproductive_mode)
+repro2 <- read.csv("../../data/collab/reproMode_coralSpecies_Olinger_20250108.csv") |>
+  filter(Reproductive_mode %in% c("Brooder", "Broadcaster")) |>
+  distinct(coralSpecies, Reproductive_mode)
+
+baseline <- baseline |>
+  left_join(repro1, by = "coralSpecies") |>
+  left_join(repro2, by = "coralSpecies", suffix = c("", ".2")) |>
+  mutate(Reproductive_mode = coalesce(Reproductive_mode, Reproductive_mode.2)) |>
+  select(-Reproductive_mode.2) |>
+  filter(Reproductive_mode %in% c("Brooder", "Broadcaster"))
+# with(baseline, table(Commonness = commonness, `Reproductive mode` = Reproductive_mode))
+```
+
+## Step 7 — Build the analysis dataset
+
+The model works on group means rather than individual species, so that a single abundant species cannot dominate the trend. This step joins the commonness and reproductive-mode labels onto the full cover series, averages cover within each group at each site and year, adds a year index that starts at zero, and takes the log10 of cover. Log10 cover is the response, because coral loss acts proportionally, and a proportional change is a straight line on the log scale.
+
+```{r step7-dataset-tcrmp}
+#| code-summary: "Step 7 code: aggregate to group-site-year means"
+analysis_data <- benthiccover |>
+  inner_join(baseline |> select(coralSpecies, commonness, Reproductive_mode), by = "coralSpecies") |>
+  group_by(category = commonness, Reproductive_mode, year, site) |>
+  summarise(perccover = mean(perccover, na.rm = TRUE), .groups = "drop") |>
+  mutate(yearind = year - min(year), perccoverLog = log10(perccover)) |>
+  filter(perccover > 0) |>
+  mutate(category = factor(category, levels = c("Common", "Rare")),
+         Reproductive_mode = factor(Reproductive_mode, levels = c("Broadcaster", "Brooder")))
+c(model_rows = nrow(analysis_data), groups = nlevels(interaction(analysis_data$category, analysis_data$Reproductive_mode)))
+```
+
+## Step 8 — Fit the model
+
+The model predicts log10 percent cover from year, commonness, reproductive mode, and every interaction among them. Common and broadcaster are the reference levels, so the year term is the trend for common broadcasters, and the interactions measure how the other groups differ from it.
+
+```{r step8-fit-tcrmp}
+#| code-summary: "Step 8 code: fit the three-way interaction model"
+model_full <- lm(perccoverLog ~ yearind * category * Reproductive_mode, data = analysis_data)
+```
+
+## Step 9 — Robust standard errors
+
+The residual variance is larger for the abundant groups than for the sparse groups, so ordinary standard errors would misstate the uncertainty. The analysis replaces them with HC3 heteroscedasticity-consistent standard errors, computed from a sandwich covariance matrix. Every standard error, p-value, and confidence interval below uses this robust covariance.
+
+```{r step9-robust-tcrmp}
+#| code-summary: "Step 9 code: HC3 robust covariance and coefficient table"
+vcov_hc3 <- sandwich::vcovHC(model_full, type = "HC3")
+coef_robust <- broom::tidy(lmtest::coeftest(model_full, vcov = vcov_hc3))
+```
+
+## Step 10 — Group-specific slopes
+
+The four group trends are linear combinations of the model coefficients. The common-broadcaster slope is the year term. Each other group adds the interactions that apply to it. The standard error of each slope comes from the robust covariance, so the uncertainty carries through. Annual percent change back-transforms the log10 slope into a yearly rate.
+
+```{r step10-slopes-tcrmp}
+#| code-summary: "Step 10 code: derive the four group slopes"
+group_slope <- function(terms) {
+  L <- setNames(rep(0, length(coef(model_full))), names(coef(model_full)))
+  L[terms] <- 1
+  est <- sum(L * coef(model_full))
+  se <- sqrt(as.numeric(t(L) %*% vcov_hc3 %*% L))
+  tibble(Slope = est, SE = se, `Annual % change` = 100 * (10^est - 1),
+         `P-value` = 2 * pnorm(-abs(est / se)))
+}
+group_slopes <- bind_rows(
+  "Common broadcaster" = group_slope("yearind"),
+  "Rare broadcaster"   = group_slope(c("yearind", "yearind:categoryRare")),
+  "Common brooder"     = group_slope(c("yearind", "yearind:Reproductive_modeBrooder")),
+  "Rare brooder"       = group_slope(c("yearind", "yearind:categoryRare",
+                                       "yearind:Reproductive_modeBrooder",
+                                       "yearind:categoryRare:Reproductive_modeBrooder")),
+  .id = "Group"
+)
+```
+
+## Step 11 — Figure: abundance distribution and temporal trends
+
+The figure pairs the baseline abundance distribution with the temporal trends. The left panel ranks species by baseline cover and colors each by group. The right panel shows site-level group mean cover over time on a log scale, with a linear fit per group.
+
+```{r fig-tcrmp}
+#| code-summary: "Step 11 code: build the two-panel figure"
+#| fig-width: 11
+#| fig-height: 5.5
+#| fig-cap: "TCRMP. Left: baseline abundance distribution, species ranked by mean baseline cover, colored by commonness and reproductive mode. Right: site-level group mean cover over time on a log scale, with per-group linear fits."
+sad_df <- baseline |>
+  filter(meancov > 0) |>
+  mutate(coralSpecies = factor(coralSpecies, levels = rev(baseline$coralSpecies[order(baseline$rank)])),
+         grp = interaction(commonness, Reproductive_mode))
+p_sad <- ggplot(sad_df, aes(coralSpecies, meancov, fill = grp)) +
+  geom_col(width = 0.8) +
+  scale_fill_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+  coord_flip() +
+  labs(x = NULL, y = "Mean baseline percent cover", title = "Baseline abundance") +
+  theme_classic(base_size = 11) +
+  theme(legend.position = "top", axis.text.y = element_text(face = "italic", size = 8))
+
+trend_df <- analysis_data |> mutate(grp = interaction(category, Reproductive_mode))
+p_trend <- ggplot(trend_df, aes(year, perccover, color = grp, fill = grp)) +
+  geom_jitter(shape = 21, color = "black", alpha = 0.2, width = 0.25, height = 0, show.legend = FALSE) +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE, alpha = 0.15, linewidth = 0.8) +
+  scale_color_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+  scale_fill_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+  scale_y_log10() + annotation_logticks(sides = "l", color = "grey70") +
+  labs(x = "Year", y = "Percent cover (log scale)", title = "Temporal trends") +
+  theme_classic(base_size = 11) +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 45, hjust = 1))
+
+p_sad + p_trend
+```
+
+## Step 12 — Table: model coefficients
+
+The table reports the model coefficients with HC3 robust standard errors and p-values. Bold marks terms significant at p less than 0.05.
+
+```{r tbl-tcrmp-coef}
+#| code-summary: "Step 12 code: format the coefficient table and the group slopes"
+term_labels <- c(
+  "(Intercept)" = "Intercept", "yearind" = "Year",
+  "categoryRare" = "Category (rare)", "Reproductive_modeBrooder" = "Repro. mode (brooder)",
+  "yearind:categoryRare" = "Year x Category", "yearind:Reproductive_modeBrooder" = "Year x Repro. mode",
+  "categoryRare:Reproductive_modeBrooder" = "Category x Repro. mode",
+  "yearind:categoryRare:Reproductive_modeBrooder" = "Year x Category x Repro. mode"
+)
+coef_tbl <- coef_robust |>
+  transmute(Predictor = term_labels[term],
+            `Estimate (SE)` = sprintf("%.3f (%.3f)", estimate, std.error),
+            `P-value` = ifelse(p.value < 0.001, "< 0.001", sprintf("%.3f", p.value)),
+            .sig = p.value < 0.05)
+
+kbl(coef_tbl |> select(-.sig), align = c("l", "r", "r"),
+    caption = "Table 1 (TCRMP). Linear-model coefficients with HC3 robust standard errors.") |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+  row_spec(which(coef_tbl$.sig), bold = TRUE)
+```
+
+```{r tbl-tcrmp-slopes}
+#| code-summary: "Step 12 code: the four group slopes"
+group_slopes |>
+  mutate(Slope = sprintf("%.4f", Slope), SE = sprintf("%.4f", SE),
+         `Annual % change` = sprintf("%.2f", `Annual % change`),
+         `P-value` = ifelse(`P-value` < 0.001, "< 0.001", sprintf("%.3f", `P-value`))) |>
+  kbl(align = c("l", "r", "r", "r", "r"),
+      caption = "Group-specific temporal slopes (TCRMP), with robust SEs and annual percent change.") |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+```
