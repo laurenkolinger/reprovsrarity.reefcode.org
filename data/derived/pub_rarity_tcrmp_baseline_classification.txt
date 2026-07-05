@@ -1,0 +1,95 @@
+###############################
+filename: pub_rarity_tcrmp_baseline_classification.csv
+date: 2026-07-04 17:38:42.087069
+description: Baseline abundance ranking and common/rare + reproductive-mode classification of TCRMP coral species.
+###############################
+
+column names:
+coralSpecies meancov rank normcov cumsumcov commonness Reproductive_mode
+
+column: coralSpecies
+description: coral species (Linnaean binomial)
+Data Type: character
+Unique Values: (showing all 40 entries)
+   Orbicella annularis
+   Orbicella franksi
+   Montastraea cavernosa
+   Porites astreoides
+   Porites porites
+   Orbicella faveolata
+   Siderastrea siderea
+   Agaricia agaricites
+   Pseudodiploria strigosa
+   Madracis mirabilis
+   Diploria labyrinthiformis
+   Colpophyllia natans
+   Meandrina meandrites
+   Agaricia grahamae
+   Acropora palmata
+   Dendrogyra cylindrus
+   Porites furcata
+   Pseudodiploria clivosa
+   Acropora cervicornis
+   Mycetophyllia daniana
+   Eusmilia fastigiata
+   Agaricia lamarcki
+   Porites divaricata
+   Stephanocoenia intercepta
+   Mycetophyllia ferox
+   Siderastrea radians
+   Mycetophyllia lamarckiana
+   Mycetophyllia aliciae
+   Solenastrea bournoni
+   Madracis formosa
+   Isopyhyllastrea rigida
+   Dichocoenia stokesii
+   Manicina areolata
+   Madracis decactis
+   Solenastrea hyades
+   Agaricia fragilis
+   Agaricia tenuifolia
+   Agaricia humilis
+   Isophyllia sinuosa
+   Favia fragum
+
+column: meancov
+description: mean percent cover during the baseline period
+Data Type: numeric
+Mean: 0.367159757649581
+Min: 0.00161458333333333
+Max: 3.40407729468599
+
+column: rank
+description: abundance rank (1 = most abundant)
+Data Type: integer
+Mean: 20.5
+Min: 1
+Max: 40
+
+column: normcov
+description: baseline cover normalized to sum to 1 across species
+Data Type: numeric
+Mean: 0.025
+Min: 0.000109937384183202
+Max: 0.231784476904387
+
+column: cumsumcov
+description: cumulative normalized baseline cover down the ranked list
+Data Type: numeric
+Mean: 0.89730850461905
+Min: 0.231784476904387
+Max: 1
+
+column: commonness
+description: commonness class (Common if within the top 90% cumulative cover, else Rare)
+Data Type: character
+Unique Values: (showing all 2 entries)
+   Common
+   Rare
+
+column: Reproductive_mode
+description: reproductive mode (Broadcaster or Brooder)
+Data Type: character
+Unique Values: (showing all 2 entries)
+   Broadcaster
+   Brooder

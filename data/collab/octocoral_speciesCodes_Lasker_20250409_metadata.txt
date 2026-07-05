@@ -1,0 +1,28 @@
+###############################
+# RAW DATA METADATA
+###############################
+File (in retrofit):   octocoral_speciesCodes_Lasker_20250409.csv
+Original file name:   data_from_Howie_9april25_speciesCodes.csv
+Ported into retrofit: 2026-06-28 (copied read-only from DataMetadata_TOEDIT, byte-identical; checksum verified)
+Source:               H. R. Lasker octocoral program species-code dictionary; provided 2025-04-09.
+Description:          Lookup mapping octocoral field codes to genus/species and a reproductive-mode code.
+Programs:             Lasker octocoral monitoring
+Sites:                n/a (lookup)
+Year range:           n/a
+Rows x Cols:          998 x ~8 (trailing empty columns present)
+Imported by:          04_octos_analysis.qmd
+
+COLUMN DEFINITIONS
+------------------------
+field code: octocoral field identifier code  [character]
+Genus-Species: genus and species name combined  [character]
+Genus: octocoral genus  [character]
+Species: octocoral species  [character]
+revised species code: revised/corrected species code  [character]
+(blank): empty column  [character]
+revised species: revised/corrected species name  [character]
+reproductive mode: reproductive mode code  [integer/character; integers or UNK]
+
+NOTES
+------------------------
+Reproductive mode is encoded as integers or UNK. Used to assign octocoral reproductive mode in 04_octos_analysis.qmd. Trailing empty columns present in source file.

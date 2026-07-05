@@ -1,0 +1,21 @@
+LH Strategy,Genus,Mean,SE,Rel Mean,Cum_Rel,Mode
+Brooder,Porites,0.616,0.116,15.925,15.925,Common
+Brooder,Agaricia,0.42,0.11,10.830,26.754,Common
+Broadcaster,Siderastrea,1.234,0.179,31.896,31.896,Common
+Broadcaster,Orbicella,0.902,0.149,23.309,81.960,Common
+Broadcaster,Montastrea cav,0.320,0.096,8.267,90.226,Common
+Brooder,Mussa,0.005,0.003,0.118,90.344,Rare
+Brooder,Mycetophyllia,0.002,0.002,0.043,90.388,Rare
+Brooder,Manicina,0.002,0.001,0.044,90.431,Rare
+Brooder,Madracis,0.001,0.001,0.021,90.452,Rare
+Brooder,Favia,0.000,0.000,0.000,90.452,Rare
+Brooder,Isophyllastrea,0.000,0.000,0.000,90.452,Rare
+Brooder,Scolymia,0.000,0.000,0.000,90.452,Rare
+Broadcaster,Diploria,0.172,0.060,4.449,94.901,Rare
+Broadcaster,Dichocoenia,0.055,0.035,1.418,96.319,Rare
+Broadcaster,Meandrina,0.067,0.034,1.739,98.058,Rare
+Broadcaster,Acropora,0.019,0.013,0.503,98.561,Rare
+Broadcaster,Stephanocoenia,0.037,0.013,0.949,99.510,Rare
+Broadcaster,Dendrogyra,0.018,0.010,0.467,99.978,Rare
+Broadcaster,Eusmilia,0.001,0.001,0.022,100.000,Rare
+Broadcaster,Colpophyllia,0.000,0.000,0.000,100.000,Rare

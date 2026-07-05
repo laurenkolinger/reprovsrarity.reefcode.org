@@ -1,0 +1,31 @@
+<script>
+(function () {
+  var path = location.pathname;
+
+  // Relativize the menu links: authored root-relative (qmd/..., index.html), but the site root is
+  // the hashed output dir and pages sit at varying depths, so compute the right number of "../".
+  var HASH = '5af39e990ffb6776288f10373af7d1662148d323';
+  var parts = path.split('/').filter(Boolean);
+  var hi = parts.indexOf(HASH);
+  var depth = hi >= 0 ? (parts.length - hi - 2) : Math.max(0, parts.length - 1);
+  var prefix = new Array(depth + 1).join('../');
+  var links = document.querySelectorAll('.rn a[href], .rn-sub a[href], .home-nav a[href]');
+  for (var i = 0; i < links.length; i++) {
+    var href = links[i].getAttribute('href');
+    if (!href || /^(https?:|mailto:|#|\/)/.test(href)) continue;
+    links[i].setAttribute('href', prefix + href);
+  }
+
+  // Pin the current section's submenu row, and highlight the matching main-menu link.
+  var p = path.toLowerCase();
+  var sec = null;
+  if (p.indexOf('/7_publications/') >= 0) sec = 'publications';
+  else if (/\/(2_benthiccover|3_drivers_internal|4_drivers_external|5_resilience_vals|6_analyses)\//.test(p)) sec = 'analyses';
+  else if (p.indexOf('/1_about/') >= 0) sec = 'about';
+  if (sec) {
+    document.body.classList.add('section-' + sec);
+    var active = document.querySelector('.rn-main a[data-sec="' + sec + '"]');
+    if (active) active.classList.add('rn-active');
+  }
+})();
+</script>

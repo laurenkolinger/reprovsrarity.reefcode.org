@@ -1,0 +1,257 @@
+```{r}
+#| warning: false
+#| code-fold: true
+#| include: false
+
+subfoldername <- "../../outputs"
+
+
+# Format system time for filenames
+format_time <- function(time) {
+  format(time, "%b_%d_%Y_%X") %>%
+    gsub(" ", "_", .) %>%
+    gsub(":", "_", .) %>%
+    gsub("-", "_", .)
+}
+
+# Generate CSV filename
+mkfilefn <- function(input_df,
+                     filename,
+                     wheretosave = getwd(),
+                     site_column = NULL,
+                     minyear = NULL,
+                     maxyear = NULL,
+                     time = FALSE) {
+  name <- filename
+  if (!is.null(site_column))
+    name <- paste(name, paste(length(unique(input_df[[site_column]])), "sites", sep = ""), sep = "_")
+  if (!is.null(minyear) &&
+      !is.null(maxyear))
+    name <- paste(name, minyear, maxyear, sep = "_")
+  if (time)
+    name <- paste(name, format_time(Sys.time()), sep = "_")
+  paste(wheretosave, "/", name, ".csv", sep = "")
+}
+
+# Generate metadata filename
+mkmetafilefn <- function(input_df,
+                         filename,
+                         wheretosave = getwd(),
+                         site_column = NULL,
+                         minyear = NULL,
+                         maxyear = NULL,
+                         time = FALSE) {
+  name <- filename
+  if (!is.null(site_column))
+    name <- paste(name, paste(length(unique(input_df[[site_column]])), "sites", sep = ""), sep = "_")
+  if (!is.null(minyear) &&
+      !is.null(maxyear))
+    name <- paste(name, minyear, maxyear, sep = "_")
+  if (time)
+    name <- paste(name, format_time(Sys.time()), sep = "_")
+  paste(wheretosave, "/", name, ".txt", sep = "")
+}
+
+# Summarize dataframe columns and unique values
+summarize_data_frame <- function(df,
+                                 dfdesc,
+                                 desc,
+                                 filename,
+                                 site_column = NULL,
+                                 minyear = NULL,
+                                 maxyear = NULL,
+                                 time = FALSE) {
+  summary_text <- c("###############################")
+  name <- filename
+  if (!is.null(site_column))
+    name <- paste(name, paste(length(unique(df[[site_column]])), "sites", sep = ""), sep = "_")
+  if (!is.null(minyear) &&
+      !is.null(maxyear))
+    name <- paste(name, minyear, maxyear, sep = "_")
+  if (time)
+    name <- paste(name, format_time(Sys.time()), sep = "_")
+  name <- paste(name, ".csv", sep = "")
+  
+  summary_text <- c(
+    summary_text,
+    paste("filename:", name),
+    paste("date:", Sys.time()),
+    paste("description:", dfdesc),
+    "###############################",
+    "",
+    "column names:",
+    paste(names(df), collapse = " ")
+  )
+  
+  for (column_name in names(df)) {
+    summary_text <- c(
+      summary_text,
+      paste("\ncolumn:", column_name),
+      paste("description:", desc$description[which(desc$column_names == column_name)]),
+      paste("Data Type:", class(df[[column_name]]))
+    )
+    
+    if (is.numeric(df[[column_name]])) {
+      summary_text <- c(summary_text,
+                        paste("Mean:", mean(df[[column_name]], na.rm = TRUE)),
+                        paste("Min:", min(df[[column_name]], na.rm = TRUE)),
+                        paste("Max:", max(df[[column_name]], na.rm = TRUE)))
+    } else if (inherits(df[[column_name]], "Date")) {
+      summary_text <- c(summary_text, paste(
+        "Date Range:",
+        min(df[[column_name]], na.rm = TRUE),
+        "to",
+        max(df[[column_name]], na.rm = TRUE)
+      ))
+    } else {
+      unique_values <- unique(df[[column_name]])
+      n_unique <- length(unique_values)
+      value_counts <- table(df[[column_name]])
+      has_duplicates <- any(value_counts > 1)
+      
+      if (n_unique > 100) {
+        if (has_duplicates) {
+          freq_values <- names(sort(value_counts, decreasing = TRUE)[1:10])
+          summary_text <- c(
+            summary_text,
+            paste(
+              "Unique Values: (showing 10 most frequent of",
+              n_unique,
+              "entries)"
+            )
+          )
+          for (value in freq_values)
+            summary_text <- c(summary_text, paste("  ", value))
+        } else {
+          example_values <- sample(unique_values, 10)
+          summary_text <- c(
+            summary_text,
+            paste(
+              "Unique Values: (showing 10 examples of",
+              n_unique,
+              "entries)"
+            )
+          )
+          for (value in example_values)
+            summary_text <- c(summary_text, paste("  ", value))
+        }
+      } else {
+        summary_text <- c(summary_text,
+                          paste("Unique Values: (showing all", n_unique, "entries)"))
+        for (value in unique_values)
+          summary_text <- c(summary_text, paste("  ", value))
+      }
+    }
+  }
+  
+  summary_text
+}
+
+# Main function to save CSV and generate metadata
+save_csv_and_metadata <- function(input_df,
+                                  df_desc,
+                                  column_descriptions,
+                                  filename,
+                                  wheretosave = getwd(),
+                                  minyear = NULL,
+                                  maxyear = NULL,
+                                  site_column = NULL,
+                                  time = FALSE) {
+  csv_filename <- mkfilefn(input_df,
+                           filename,
+                           wheretosave,
+                           site_column,
+                           minyear,
+                           maxyear,
+                           time)
+  metadata_filename <- mkmetafilefn(input_df,
+                                    filename,
+                                    wheretosave,
+                                    site_column,
+                                    minyear,
+                                    maxyear,
+                                    time)
+  
+  write.csv(input_df, csv_filename, row.names = FALSE)
+  
+  input_df_desc_full <- data.frame(column_names = names(input_df), description = column_descriptions)
+  summary_text <- summarize_data_frame(
+    input_df,
+    df_desc,
+    input_df_desc_full,
+    filename,
+    site_column,
+    minyear,
+    maxyear,
+    time
+  )
+  
+  file_conn <- file(metadata_filename, "w")
+  writeLines(summary_text, file_conn)
+  close(file_conn)
+  
+  list(csv_filename = csv_filename, metadata_filename = metadata_filename)
+}
+
+
+#usage eg
+  # # Prevalence data
+  # output_files_prevalence <- save_csv_and_metadata(
+  #   input_df = condition_list[[category]]$prevalence_summary,
+  #   df_desc = paste(
+  #     category,
+  #     "condition prevalences recorded from TCRMP coral health surveys"
+  #   ),
+  #   column_descriptions = c(
+  #     "TCRMP site",
+  #     "survey year",
+  #     "sample year",
+  #     "Date the sample was taken",
+  #     "replicate / transect",
+  #     "Sample period",
+  #     "number of colonies",
+  #     paste("prevalence of", unlist(lapply(
+  #       gsub("prev_", "", colnames(condition_list[[category]]$prevalence_summary)[8:ncol(condition_list[[category]]$prevalence_summary)]), process_coltomeaning
+  #     )), "(%)")
+  #   ),
+  #   filename = paste(section, "_coralcondition_", tolower(category), "prevalence", sep = ""),
+  #   wheretosave = subfoldername,
+  #   minyear = as.character(min(condition_list[[category]]$prevalence_summary$year)),
+  #   maxyear = as.character(max(condition_list[[category]]$prevalence_summary$year)),
+  #   site_column = "site",
+  #   time = FALSE
+  # )
+  
+
+# Function to generate download links
+generate_download_links <- function(output_files) {
+  csv_download_link <- paste0(
+    "{{< downloadthis `r '",
+    output_files$csv_filename,
+    "'` dname='",
+    gsub("/", "", gsub(subfoldername, '', output_files$csv_filename)),
+    "' label='download ",
+    gsub("/", "", (gsub(subfoldername, '', output_files$csv_filename))),
+    "' >}}"
+  )
+
+  metadata_download_link <- paste0(
+    "{{< downloadthis `r '",
+    output_files$metadata_filename,
+    "'` dname='",
+    gsub("/", "", gsub(subfoldername, '', output_files$metadata_filename)),
+    "' label='download metadata' >}}"
+  )
+
+  list(csv_link = csv_download_link, metadata_link = metadata_download_link)
+}
+
+#usage eg
+  # prevalence_links <- generate_download_links(output_files_prevalence)
+  # cat(prevalence_links$csv_link, "\n\n")
+  # cat(prevalence_links$metadata_link, "\n\n")
+```
+  
+  
+
+

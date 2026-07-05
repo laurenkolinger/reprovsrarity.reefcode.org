@@ -1,0 +1,58 @@
+###############################
+filename: pub_rarity_octo_analysis_dataset.csv
+date: 2026-07-04 17:39:02.961588
+description: Analysis-ready octocoral dataset: group-by-site-by-year mean colony density with year index and log10 density.
+###############################
+
+column names:
+category reproductive_mode year site coldens yearind coldensLog
+
+column: category
+description: commonness class (common or Rare)
+Data Type: factor
+Unique Values: (showing all 2 entries)
+   Rare
+   common
+
+column: reproductive_mode
+description: reproductive mode (broadcaster or brooder)
+Data Type: factor
+Unique Values: (showing all 2 entries)
+   broadcaster
+   brooder
+
+column: year
+description: survey year
+Data Type: numeric
+Mean: 2018.75
+Min: 2014
+Max: 2024
+
+column: site
+description: reef site name
+Data Type: character
+Unique Values: (showing all 3 entries)
+   Booby Rock
+   Europa
+   Grootpan
+
+column: coldens
+description: group mean colony density at the site-year (colonies per square meter)
+Data Type: numeric
+Mean: 0.315616484254104
+Min: 0.0169491525423729
+Max: 1.08333333333333
+
+column: yearind
+description: year index (0 at the first year)
+Data Type: numeric
+Mean: 4.75
+Min: 0
+Max: 10
+
+column: coldensLog
+description: log10 of group mean colony density
+Data Type: numeric
+Mean: -0.701344199606029
+Min: -1.77085201164214
+Max: 0.0347621062592119

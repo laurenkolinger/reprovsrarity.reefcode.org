@@ -1,0 +1,22 @@
+###############################
+# RAW DATA METADATA
+###############################
+File (in retrofit):   reproMode_coralSpecies_Mahoney_20250108.csv
+Original file name:   SpeciesReproductionSTJ_LMahoney_20250108.csv
+Ported into retrofit: 2026-06-28 (copied read-only from DataMetadata_TOEDIT, byte-identical; checksum verified)
+Source:               L. Mahoney compilation of St. John (STJ) coral species reproductive modes; 2025-01-08.
+Description:          Lookup table assigning each coral species a reproductive mode (Brooder/Broadcaster). Primary reproductive-mode source for the species-level analyses.
+Programs:             n/a (lookup)
+Sites:                n/a
+Year range:           n/a
+Rows x Cols:          36 x 2
+Imported by:          01_tcrmp_analysis.qmd, 02_vinps_analysis.qmd, 06_additional_stats.qmd
+
+COLUMN DEFINITIONS
+------------------------
+Species: coral species name  [character]
+Reproductive_mode: reproductive mode  [character; Brooder or Broadcaster]
+
+NOTES
+------------------------
+Primary repro-mode lookup used by TCRMP/VINPS/additional_stats. Some species use abbreviated names (e.g., "A. crasa"). Loaded first; Olinger 2025-01-08 table used as fallback for species not covered here.

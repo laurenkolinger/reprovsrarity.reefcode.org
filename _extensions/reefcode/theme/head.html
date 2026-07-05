@@ -1,0 +1,119 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:#0b2444; --cream:#f1ede4; --pink:#ed008c;
+  --muted:#aeb6c2; --soft:#c2c9d2; --hair:rgba(255,255,255,.10);
+  --wrap:1180px; --gut:48px;
+}
+html,body{ margin:0; }
+body, #quarto-content{ padding-top:0 !important; }
+
+/* ---- remove the reef-art cover image (title-block-banner) site-wide, keep the title ---- */
+.quarto-title-banner{
+  background:none !important; background-image:none !important; background-color:transparent !important;
+  color:var(--navy) !important; min-height:0 !important; margin:0 !important; padding:6px 0 0 !important;
+}
+.quarto-title-banner .quarto-title .title{ color:var(--navy) !important; }
+
+/* ---- remove the right-hand Contents (TOC) pane entirely ---- */
+#quarto-margin-sidebar, .margin-sidebar, nav[role="doc-toc"], #TOC{ display:none !important; }
+
+/* ---- run the document body full-width so the navy nav is full-bleed with no 100vw trick;
+        box the title + prose back to the shared 1180 column so text aligns with the brand ---- */
+#quarto-content, #quarto-content.page-columns, .page-columns{ display:block !important; }
+main#quarto-document-content.content{
+  max-width:none !important; width:auto !important; margin:0 !important; padding:0 !important;
+  float:none !important; grid-column:unset !important;
+}
+/* the nav <header> is the first child and stays full-width; everything after it is boxed to the column */
+main#quarto-document-content.content > :not(:first-child){
+  max-width:var(--wrap); margin-left:auto; margin-right:auto;
+  padding-left:var(--gut); padding-right:var(--gut);
+}
+/* Quarto's banner title block was the reef-art hero (its own copy of the page title, plus a
+   hard-coded 250px height). The image is gone and each page repeats its title as a body heading
+   (# {{< meta title >}}), so the title block is now a redundant duplicate. Hide it and let the
+   body heading be the single title, sitting a tight, consistent gap below the nav. */
+#title-block-header{ display:none !important; }
+main#quarto-document-content.content > section:first-of-type{ padding-top:0 !important; }
+main#quarto-document-content.content > section:first-of-type > :first-child{ margin-top:26px !important; }
+
+/* Publication pages carry their title only in the title block (they use a subtitle and no body-heading
+   copy), so show it there as the single title, collapsed and styled to match the rest of the site. */
+body.section-publications #title-block-header{
+  display:block !important; height:auto !important; min-height:0 !important;
+  margin:0 auto !important; max-width:var(--wrap); padding:28px var(--gut) 2px !important;
+}
+body.section-publications #title-block-header .title{ color:var(--navy) !important; margin:0 !important; }
+body.section-publications #title-block-header .subtitle,
+body.section-publications #title-block-header .quarto-title-meta{ color:#6d685e !important; font-weight:400; }
+body.section-publications main#quarto-document-content.content > section:first-of-type > :first-child{ margin-top:16px !important; }
+
+/* ============================================================
+   Unified site menu — identical on every page
+   brand (left) + main menu (center) + section submenu (horizontal)
+   + sub-sub popup (vertical, hover, stays open)
+   ============================================================ */
+.rn{ background:var(--navy); position:relative; }
+.rn-inner{
+  max-width:var(--wrap); margin:0 auto; padding:0 var(--gut);
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:66px;
+  border-bottom:1px solid var(--hair);
+}
+.rn-brand{
+  grid-column:1; justify-self:start; padding:20px 0;
+  color:#fff; text-decoration:none; letter-spacing:-.01em;
+  font:600 19px/1 'Space Grotesk',system-ui,sans-serif; white-space:nowrap;
+}
+.rn-brand em{ color:var(--pink); font-family:'Newsreader',serif; font-style:italic; font-weight:400; }
+.rn-main{
+  grid-column:2; justify-self:center; display:flex; align-items:center; gap:26px;
+  font:500 13.5px 'Space Grotesk',system-ui,sans-serif; color:var(--muted);
+}
+.rn-main a{ color:var(--muted); font-weight:500; text-decoration:none; transition:color .15s ease; }
+.rn-main a:hover, .rn-main a.rn-active{ color:#fff; }
+
+/* section submenu row — rendered/formatted identically to the parent menu */
+.rn-sub{ background:var(--navy); position:relative; }
+.rn-row{
+  display:none; max-width:var(--wrap); margin:0 auto; padding:0 var(--gut);
+  align-items:center; justify-content:center; gap:26px; border-bottom:1px solid var(--hair);
+}
+body.section-about       .rn-row[data-sec="about"],
+body.section-analyses    .rn-row[data-sec="analyses"],
+body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
+
+.rn-item{ position:relative; padding:12px 0; }
+.rn-item > a{
+  color:var(--muted); text-decoration:none; white-space:nowrap; transition:color .15s ease;
+  font:500 13.5px 'Space Grotesk',system-ui,sans-serif;
+}
+.rn-item:hover > a, .rn-item > a:hover{ color:#fff; }
+
+/* vertical pop-up (sub-sub). The pop is a DOM child of .rn-item and sits flush at top:100%
+   (no gap), so hovering keeps :hover true all the way into the list. It stays open. */
+.rn-pop{
+  display:none; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  min-width:290px; background:var(--navy); border-top:2px solid var(--pink);
+  box-shadow:0 18px 44px rgba(0,0,0,.4); padding:8px 0; z-index:120; max-height:74vh; overflow-y:auto;
+}
+.rn-item:hover > .rn-pop{ display:block; }
+.rn-pop a{
+  display:block; padding:8px 22px; color:var(--soft); text-decoration:none; white-space:nowrap; line-height:1.4;
+  font:500 13px 'Space Grotesk',system-ui,sans-serif; transition:color .12s ease;
+}
+.rn-pop a:hover{ color:#fff; background:rgba(255,255,255,.07); }
+.rn-item.rn-ph > a{ color:#586582; cursor:default; }
+.rn-item.rn-ph:hover > a{ color:#6b7896; }
+
+@media (max-width:820px){
+  .rn-inner{ grid-template-columns:1fr; justify-items:center; min-height:0; padding-top:12px; }
+  .rn-brand{ padding:2px 0 8px; }
+  .rn-main{ flex-wrap:wrap; gap:16px; padding-bottom:12px; }
+  .rn-row{ flex-wrap:wrap; gap:16px; padding:8px var(--gut); }
+  main#quarto-document-content.content > :not(:first-child){ padding-left:22px; padding-right:22px; }
+}
+</style>

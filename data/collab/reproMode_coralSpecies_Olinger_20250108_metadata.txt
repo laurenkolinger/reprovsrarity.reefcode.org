@@ -1,0 +1,24 @@
+###############################
+# RAW DATA METADATA
+###############################
+File (in retrofit):   reproMode_coralSpecies_Olinger_20250108.csv
+Original file name:   SpeciesReproduction_LOlinger_20250108.csv
+Ported into retrofit: 2026-06-28 (copied read-only from DataMetadata_TOEDIT, byte-identical; checksum verified)
+Source:               L. Olinger compilation with literature citations; 2025-01-08.
+Description:          Secondary/fallback lookup of coral species reproductive mode with a Source URL and Notes per species.
+Programs:             n/a (lookup)
+Sites:                n/a
+Year range:           n/a
+Rows x Cols:          22 x 4
+Imported by:          01_tcrmp_analysis.qmd, 02_vinps_analysis.qmd, 06_additional_stats.qmd (fallback)
+
+COLUMN DEFINITIONS
+------------------------
+coralSpecies: coral species name  [character]
+Reproductive_mode: reproductive mode  [character; Brooder or Broadcaster]
+Source: URL or citation for the reproductive mode assignment  [character]
+Notes: notes or remarks about the species assignment  [character]
+
+NOTES
+------------------------
+Loaded conditionally as a fallback to fill species not covered by the Mahoney (SpeciesReproductionSTJ_LMahoney_20250108) table.

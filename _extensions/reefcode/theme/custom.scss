@@ -1,0 +1,263 @@
+/*-- scss:defaults --*/
+$font-family-sans-serif: "Space Grotesk", system-ui, sans-serif;
+$font-family-monospace:  "JetBrains Mono", monospace;
+$body-bg:      #f1ede4;
+$body-color:   #0b2444;
+$link-color:   #ed008c;
+$border-color: #ddd6ca;
+
+/*-- scss:rules --*/
+body { -webkit-font-smoothing: antialiased; }
+::selection { background: #ed008c; color: #fff; }
+
+h1, h2, h3 { letter-spacing: -.015em; }
+h1 em, h2 em { font-family: "Newsreader", serif; font-style: italic; font-weight: 400; color: inherit; }
+
+/* inline variable / code — blue, not pink */
+code:not(.sourceCode) {
+  color: #16345f; background: #e6e9e0;
+  padding: 1.5px 6px; border-radius: 4px; font-size: .88em;
+}
+
+.eyebrow { font-weight: 700; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #ed008c; margin-bottom: 10px; }
+.re-caption { font-family: "Newsreader", serif; font-style: italic; color: #6d685e; font-size: 13px; }
+figure figcaption, .figure-caption { font-family: "Newsreader", serif; font-style: italic; color: #6d685e; }
+
+/* ===== custom sticky header : horizontal section bar + vertical dropdowns ===== */
+.re-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: #0b2444;
+  display: flex; align-items: center; justify-content: center; gap: 30px;
+  padding: 18px 48px; border-bottom: 1px solid rgba(255,255,255,.1);
+  font-weight: 500; font-size: 14px;
+}
+.re-brand {
+  position: absolute; left: 48px; top: 50%; transform: translateY(-50%);
+  color: #fff !important; font-weight: 600; font-size: 18px; text-decoration: none;
+}
+.re-brand em { color: #ed008c; font-family: "Newsreader", serif; font-style: italic; }
+.re-top { display: flex; gap: 30px; }
+.re-top > a, .re-group > a { color: #aeb6c2 !important; text-decoration: none; }
+.re-top > a:hover, .re-group > a:hover { color: #fff !important; }
+
+.re-group { position: static; }
+.re-bar {
+  display: none; position: absolute; left: 0; right: 0; top: 100%;
+  background: #16345f; border-bottom: 2px solid #ed008c;
+}
+.re-group:hover > .re-bar { display: block; }
+body.section-analyses     .re-group[data-section="analyses"]     > .re-bar,
+body.section-publications .re-group[data-section="publications"] > .re-bar { display: block; }
+
+.re-bar-inner { max-width: 1180px; margin: 0 auto; padding: 12px 48px; display: flex; gap: 8px; flex-wrap: wrap; }
+.re-chip {
+  position: relative;
+  padding-block: 4px;
+  margin-block: -4px;
+}
+.re-chip > a {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 8px 14px; border-radius: 8px; background: rgba(255,255,255,.06);
+  white-space: nowrap; color: #eef1f5 !important; text-decoration: none; font-size: 13px;
+}
+.re-chip > a:hover { background: rgba(255,255,255,.14); }
+.re-code { font-family: "JetBrains Mono", monospace; font-size: 11px; color: #7fd4e6; }
+.re-code.re-pink { color: #f2a6cc; }
+.re-yr { font-size: 11px; color: #9aa3b4; font-weight: 400; }
+
+.re-drop {
+  display: none; position: absolute; top: calc(100% + 8px); left: 0; z-index: 60;
+  min-width: 230px; background: #f8f5ef; border: 1px solid #ddd6ca;
+  border-radius: 10px; box-shadow: 0 18px 44px rgba(0,0,0,.32); padding: 5px;
+}
+.re-chip:hover > .re-drop { display: block; }
+.re-drop a { display: block; padding: 10px 13px; border-radius: 7px; color: #0b2444 !important; text-decoration: none; font-size: 13.5px; }
+.re-drop a:hover { background: #efe9df; }
+
+/* spacer makes room when a section bar is pinned open */
+.re-spacer { height: 0; }
+body.section-analyses .re-spacer, body.section-publications .re-spacer { height: 58px; }
+
+/* ===== content ===== */
+.re-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 8px 0 40px; }
+.re-acard { background: #f8f5ef; border: 1px solid #ddd6ca; border-radius: 12px; padding: 22px 24px; }
+.re-ac-top { display: flex; justify-content: space-between; align-items: baseline; }
+.re-ac-code { font-family: "JetBrains Mono", monospace; font-size: 12px; color: #b3a89a; }
+.re-ac-sec { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: #6d685e; font-weight: 600; }
+.re-acard h3 { font-size: 19px; margin: 8px 0 12px; }
+.re-arrow { color: #ed008c; font-weight: 600; }
+
+.re-pub { display: grid; grid-template-columns: 64px 1fr auto; gap: 20px; align-items: baseline; padding: 20px 0; border-top: 1px solid #ddd6ca; }
+.re-pub .re-pcode { font-family: "JetBrains Mono", monospace; font-size: 15px; color: #b3a89a; }
+.re-pub .re-ptitle { font-weight: 600; font-size: 19px; margin-bottom: 6px; }
+.re-pub .re-pfeeds { font-size: 13px; color: #6d685e; }
+.re-pub .re-pyr { font-family: "JetBrains Mono", monospace; font-size: 13px; color: #6d685e; }
+
+
+/* ===== flatter second-row menu: text links, no chips, no section numbers ===== */
+.re-bar {
+  background: #0b2444;
+  border-top: 1px solid rgba(255,255,255,.08);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+.re-bar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 13px 48px;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.re-chip { position: relative; }
+.re-chip > a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  white-space: nowrap;
+  color: #aeb6c2 !important;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+.re-chip > a:hover,
+.re-chip > a:focus {
+  color: #fff !important;
+  background: transparent !important;
+  text-decoration: none;
+}
+.re-code { display: none !important; }
+.re-yr {
+  margin-left: 5px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: #788394;
+  font-weight: 400;
+}
+.re-drop {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -14px;
+  z-index: 60;
+  min-width: 250px;
+  background: #0b2444;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 12px 14px 14px;
+}
+.re-chip:hover > .re-drop,
+.re-chip:focus-within > .re-drop { display: block; }
+.re-drop a {
+  display: block;
+  padding: 9px 8px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #aeb6c2 !important;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.re-drop a:hover,
+.re-drop a:focus {
+  color: #fff !important;
+  background: transparent !important;
+}
+body.section-analyses .re-spacer,
+body.section-publications .re-spacer { height: 52px; }
+
+/* ===== Analyses menu: section dropdowns that launch and stay open on hover ===== */
+/* VIRRS provenance label in the analyses bar */
+.re-vlabel {
+  font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; color: #7f8ba0; margin-right: 8px; white-space: nowrap;
+}
+/* the second-row chips carry a caret; keep them tidy */
+.re-bar-inner .re-chip > a { display: inline-flex; align-items: center; gap: 5px; padding: 2px 0; }
+
+/* Dropdown of a section's numbered pages. No gap under the chip, so the cursor can travel
+   from the chip into the list without the menu closing (launch-and-stay-open). */
+.re-bar .re-chip { padding-bottom: 10px; margin-bottom: -10px; }   /* invisible bridge */
+.re-bar .re-drop {
+  display: none; position: absolute; top: 100%; left: -12px; z-index: 80;
+  min-width: 300px; max-height: 70vh; overflow-y: auto;
+  background: #0b2444; border: 0; border-top: 2px solid #ed008c;
+  box-shadow: 0 18px 44px rgba(0,0,0,.4); padding: 8px 0;
+}
+.re-bar .re-chip:hover > .re-drop,
+.re-bar .re-chip:focus-within > .re-drop { display: block; }
+.re-bar .re-drop a {
+  display: block; padding: 8px 18px; color: #c2c9d2 !important; text-decoration: none;
+  font-size: 13px; font-weight: 500; line-height: 1.3; white-space: nowrap;
+}
+.re-bar .re-drop a:hover { color: #fff !important; background: rgba(255,255,255,.07); }
+
+/* content pages: match the homepage fonts explicitly */
+body, .quarto-title-banner, #quarto-content { font-family: "Space Grotesk", system-ui, sans-serif; }
+
+/* Submenu (section chips) and sub-sub menu (numbered-page dropdown items) use the EXACT same
+   font face and size as the top-row About / Analyses / Publications links: Space Grotesk 14px/500. */
+.re-nav .re-top > .re-group > a,
+.re-bar .re-chip > a,
+.re-bar .re-drop a {
+  font-family: "Space Grotesk", system-ui, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+/* Inline "On this page" contents + back-to-contents arrow (non-menu; built by toc-inline.html).
+   The site menu is not touched, and this does not use Quarto's native TOC. */
+.toc-inline {
+  background: #ffffff;
+  border: 1px solid rgba(11, 36, 68, 0.12);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 0 0 30px;
+  max-width: 680px;
+  scroll-margin-top: 40vh;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+}
+.toc-inline .toc-inline-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6d685e;
+  font-weight: 600;
+  margin: 0 0 9px;
+}
+.toc-inline ul { list-style: none; margin: 0; padding: 0; }
+.toc-inline li { margin: 0; }
+.toc-inline a {
+  display: block;
+  padding: 3px 0;
+  color: #0b2444 !important;
+  text-decoration: none;
+  font-size: 13.5px;
+  line-height: 1.35;
+}
+.toc-inline a:hover { color: #ed008c !important; }
+.toc-backtop {
+  font-size: 11px;
+  vertical-align: super;
+  margin-left: 2px;
+  line-height: 0;
+  color: #6d685e !important;
+  text-decoration: none;
+  opacity: 0.3;
+  font-weight: 400;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+main#quarto-document-content h2:hover .toc-backtop { opacity: 0.75; }
+.toc-backtop:hover { opacity: 1; color: #ed008c !important; }
+main#quarto-document-content section[id] { scroll-margin-top: 16px; }

@@ -1,0 +1,62 @@
+###############################
+filename: pub_rarity_vinps_analysis_dataset.csv
+date: 2026-07-04 17:38:50.276942
+description: Analysis-ready VINPS dataset: group-by-site-by-year mean cover with year index and log10 cover.
+###############################
+
+column names:
+category Reproductive_mode year site perccover yearind perccoverLog
+
+column: category
+description: commonness class (Common or Rare)
+Data Type: factor
+Unique Values: (showing all 2 entries)
+   Common
+   Rare
+
+column: Reproductive_mode
+description: reproductive mode (Broadcaster or Brooder)
+Data Type: factor
+Unique Values: (showing all 2 entries)
+   Broadcaster
+   Brooder
+
+column: year
+description: survey year
+Data Type: integer
+Mean: 2011.93848857645
+Min: 2001
+Max: 2023
+
+column: site
+description: reef site name
+Data Type: character
+Unique Values: (showing all 7 entries)
+   BUIS-Western Spur and Groove
+   VIIS-Mennebeck
+   VIIS-Newfound
+   VIIS-Yawzi
+   BUIS-South Fore Reef
+   VIIS-Haulover
+   VIIS-Tektite
+
+column: perccover
+description: group mean percent cover at the site-year
+Data Type: numeric
+Mean: 0.529966796308426
+Min: 0.00172413793103448
+Max: 4.7660326469559
+
+column: yearind
+description: year index (0 at the first year)
+Data Type: integer
+Mean: 10.9384885764499
+Min: 0
+Max: 22
+
+column: perccoverLog
+description: log10 of group mean percent cover
+Data Type: numeric
+Mean: -0.681644346204103
+Min: -2.76342799356294
+Max: 0.678157012904318

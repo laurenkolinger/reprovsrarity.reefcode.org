@@ -1,0 +1,72 @@
+###############################
+filename: pub_rarity_csun_coralGenera_1992_2023.csv
+date: 2026-07-04 17:38:56.564303
+description: Publication-ready genus-level CSUN coral cover, scoped to CSUN sites off St. John 1992-2023. One row per observation.
+###############################
+
+column names:
+year program site period coralGenera perccover
+
+column: year
+description: survey year
+Data Type: integer
+Mean: 2007.70742358079
+Min: 1992
+Max: 2023
+
+column: program
+description: monitoring program (CSUN)
+Data Type: character
+Unique Values: (showing all 1 entries)
+   CSUN
+
+column: site
+description: reef site name
+Data Type: character
+Unique Values: (showing all 7 entries)
+   Cabritte Horn
+   East Tektite
+   Europa Bay
+   West Little Lameshur
+   White Point
+   Yawzi
+   Tektite
+
+column: period
+description: survey period
+Data Type: character
+Unique Values: (showing all 1 entries)
+   NA
+
+column: coralGenera
+description: coral genus
+Data Type: character
+Unique Values: (showing all 21 entries)
+   Dendrogyra
+   Acropora
+   Orbicella
+   Scolymia
+   Porites
+   Mussa
+   Madracis
+   Helioseris
+   Solenastrea
+   Stephanocoenia
+   Siderastrea
+   Montastraea
+   Meandrina
+   Favia
+   Eusmilia
+   Diploria
+   Dichocoenia
+   Colpophyllia
+   Manicina
+   Agaricia
+   Isophyllia
+
+column: perccover
+description: percent cover of the genus at the site-year
+Data Type: numeric
+Mean: 0.442717579706669
+Min: 0
+Max: 45.19

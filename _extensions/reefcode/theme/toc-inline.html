@@ -1,0 +1,62 @@
+<!-- Inline "On this page" contents + back-to-contents arrows.
+     Loaded via include-after-body ALONGSIDE the menu's after.html; this file does not touch the
+     menu. It builds a contents list from the page's section headings at runtime, and adds a small
+     superscript up-arrow after every heading except the first, linking back to the contents box.
+     Client-side only, non-menu; it does not use Quarto's native TOC (which head.html hides). -->
+<script>
+(function () {
+  function build() {
+    if (document.getElementById('toc-inline')) return;               // idempotent
+    var main = document.querySelector('main#quarto-document-content')
+            || document.querySelector('main.content')
+            || document.querySelector('main') || document.body;
+    if (!main) return;
+    // Section headings, at whichever level the page uses (some pages head sections with #, some
+    // with ##). Take the heading that directly heads a <section id="...">, and never the native
+    // (hidden) TOC or our own box.
+    var heads = Array.prototype.slice.call(main.querySelectorAll('section[id] > h1, section[id] > h2'))
+      .filter(function (h) {
+        return !h.closest('.toc-inline') && !h.closest('#TOC') && !h.closest('nav[role="doc-toc"]');
+      });
+    if (heads.length < 2) return;                                    // no contents on short pages
+
+    var nav = document.createElement('nav');
+    nav.className = 'toc-inline';
+    nav.id = 'toc-inline';
+    nav.setAttribute('aria-label', 'On this page');
+    var title = document.createElement('div');
+    title.className = 'toc-inline-title';
+    title.textContent = 'On this page';
+    nav.appendChild(title);
+
+    var ul = document.createElement('ul');
+    heads.forEach(function (h, i) {
+      var sec = h.closest('section[id]');
+      var id = (sec && sec.id) || h.id;
+      if (!id) { id = 'toc-sec-' + i; (sec || h).id = id; }
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = (h.textContent || '').trim();
+      if (h.querySelector('strong, b')) a.style.fontWeight = '700';  // bold TOC entry for bold-authored headings
+      li.appendChild(a);
+      ul.appendChild(li);
+      if (i > 0) {                                                   // no arrow on the first heading
+        var bt = document.createElement('a');
+        bt.className = 'toc-backtop';
+        bt.href = '#toc-inline';
+        bt.title = 'Back to contents';
+        bt.setAttribute('aria-label', 'Back to contents');
+        bt.textContent = '↑';
+        h.appendChild(bt);
+      }
+    });
+    nav.appendChild(ul);
+
+    var firstSec = heads[0].closest('section') || heads[0];
+    firstSec.parentNode.insertBefore(nav, firstSec);                 // contents box before the first section
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
+</script>

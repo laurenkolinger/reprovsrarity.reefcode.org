@@ -1,0 +1,62 @@
+<!--
+Per-page provenance footer (the versioning / metadata standard).
+
+Include it at the very bottom of a page, AFTER _preamble.qmd has been included (it uses `maxyear`),
+with a Quarto include shortcode pointing at this file. Use a "../../" prefix from a 2-deep page such
+as qmd/1_about, and "../../../" from a 3-deep page such as qmd/7_publications/rarity. (The literal
+shortcode is not written here: Quarto's include parser scans HTML comments too, so an example include
+inside this comment would make the footer recursively include itself.)
+
+It renders one muted line: the page version (front-matter `page-version`), the file's last git
+commit and date, the page status, and the embargo data-window. The git commit is read from the
+file itself, so the page view, the git history, and the metadata never drift apart.
+
+Add this version block to a page's YAML front matter to populate the version/status fields:
+
+    page-version: "1.0.0"      # semver: data-recut = minor, prose/fix = patch, restructure = major
+    page-status: "published"   # draft | in-review | published | embargoed
+    data-window: "<=2024-12-31"
+
+Rollout note: adding this include changes a page's source, so that page recomputes on the next
+render. Do NOT add it to a page that cannot render from scratch (see the handoff's list) until that
+page is fixed, or the render will fail. It is applied to the rarity section as the exemplar.
+-->
+
+```{r}
+#| echo: false
+#| output: asis
+#| warning: false
+#| message: false
+.this <- tryCatch(knitr::current_input(dir = TRUE), error = function(e) NA_character_)
+.git  <- if (!is.na(.this)) tryCatch({
+  # Two calls with single-token formats: system2 does not quote an arg that contains a
+  # space/parens, so "--format=%h (%cs)" was split into bad args (git exited status 2).
+  .h <- paste(system2("git", c("log", "-1", "--format=%h", "--", .this), stdout = TRUE), collapse = "")
+  .d <- paste(system2("git", c("log", "-1", "--format=%cs", "--", .this), stdout = TRUE), collapse = "")
+  if (nzchar(.h)) paste0(.h, if (nzchar(.d)) paste0(" (", .d, ")") else "") else ""
+}, error = function(e) "") else ""
+.ver  <- tryCatch(rmarkdown::metadata[["page-version"]], error = function(e) NULL)
+.stat <- tryCatch(rmarkdown::metadata[["page-status"]],  error = function(e) NULL)
+.dw   <- tryCatch(rmarkdown::metadata[["data-window"]],  error = function(e) NULL)
+# Use HTML entities for the non-ASCII glyphs: R's render locale escapes a literal U+2264/U+2022
+# to "<U+2264>"/"<U+2022>" mojibake, but ASCII "&#8804;"/"&#8226;" pass through output:asis intact.
+.win  <- if (!is.null(.dw)) paste0("data ", gsub(intToUtf8(0x2264), "&#8804;", as.character(.dw), fixed = TRUE)) else if (exists("maxyear")) paste0("data &#8804; ", maxyear) else NULL
+.bits <- c(
+  if (!is.null(.ver))  paste0("version ", .ver),
+  if (nzchar(.git))    paste0("updated ", .git),
+  if (!is.null(.stat)) as.character(.stat),
+  .win
+)
+if (length(.bits))
+  cat("\n\n---\n\n::: {style=\"font-size:0.8rem; color:#6d685e; font-family:monospace;\"}\n",
+      paste(.bits, collapse = " &#8226; "), "\n:::\n", sep = "")
+
+# Code-download: offer this page's own .qmd source (a small text file, so embedding is fine).
+# The .qmd sits in the page's own directory, so downloadthis resolves the bare basename.
+.src <- if (!is.na(.this)) basename(.this) else NULL
+if (!is.null(.src)) {
+  .btn <- paste0("{{< downloadthis `r '", .src, "'` dname='", .src,
+                 "' label='download this page (.qmd source)' type='light' >}}")
+  cat("\n", knitr::knit_child(text = .btn, quiet = TRUE), "\n", sep = "")
+}
+```

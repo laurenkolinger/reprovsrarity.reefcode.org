@@ -1,0 +1,27 @@
+###############################
+# RAW DATA METADATA
+###############################
+File (in retrofit):   reproMode_coralGenera_commonRare_Edmunds.csv
+Original file name:   EDMUNDS_Common_Rare_LH_contrast_LO.csv
+Ported into retrofit: 2026-06-28 (copied read-only from DataMetadata_TOEDIT, byte-identical; checksum verified)
+Source:               Derived from the Edmunds (CSUN) St. John long-term dataset; common/rare and life-history contrast table (LO).
+Description:          Per-genus life-history strategy (Brooder/Broadcaster), baseline mean cover and SE, relative and cumulative relative mean, and common/rare mode classification. Used to assign genus-level reproductive mode and commonness for the CSUN analysis.
+Programs:             CSUN
+Sites:                n/a
+Year range:           n/a
+Rows x Cols:          19 x 7
+Imported by:          03_csun_analysis.qmd, 06_additional_stats.qmd
+
+COLUMN DEFINITIONS
+------------------------
+LH Strategy: life-history strategy  [character; Brooder or Broadcaster]
+Genus: coral genus name  [character]
+Mean: baseline mean percent cover  [numeric; %]
+SE: standard error of baseline mean cover  [numeric; %]
+Rel Mean: relative mean cover as a percent of total  [numeric; %]
+Cum_Rel: cumulative relative mean cover  [numeric; %]
+Mode: commonness classification  [character; Common or Rare]
+
+NOTES
+------------------------
+Drives the CSUN genus-level reproductive-mode and commonness assignment. Derived from Edmunds long-term monitoring data at St. John sites.

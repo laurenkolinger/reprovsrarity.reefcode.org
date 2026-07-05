@@ -1,0 +1,15 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - qmd/00_overview.qmd
+
+website:
+  title: "Reproductive mode and rarity"
+
+format:
+  reefcode-html:
+    include-before-body: _nav.html
+
+execute:
+  freeze: auto

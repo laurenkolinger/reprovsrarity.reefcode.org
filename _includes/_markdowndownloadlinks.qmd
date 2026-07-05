@@ -1,0 +1,56 @@
+```{r}
+#| echo: false
+#| include: false
+
+# Generate download links for the CSV and its metadata.
+#
+# downloadthis base64-embeds the file into the self-contained HTML. That is convenient for small
+# products but a 40 MB CSV becomes ~55 MB of inline base64, which bloats a single page past the
+# size that breaks the GitHub Pages deploy (the syncing_files failure). So: embed small files
+# (self-contained, works offline), but LINK large files to the repository instead. Metadata .txt
+# files are always small, so they are always embedded.
+.repo_raw   <- "https://raw.githubusercontent.com/laurenkolinger/VIRRScore/main/outputs/"
+.embed_max  <- 5 * 1024^2  # 5 MB threshold
+.csv_name   <- gsub("/", "", gsub(subfoldername, "", output_files$csv_filename))
+.csv_size   <- if (file.exists(output_files$csv_filename)) file.size(output_files$csv_filename) else 0
+
+if (.csv_size > .embed_max) {
+  csv_download_link <- paste0(
+    "[download ", .csv_name, " (", round(.csv_size / 1024^2), " MB) from the repository](",
+    .repo_raw, .csv_name, ")"
+  )
+} else {
+  csv_download_link <- paste0(
+    "{{< downloadthis `r '", output_files$csv_filename,
+    "'` dname='", .csv_name, "' label='download ", .csv_name, "' >}}"
+  )
+}
+metadata_download_link <- paste0(
+  "{{< downloadthis `r '",
+  output_files$metadata_filename,
+  "'` dname='",
+  gsub("/", "", gsub(subfoldername, '', output_files$metadata_filename)),
+  "' label='download metadata' >}}"
+)
+# code-download: the page's own .qmd source (a small text file, so it is always embedded).
+.qmd_src <- tryCatch(knitr::current_input(), error = function(e) NULL)
+qmd_download_link <- if (!is.null(.qmd_src) && file.exists(.qmd_src)) {
+  paste0("{{< downloadthis `r '", .qmd_src, "'` dname='", .qmd_src,
+         "' label='download page source (.qmd)' icon='file-earmark-code' type='light' >}}")
+} else ""
+```
+
+
+```{r}
+#| output: asis
+#| echo: false
+# make this print in qmd output as regular out of markdown text
+m <- knitr::knit_child(text = c(csv_download_link,
+                                "",
+                                metadata_download_link,
+                                "",
+                                qmd_download_link), envir = environment(), quiet = TRUE)
+cat(m)
+```
+
+

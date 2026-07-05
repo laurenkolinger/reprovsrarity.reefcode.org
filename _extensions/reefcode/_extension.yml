@@ -1,0 +1,23 @@
+title: Reef Code theme
+author: Lauren Olinger
+version: 1.0.0
+contributes:
+  format:
+    html:
+      theme: [cosmo, theme/custom.scss]
+      include-in-header: theme/head.html
+      include-after-body:
+        - theme/after.html
+        - theme/toc-inline.html
+      page-layout: full
+      anchor-sections: false
+      grid: { body-width: 1180px }
+      fontcolor: "#0b2444"
+      linkcolor: "#ed008c"
+      backgroundcolor: "#f1ede4"
+      monobackgroundcolor: "#e9ebe3"
+      monofont: "JetBrains Mono"
+      fontsize: 1.1rem
+      toc: false
+      code-fold: true
+      code-summary: "Show code"
