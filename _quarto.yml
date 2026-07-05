@@ -13,6 +13,7 @@ project:
     - qmd/updated/03_vinps.qmd
     - qmd/updated/04_csun.qmd
     - qmd/updated/05_octocoral.qmd
+    - qmd/06_interactive.qmd
 
 website:
   title: "Reproductive mode and rarity"
