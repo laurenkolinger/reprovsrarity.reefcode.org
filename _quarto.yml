@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - CNAME
   render:
     - qmd/00_overview.qmd
     - qmd/aspublished/02_tcrmp.qmd
