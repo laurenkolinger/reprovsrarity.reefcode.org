@@ -4,7 +4,7 @@ subtitle: "Virgin Islands National Park Service, species level, 2001 to present"
 ---
 
 
-<p class="rc-vtoggle" style="display:inline-flex;align-items:stretch;border:1px solid #cfc8b9;border-radius:999px;overflow:hidden;font-size:.82rem;margin:.2rem 0 1.1rem;font-family:'Space Grotesk',system-ui,sans-serif">
+<p class="rc-vtoggle" style="display:flex;width:fit-content;align-items:stretch;border:1px solid #cfc8b9;border-radius:999px;overflow:hidden;font-size:.82rem;margin:.5rem auto 1.2rem;font-family:'Space Grotesk',system-ui,sans-serif">
 <a href="../aspublished/03_vinps.html" style="padding:5px 16px;color:#0b2444;text-decoration:none">&#8592; As published</a>
 <span style="padding:5px 16px;background:#0b2444;color:#fff;font-weight:600">Updated since publication</span>
 </p>

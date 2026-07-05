@@ -1,3 +1,4 @@
 reefcode-home: "https://reefcode.org"
 data-source-species: "https://reefcode.org/qmd/2_benthiccover/05_coral_species.html"
 data-source-genera: "https://reefcode.org/qmd/2_benthiccover/04_coral_genera.html"
+pub-bleaching: "https://bleaching.reefcode.org"

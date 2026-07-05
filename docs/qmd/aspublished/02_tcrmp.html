@@ -212,11 +212,21 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 .rn-item.rn-ph > a{ color:#586582; cursor:default; }
 .rn-item.rn-ph:hover > a{ color:#6b7896; }
 
+/* two-row Output items: a title over a small italic author/status byline, centered */
+.rn-item.rn-two > a, .rn-item.rn-two > span{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:1px; line-height:1.18; }
+.rn-item.rn-two .rn-t{ font-weight:600; }
+.rn-item.rn-two .rn-byline{ font-size:.70rem; font-weight:400; font-style:italic; color:#586582; }
+.rn-item.rn-two:hover > a .rn-byline{ color:#8b96b0; }
+.rn-item.rn-ph > span{ color:#586582; cursor:default; }   /* non-clickable output item (not a link) */
+
 @media (max-width:820px){
   .rn-inner{ grid-template-columns:1fr; justify-items:center; min-height:0; padding-top:12px; }
   .rn-brand{ padding:2px 0 8px; }
-  .rn-main{ flex-wrap:wrap; gap:16px; padding-bottom:12px; }
-  .rn-row{ flex-wrap:wrap; gap:16px; padding:8px var(--gut); }
+  .rn-main{ flex-direction:column; gap:12px; padding-bottom:12px; }
+  .rn-row{ flex-direction:column; gap:16px; padding:14px var(--gut); }
+  .rn-item{ padding:6px 0; }
+  .rn-pop{ position:static; transform:none; box-shadow:none; min-width:0; border-top:none; padding:2px 0; }
+  .rn-pop a{ text-align:center; padding:5px 0; }
   main#quarto-document-content.content > :not(:first-child){ padding-left:22px; padding-right:22px; }
 }
 </style>
@@ -243,7 +253,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
     <nav class="rn-main" aria-label="Main navigation">
       <a href="https://reefcode.org/qmd/1_about/01_about_website.html" data-sec="about">About</a>
       <a href="https://reefcode.org/qmd/2_benthiccover/00_about.html" data-sec="analyses">Analyses</a>
-      <a href="https://reefcode.org/qmd/7_publications/index.html" data-sec="publications">Publications</a>
+      <a href="https://reefcode.org/qmd/7_publications/index.html" data-sec="publications">Outputs</a>
     </nav>
     <span aria-hidden="true"></span>
   </div>
@@ -322,11 +332,11 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
     </div>
   </div>
 
-  <!-- PUBLICATIONS: this is the Reproductive Mode & Rarity publication site. The heading and
-       dropdown items are local; Publication two/three are placeholders on the main landing page. -->
+  <!-- OUTPUTS: on this pub, Reproductive Mode & Rarity is local (this site); the other outputs
+       link out to their own subdomains (see _variables.yml) or are not-yet-clickable placeholders. -->
   <div class="rn-row" data-sec="publications">
-    <div class="rn-item">
-      <a href="qmd/00_overview.html">Reproductive Mode &amp; Rarity</a>
+    <div class="rn-item rn-two">
+      <a href="qmd/00_overview.html"><span class="rn-t">Reproductive Mode &amp; Rarity</span><span class="rn-byline">Olinger et al., In Review</span></a>
       <div class="rn-pop">
         <a href="qmd/00_overview.html">Overview</a>
         <a href="qmd/aspublished/02_tcrmp.html">TCRMP</a>
@@ -336,8 +346,15 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
         <a href="qmd/06_interactive.html">Interactive</a>
       </div>
     </div>
-    <div class="rn-item rn-ph"><a href="https://reefcode.org/qmd/7_publications/index.html">Publication two</a></div>
-    <div class="rn-item rn-ph"><a href="https://reefcode.org/qmd/7_publications/index.html">Publication three</a></div>
+    <div class="rn-item rn-two">
+      <a href="https://bleaching.reefcode.org" target="_blank" rel="noopener"><span class="rn-t">2023, 2024 Bleaching Event</span><span class="rn-byline">Olinger et al. In Prep</span></a>
+    </div>
+    <div class="rn-item rn-two rn-ph">
+      <span><span class="rn-t">VI Reef Resilience Study</span><span class="rn-byline">Olinger et al. Coming Soon</span></span>
+    </div>
+    <div class="rn-item rn-two rn-ph">
+      <span><span class="rn-t">(Any Others?)</span><span class="rn-byline">co-author suggestions welcome</span></span>
+    </div>
   </div>
 </div>
 </header>
@@ -362,7 +379,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 </header>
 
 
-<p class="rc-vtoggle" style="display:inline-flex;align-items:stretch;border:1px solid #cfc8b9;border-radius:999px;overflow:hidden;font-size:.82rem;margin:.2rem 0 1.1rem;font-family:'Space Grotesk',system-ui,sans-serif">
+<p class="rc-vtoggle" style="display:flex;width:fit-content;align-items:stretch;border:1px solid #cfc8b9;border-radius:999px;overflow:hidden;font-size:.82rem;margin:.5rem auto 1.2rem;font-family:'Space Grotesk',system-ui,sans-serif">
 <span style="padding:5px 16px;background:#0b2444;color:#fff;font-weight:600">As published</span> <a href="../updated/02_tcrmp.html" style="padding:5px 16px;color:#0b2444;text-decoration:none">Updated since publication →</a>
 </p>
 <blockquote class="blockquote">
