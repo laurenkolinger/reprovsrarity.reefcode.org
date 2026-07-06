@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-07-04">
+<meta name="dcterms.date" content="2026-07-05">
 
 <title>5. Octocorals (updated since publication) – Reproductive mode and rarity</title>
 <style>
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6d1693bc59648c12b579535a39745dca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4a3064004ac49747bc3d46dc1a1ff472.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1ea299fc2d8b8a5487cbfcd59052b886.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -384,7 +384,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 4, 2026</p>
+      <p class="date">July 5, 2026</p>
     </div>
   </div>
   
@@ -412,7 +412,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 <summary>Set the parameters for this version: open the range to the full bundled record</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>octo_years <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"../../data/collab/octocoral_adultSurveys_Lasker_20250409.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)[[<span class="st">"Census Year"</span>]]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>max_year <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">floor</span>(<span class="fu">as.numeric</span>(octo_years)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, max_year); program <span class="ot">&lt;-</span> <span class="st">"octocoral"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"species"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2014</span>, max_year); program <span class="ot">&lt;-</span> <span class="st">"octocoral"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"species"</span>; version <span class="ot">&lt;-</span> <span class="st">"updated"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
@@ -554,8 +554,8 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-  Rare common 
-    20     19 </code></pre>
+common   Rare 
+    19     20 </code></pre>
 </div>
 </div>
 </section>
@@ -711,10 +711,10 @@ Figure&nbsp;1: Octocorals. Left: baseline abundance distribution, species ranked
 <summary>Step 12 code: format the coefficient table and the group slopes</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>term_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"(Intercept)"</span> <span class="ot">=</span> <span class="st">"Intercept"</span>, <span class="st">"yearind"</span> <span class="ot">=</span> <span class="st">"Year"</span>,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare"</span> <span class="ot">=</span> <span class="st">"Category (rare)"</span>, <span class="st">"reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Repro. mode (brooder)"</span>,</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare"</span> <span class="ot">=</span> <span class="st">"Year x Category"</span>, <span class="st">"yearind:reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Year x Repro. mode"</span>,</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare:reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Category x Repro. mode"</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare:reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Year x Category x Repro. mode"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare"</span> <span class="ot">=</span> <span class="st">"Rarity"</span>, <span class="st">"reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Repro. mode (brooder)"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare"</span> <span class="ot">=</span> <span class="st">"Year x Rarity"</span>, <span class="st">"yearind:reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Year x Repro. mode"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare:reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Rarity x Repro. mode"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare:reproductive_modebrooder"</span> <span class="ot">=</span> <span class="st">"Year x Rarity x Repro. mode"</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>coef_tbl <span class="ot">&lt;-</span> coef_robust <span class="sc">|&gt;</span></span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">Predictor =</span> term_labels[term],</span>
@@ -754,7 +754,7 @@ Table&nbsp;1: Octocoral model coefficients with HC3 robust standard errors (log1
 <td style="text-align: right;">0.550</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; font-weight: bold;">Category (rare)</td>
+<td style="text-align: left; font-weight: bold;">Rarity</td>
 <td style="text-align: right; font-weight: bold;">-0.843 (0.079)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
@@ -764,7 +764,7 @@ Table&nbsp;1: Octocoral model coefficients with HC3 robust standard errors (log1
 <td style="text-align: right;">0.582</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Year x Category</td>
+<td style="text-align: left;">Year x Rarity</td>
 <td style="text-align: right;">0.000 (0.013)</td>
 <td style="text-align: right;">0.986</td>
 </tr>
@@ -774,12 +774,12 @@ Table&nbsp;1: Octocoral model coefficients with HC3 robust standard errors (log1
 <td style="text-align: right;">0.981</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Category x Repro. mode</td>
+<td style="text-align: left;">Rarity x Repro. mode</td>
 <td style="text-align: right;">0.074 (0.147)</td>
 <td style="text-align: right;">0.618</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Year x Category x Repro. mode</td>
+<td style="text-align: left;">Year x Rarity x Repro. mode</td>
 <td style="text-align: right;">-0.003 (0.024)</td>
 <td style="text-align: right;">0.901</td>
 </tr>
@@ -852,6 +852,28 @@ Table&nbsp;2: Group-specific temporal slopes (octocorals), with robust SEs and a
 </div>
 </div>
 </figure>
+</div>
+</div>
+</section>
+<section id="step-13-save-the-analysis-objects" class="level2">
+<h2 data-anchor-id="step-13-save-the-analysis-objects">Step 13 — Save the analysis objects</h2>
+<p>The octocoral analysis keeps the same abundance table it already builds above. Like the coral programs, it now also writes its analysis objects to a timestamped RData file under <code>data/rdata/</code>, tagged with the program and the version (as published or updated) so the two ranges never overwrite each other. The manuscript-values page reads the octocoral study window and the octocoral group slopes from this saved file.</p>
+</section>
+<section id="step-14-si-figure-model-diagnostics" class="level2">
+<h2 data-anchor-id="step-14-si-figure-model-diagnostics">Step 14 — SI figure: model diagnostics</h2>
+<p>The octocoral coefficient table uses the same HC3 robust standard errors as the coral programs. These diagnostic panels show the residual structure that motivates them: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Step 14 code: model diagnostics from the fitted model</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_diagnostics_plot</span>(model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="05_octocoral_files/figure-html/sfig-octo-diagnostics-1.png" class="img-fluid figure-img" width="1056"></p>
+<figcaption>Octocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 

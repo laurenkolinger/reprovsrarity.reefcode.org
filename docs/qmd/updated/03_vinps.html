@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-07-04">
+<meta name="dcterms.date" content="2026-07-05">
 
 <title>3. VINPS (updated since publication) – Reproductive mode and rarity</title>
 <style>
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6d1693bc59648c12b579535a39745dca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4a3064004ac49747bc3d46dc1a1ff472.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1ea299fc2d8b8a5487cbfcd59052b886.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -384,7 +384,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 4, 2026</p>
+      <p class="date">July 5, 2026</p>
     </div>
   </div>
   
@@ -412,7 +412,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 <summary>Set the parameters for this version: open the range to the full bundled record</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cover_files <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(<span class="st">"../../data/cover"</span>, <span class="at">pattern =</span> <span class="st">"s2pt5.*</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>max_year <span class="ot">&lt;-</span> <span class="fu">max</span>(readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="fu">tail</span>(cover_files, <span class="dv">1</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>year)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2001</span>, max_year); program <span class="ot">&lt;-</span> <span class="st">"VINPS"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"species"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pub_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2001</span>, max_year); program <span class="ot">&lt;-</span> <span class="st">"VINPS"</span>; taxon_level <span class="ot">&lt;-</span> <span class="st">"species"</span>; version <span class="ot">&lt;-</span> <span class="st">"updated"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
@@ -526,24 +526,26 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 <div class="cell">
 <details class="code-fold">
 <summary>Step 3 code: keep baseline-present species and in-range sites</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>spp_in_baseline <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>species_yeargroup_observed <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralSpecies, year_group) <span class="sc">|&gt;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">seen =</span> <span class="fu">max</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen, year_group <span class="sc">==</span> earliest_year_group) <span class="sc">|&gt;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(coralSpecies) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span> <span class="fu">filter</span>(coralSpecies <span class="sc">%in%</span> spp_in_baseline)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>in_range <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralSpecies, site) <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">seen =</span> <span class="fu">max</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">paste</span>(coralSpecies, site))</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">paste</span>(coralSpecies, site) <span class="sc">%in%</span> in_range<span class="sc">$</span>key)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_group, coralSpecies, year, site) <span class="sc">|&gt;</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">perccover =</span> <span class="fu">mean</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(benthiccover), <span class="at">species =</span> <span class="fu">n_distinct</span>(benthiccover<span class="sc">$</span>coralSpecies))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>spp_in_baseline <span class="ot">&lt;-</span> species_yeargroup_observed <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year_group <span class="sc">==</span> earliest_year_group) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(coralSpecies) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span> <span class="fu">filter</span>(coralSpecies <span class="sc">%in%</span> spp_in_baseline)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>in_range <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(coralSpecies, site) <span class="sc">|&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">seen =</span> <span class="fu">max</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seen) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">paste</span>(coralSpecies, site))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">paste</span>(coralSpecies, site) <span class="sc">%in%</span> in_range<span class="sc">$</span>key)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>benthiccover <span class="ot">&lt;-</span> benthiccover <span class="sc">|&gt;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year_group, coralSpecies, year, site) <span class="sc">|&gt;</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">perccover =</span> <span class="fu">mean</span>(perccover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(benthiccover), <span class="at">species =</span> <span class="fu">n_distinct</span>(benthiccover<span class="sc">$</span>coralSpecies))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   rows species 
@@ -733,10 +735,10 @@ Figure&nbsp;1: VINPS. Left: baseline abundance distribution, species ranked by m
 <summary>Step 12 code: format the coefficient table and the group slopes</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>term_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"(Intercept)"</span> <span class="ot">=</span> <span class="st">"Intercept"</span>, <span class="st">"yearind"</span> <span class="ot">=</span> <span class="st">"Year"</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare"</span> <span class="ot">=</span> <span class="st">"Category (rare)"</span>, <span class="st">"Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Repro. mode (brooder)"</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare"</span> <span class="ot">=</span> <span class="st">"Year x Category"</span>, <span class="st">"yearind:Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Year x Repro. mode"</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare:Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Category x Repro. mode"</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare:Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Year x Category x Repro. mode"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare"</span> <span class="ot">=</span> <span class="st">"Rarity"</span>, <span class="st">"Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Repro. mode (brooder)"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare"</span> <span class="ot">=</span> <span class="st">"Year x Rarity"</span>, <span class="st">"yearind:Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Year x Repro. mode"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"categoryRare:Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Rarity x Repro. mode"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"yearind:categoryRare:Reproductive_modeBrooder"</span> <span class="ot">=</span> <span class="st">"Year x Rarity x Repro. mode"</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>coef_tbl <span class="ot">&lt;-</span> coef_robust <span class="sc">|&gt;</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">Predictor =</span> term_labels[term],</span>
@@ -776,7 +778,7 @@ Table&nbsp;1: Table 1 (VINPS). Linear-model coefficients with HC3 robust standar
 <td style="text-align: right; font-weight: bold;">0.002</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; font-weight: bold;">Category (rare)</td>
+<td style="text-align: left; font-weight: bold;">Rarity</td>
 <td style="text-align: right; font-weight: bold;">-1.063 (0.076)</td>
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
@@ -786,7 +788,7 @@ Table&nbsp;1: Table 1 (VINPS). Linear-model coefficients with HC3 robust standar
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Year x Category</td>
+<td style="text-align: left;">Year x Rarity</td>
 <td style="text-align: right;">0.002 (0.006)</td>
 <td style="text-align: right;">0.686</td>
 </tr>
@@ -796,12 +798,12 @@ Table&nbsp;1: Table 1 (VINPS). Linear-model coefficients with HC3 robust standar
 <td style="text-align: right; font-weight: bold;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Category x Repro. mode</td>
+<td style="text-align: left;">Rarity x Repro. mode</td>
 <td style="text-align: right;">-0.021 (0.113)</td>
 <td style="text-align: right;">0.854</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; font-weight: bold;">Year x Category x Repro. mode</td>
+<td style="text-align: left; font-weight: bold;">Year x Rarity x Repro. mode</td>
 <td style="text-align: right; font-weight: bold;">-0.025 (0.008)</td>
 <td style="text-align: right; font-weight: bold;">0.003</td>
 </tr>
@@ -874,6 +876,558 @@ Table&nbsp;2: Group-specific temporal slopes (VINPS), with robust SEs and annual
 </div>
 </div>
 </figure>
+</div>
+</div>
+</section>
+<section id="step-13-table-full-descriptive-statistics-per-species" class="level2">
+<h2 data-anchor-id="step-13-table-full-descriptive-statistics-per-species">Step 13 — Table: full descriptive statistics per species</h2>
+<p>The coefficient table reports the fitted trends. This table steps back to the species themselves and reports, for every taxon in the baseline community, how abundant and how widespread it was at the start of the record and how that changed by the end. Three complementary measures separate the different ways a species can decline. Cover is the mean percent cover across the species range. Occupancy is the proportion of surveyed sites where the species was present, so it tracks range contraction independent of local abundance. Extent is the mean cover at the sites where the species was actually present, so it tracks thinning within the occupied range. A species can hold its occupancy while its extent falls, or contract its range while staying dense where it persists; reporting both separates the two. Start values average over the baseline five-year group, and end values average over the last three years of the record. Occupancy counts a site only from the year it entered monitoring, so the denominator follows the site-by-site survey history rather than assuming every reef was watched from the first year.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Step 13 code: per-species descriptive change-metrics table</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../_includes/_analysis_helpers.R"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>species_table <span class="ot">&lt;-</span> <span class="fu">compute_change_metrics</span>(benthiccover, baseline, sitedat, earliest_year_group, <span class="st">"coralSpecies"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>.end_yrs <span class="ot">&lt;-</span> (<span class="fu">max</span>(benthiccover<span class="sc">$</span>year) <span class="sc">-</span> <span class="dv">2</span>)<span class="sc">:</span><span class="fu">max</span>(benthiccover<span class="sc">$</span>year)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>.desc_tbl <span class="ot">&lt;-</span> species_table <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(rank_start) <span class="sc">|&gt;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Species =</span> taxon,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Repro. mode</span><span class="st">`</span> <span class="ot">=</span> mode,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Commonness =</span> commonness,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start rank</span><span class="st">`</span> <span class="ot">=</span> rank_start,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End rank</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(rank_end), <span class="st">"-"</span>, <span class="fu">as.character</span>(rank_end)),</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start cover (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, cover_start),</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End cover (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(cover_end), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, cover_end)),</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start occ. (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f"</span>, occ_start),</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End occ. (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f"</span>, occ_end),</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start extent (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ext_start), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, ext_start)),</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End extent (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ext_end), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, ext_end)),</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">.common =</span> commonness <span class="sc">==</span> <span class="st">"Common"</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(.desc_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>.common), <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>, <span class="fu">rep</span>(<span class="st">"r"</span>, <span class="dv">8</span>)),</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">sprintf</span>(</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Descriptive statistics for every baseline VINPS species. Start metrics average over the baseline period (%s); end metrics average over the last three years (%d-%d). Cover is mean percent cover across the species range; occupancy is the proportion of surveyed sites where the species was present; extent is the mean cover at sites where present. Common species are shown in bold."</span>,</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>      earliest_year_group, <span class="fu">min</span>(.end_yrs), <span class="fu">max</span>(.end_yrs))) <span class="sc">|&gt;</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">italic =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="fu">which</span>(.desc_tbl<span class="sc">$</span>.common), <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-vinps-descriptive" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vinps-descriptive-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Descriptive statistics for every baseline VINPS species. Start metrics average over the baseline period (2001-2005); end metrics average over the last three years (2022-2024). Cover is mean percent cover across the species range; occupancy is the proportion of surveyed sites where the species was present; extent is the mean cover at sites where present. Common species are shown in bold.
+</figcaption>
+<div aria-describedby="tbl-vinps-descriptive-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Species</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Repro. mode</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Commonness</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Start rank</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">End rank</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Start cover (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">End cover (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Start occ. (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">End occ. (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Start extent (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">End extent (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; font-style: italic; font-weight: bold;">Orbicella annularis</td>
+<td style="text-align: left; font-weight: bold;">Orbicella annularis</td>
+<td style="text-align: left; font-weight: bold;">Broadcaster</td>
+<td style="text-align: left; font-weight: bold;">Common</td>
+<td style="text-align: right; font-weight: bold;">1</td>
+<td style="text-align: right; font-weight: bold;">1</td>
+<td style="text-align: right; font-weight: bold;">6.76</td>
+<td style="text-align: right; font-weight: bold;">1.35</td>
+<td style="text-align: right; font-weight: bold;">100.0</td>
+<td style="text-align: right; font-weight: bold;">71.4</td>
+<td style="text-align: right; font-weight: bold;">6.76</td>
+<td style="text-align: right; font-weight: bold;">1.89</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic; font-weight: bold;">Orbicella franksi</td>
+<td style="text-align: left; font-weight: bold;">Orbicella franksi</td>
+<td style="text-align: left; font-weight: bold;">Broadcaster</td>
+<td style="text-align: left; font-weight: bold;">Common</td>
+<td style="text-align: right; font-weight: bold;">2</td>
+<td style="text-align: right; font-weight: bold;">3</td>
+<td style="text-align: right; font-weight: bold;">1.44</td>
+<td style="text-align: right; font-weight: bold;">0.60</td>
+<td style="text-align: right; font-weight: bold;">73.1</td>
+<td style="text-align: right; font-weight: bold;">66.7</td>
+<td style="text-align: right; font-weight: bold;">1.58</td>
+<td style="text-align: right; font-weight: bold;">0.90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic; font-weight: bold;">Porites porites</td>
+<td style="text-align: left; font-weight: bold;">Porites porites</td>
+<td style="text-align: left; font-weight: bold;">Brooder</td>
+<td style="text-align: left; font-weight: bold;">Common</td>
+<td style="text-align: right; font-weight: bold;">3</td>
+<td style="text-align: right; font-weight: bold;">4</td>
+<td style="text-align: right; font-weight: bold;">0.91</td>
+<td style="text-align: right; font-weight: bold;">0.53</td>
+<td style="text-align: right; font-weight: bold;">84.8</td>
+<td style="text-align: right; font-weight: bold;">71.4</td>
+<td style="text-align: right; font-weight: bold;">1.06</td>
+<td style="text-align: right; font-weight: bold;">0.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic; font-weight: bold;">Montastraea cavernosa</td>
+<td style="text-align: left; font-weight: bold;">Montastraea cavernosa</td>
+<td style="text-align: left; font-weight: bold;">Broadcaster</td>
+<td style="text-align: left; font-weight: bold;">Common</td>
+<td style="text-align: right; font-weight: bold;">4</td>
+<td style="text-align: right; font-weight: bold;">9</td>
+<td style="text-align: right; font-weight: bold;">0.55</td>
+<td style="text-align: right; font-weight: bold;">0.04</td>
+<td style="text-align: right; font-weight: bold;">100.0</td>
+<td style="text-align: right; font-weight: bold;">52.4</td>
+<td style="text-align: right; font-weight: bold;">0.55</td>
+<td style="text-align: right; font-weight: bold;">0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic; font-weight: bold;">Porites astreoides</td>
+<td style="text-align: left; font-weight: bold;">Porites astreoides</td>
+<td style="text-align: left; font-weight: bold;">Brooder</td>
+<td style="text-align: left; font-weight: bold;">Common</td>
+<td style="text-align: right; font-weight: bold;">5</td>
+<td style="text-align: right; font-weight: bold;">2</td>
+<td style="text-align: right; font-weight: bold;">0.54</td>
+<td style="text-align: right; font-weight: bold;">0.83</td>
+<td style="text-align: right; font-weight: bold;">100.0</td>
+<td style="text-align: right; font-weight: bold;">71.4</td>
+<td style="text-align: right; font-weight: bold;">0.54</td>
+<td style="text-align: right; font-weight: bold;">1.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic; font-weight: bold;">Siderastrea siderea</td>
+<td style="text-align: left; font-weight: bold;">Siderastrea siderea</td>
+<td style="text-align: left; font-weight: bold;">Broadcaster</td>
+<td style="text-align: left; font-weight: bold;">Common</td>
+<td style="text-align: right; font-weight: bold;">6</td>
+<td style="text-align: right; font-weight: bold;">5</td>
+<td style="text-align: right; font-weight: bold;">0.46</td>
+<td style="text-align: right; font-weight: bold;">0.16</td>
+<td style="text-align: right; font-weight: bold;">100.0</td>
+<td style="text-align: right; font-weight: bold;">71.4</td>
+<td style="text-align: right; font-weight: bold;">0.46</td>
+<td style="text-align: right; font-weight: bold;">0.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic; font-weight: bold;">Pseudodiploria strigosa</td>
+<td style="text-align: left; font-weight: bold;">Pseudodiploria strigosa</td>
+<td style="text-align: left; font-weight: bold;">Broadcaster</td>
+<td style="text-align: left; font-weight: bold;">Common</td>
+<td style="text-align: right; font-weight: bold;">7</td>
+<td style="text-align: right; font-weight: bold;">10</td>
+<td style="text-align: right; font-weight: bold;">0.36</td>
+<td style="text-align: right; font-weight: bold;">0.02</td>
+<td style="text-align: right; font-weight: bold;">75.5</td>
+<td style="text-align: right; font-weight: bold;">28.6</td>
+<td style="text-align: right; font-weight: bold;">0.48</td>
+<td style="text-align: right; font-weight: bold;">0.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Agaricia agaricites</td>
+<td style="text-align: left;">Agaricia agaricites</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">100.0</td>
+<td style="text-align: right;">61.9</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Orbicella faveolata</td>
+<td style="text-align: left;">Orbicella faveolata</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">60.3</td>
+<td style="text-align: right;">71.4</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Colpophyllia natans</td>
+<td style="text-align: left;">Colpophyllia natans</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">81.5</td>
+<td style="text-align: right;">38.1</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Diploria labyrinthiformis</td>
+<td style="text-align: left;">Diploria labyrinthiformis</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">95.0</td>
+<td style="text-align: right;">23.8</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Dichocoenia stokesii</td>
+<td style="text-align: left;">Dichocoenia stokesii</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">22.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Dendrogyra cylindrus</td>
+<td style="text-align: left;">Dendrogyra cylindrus</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">28.7</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Madracis mirabilis</td>
+<td style="text-align: left;">Madracis mirabilis</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">31.4</td>
+<td style="text-align: right;">23.8</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Acropora cervicornis</td>
+<td style="text-align: left;">Acropora cervicornis</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">15.7</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Meandrina meandrites</td>
+<td style="text-align: left;">Meandrina meandrites</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">34.2</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Stephanocoenia intercepta</td>
+<td style="text-align: left;">Stephanocoenia intercepta</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">36.0</td>
+<td style="text-align: right;">47.6</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Eusmilia fastigiata</td>
+<td style="text-align: left;">Eusmilia fastigiata</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">48.2</td>
+<td style="text-align: right;">14.3</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Mycetophyllia lamarckiana</td>
+<td style="text-align: left;">Mycetophyllia lamarckiana</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Madracis decactis</td>
+<td style="text-align: left;">Madracis decactis</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">23.7</td>
+<td style="text-align: right;">38.1</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Mycetophyllia ferox</td>
+<td style="text-align: left;">Mycetophyllia ferox</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9.7</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Pseudodiploria clivosa</td>
+<td style="text-align: left;">Pseudodiploria clivosa</td>
+<td style="text-align: left;">Broadcaster</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">3.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Favia fragum</td>
+<td style="text-align: left;">Favia fragum</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">18.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Mycetophyllia aliciae</td>
+<td style="text-align: left;">Mycetophyllia aliciae</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">9.5</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Isophyllia sinuosa</td>
+<td style="text-align: left;">Isophyllia sinuosa</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">3.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Porites furcata</td>
+<td style="text-align: left;">Porites furcata</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">8.0</td>
+<td style="text-align: right;">9.5</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Helioseris cucullata</td>
+<td style="text-align: left;">Helioseris cucullata</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">7.3</td>
+<td style="text-align: right;">4.8</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Siderastrea radians</td>
+<td style="text-align: left;">Siderastrea radians</td>
+<td style="text-align: left;">Brooder</td>
+<td style="text-align: left;">Rare</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">2.9</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="step-14-save-the-analysis-objects" class="level2">
+<h2 data-anchor-id="step-14-save-the-analysis-objects">Step 14 — Save the analysis objects</h2>
+<p>The analysis objects are written to a timestamped RData file under <code>data/rdata/</code>, tagged with the program and the version (as published or updated) so the two ranges never overwrite each other. The manuscript-values page loads the most recent file for each program and version and reads every derived number from these saved objects, rather than repeating the computation. The derived CSVs written elsewhere are left unchanged.</p>
+</section>
+<section id="step-15-si-table-taxa-excluded-from-the-trend-analysis" class="level2">
+<h2 data-anchor-id="step-15-si-table-taxa-excluded-from-the-trend-analysis">Step 15 — SI table: taxa excluded from the trend analysis</h2>
+<p>The trend model runs only on species that were part of the baseline community, so that a modeled slope reflects a species present at the outset rather than one that arrived mid-record. Some species were observed at least once during the record but not during the baseline period, or could not be assigned a reproductive mode; those are held out of the trend analysis and listed here with the year each was first observed.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Step 15 code: taxa observed but absent from the baseline community</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>.excl <span class="ot">&lt;-</span> <span class="fu">excluded_taxa_table</span>(species_yeargroup_observed, baseline<span class="sc">$</span>coralSpecies, <span class="st">"coralSpecies"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(.excl, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>),</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">sprintf</span>(<span class="st">"Taxa observed at VINPS but absent from the analyzed baseline community, and therefore excluded from the trend analysis (%d taxa)."</span>, <span class="fu">nrow</span>(.excl))) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">italic =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-vinps-excluded" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vinps-excluded-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Taxa observed at VINPS but absent from the analyzed baseline community, and therefore excluded from the trend analysis (9 taxa).
+</figcaption>
+<div aria-describedby="tbl-vinps-excluded-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Taxon</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Year first observed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Acropora palmata</td>
+<td style="text-align: right;">2006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Agaricia fragilis</td>
+<td style="text-align: right;">2016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Agaricia grahamae</td>
+<td style="text-align: right;">2011</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Agaricia humilis</td>
+<td style="text-align: right;">2011</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Agaricia lamarcki</td>
+<td style="text-align: right;">2006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Agaricia tenuifolia</td>
+<td style="text-align: right;">2011</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Agaricia undata</td>
+<td style="text-align: right;">2011</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-style: italic;">Isopyhyllastrea rigida</td>
+<td style="text-align: right;">2006</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-style: italic;">Scolymia cubensis</td>
+<td style="text-align: right;">2011</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="step-16-si-figure-model-diagnostics" class="level2">
+<h2 data-anchor-id="step-16-si-figure-model-diagnostics">Step 16 — SI figure: model diagnostics</h2>
+<p>The coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Step 16 code: model diagnostics from the fitted model</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_diagnostics_plot</span>(model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_vinps_files/figure-html/sfig-vinps-diagnostics-1.png" class="img-fluid figure-img" width="1056"></p>
+<figcaption>VINPS model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 
