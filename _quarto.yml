@@ -25,6 +25,7 @@ format:
     date: today                     # programmatic "Last updated" stamp, resolved at render
     date-format: "MMMM D, YYYY"
     published-title: "Last updated"
+    fontsize: 1rem                  # repo-level override: notch down from the theme default (1.1rem)
 
 # Shared bibliography and Science CSL (paths relative to the project root). Every page can
 # resolve [@key] citations against these; a References section renders where citations appear.
