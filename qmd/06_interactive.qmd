@@ -1,6 +1,5 @@
 ---
 title: "Conclusions"
-subtitle: "The headline results, and a tool to test the rarity boundary"
 filters:
   - shinylive
 format:
@@ -170,7 +169,7 @@ The app below runs entirely in your browser through shinylive (WebAssembly R). T
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 1600
+#| viewerHeight: 820
 ## file: app.R
 # webR-safe (shinylive) version of the rare/common boundary explorer.
 # Uses only base R + shiny + dplyr (no ggplot2, no flextable): ggplot2's dependency chain

@@ -25,7 +25,10 @@ format:
     date: today                     # programmatic "Last updated" stamp, resolved at render
     date-format: "MMMM D, YYYY"
     published-title: "Last updated"
-    fontsize: 1rem                  # repo-level override: notch down from the theme default (1.1rem)
+    fontsize: 12px                  # repo-level override: smaller body text (theme default ~17.6px)
+    page-layout: article            # centered column (theme default 'full' ran edge-to-edge)
+    grid:
+      body-width: 820px             # narrower content column so the page has real side margin
 
 # Shared bibliography and Science CSL (paths relative to the project root). Every page can
 # resolve [@key] citations against these; a References section renders where citations appear.
