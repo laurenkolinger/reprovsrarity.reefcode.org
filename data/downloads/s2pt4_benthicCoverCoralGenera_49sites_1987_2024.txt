@@ -1,0 +1,173 @@
+###############################
+filename: s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv
+date: 2026-07-04 17:25:44.187032
+description: aggregated surveyed coral species by genera and annual percent cover at 35 sites. The idea to use coral genera is based on coral genera groupings in `csun_random_benthicDat` , resilience of coral genera scored by @vanwoesik2012 , and analyses of coral genera frequency by @longterm_moritz_2021
+###############################
+
+column names:
+year program date site period replicate replicatetype coralGenera perccover pres
+
+column: year
+description: survey year
+Data Type: numeric
+Mean: 2013.29784993456
+Min: 1987
+Max: 2024
+
+column: program
+description: monitoring program
+Data Type: character
+Unique Values: (showing all 3 entries)
+   TCRMP
+   VINPS
+   CSUN
+
+column: date
+description: date of survey
+Data Type: Date
+Date Range: 1987-06-01 to 2024-12-06
+
+column: site
+description: survey site
+Data Type: character
+Unique Values: (showing all 49 entries)
+   Cane Bay
+   Eagle Ray
+   Lang Bank Red Hind FSA
+   Jacks Bay
+   Buck Island STX
+   Salt River West
+   Coculus Rock
+   Magens Bay
+   Sprat Hole
+   Fish Bay
+   Brewers Bay
+   Botany Bay
+   Hind Bank East FSA
+   Castle
+   Grammanik Tiger FSA
+   College Shoal East
+   Mutton Snapper FSA
+   Flat Cay
+   Seahorse Cottage Shoal
+   Great Pond
+   Black Point
+   Savana
+   South Capella
+   Buck Island STT
+   South Water
+   St James
+   Meri Shoal
+   Kings Corner
+   Salt River Deep
+   Lang Bank EEMP
+   Cane Bay Deep
+   Ginsburg Fringe
+   Coral Bay
+   Buck Island STX Deep
+   VIIS-Newfound
+   VIIS-Yawzi
+   VIIS-Mennebeck
+   VIIS-Haulover
+   VIIS-Tektite
+   BUIS-Western Spur and Groove
+   BUIS-South Fore Reef
+   Cabritte Horn
+   East Tektite
+   Europa Bay
+   West Little Lameshur
+   West Tektite
+   White Point
+   Yawzi
+   Tektite
+
+column: period
+description: monitoring period
+Data Type: character
+Unique Values: (showing all 6 entries)
+   Annual
+   PeakBL
+   WS
+   SCTLD
+   PostBL
+   NA
+
+column: replicate
+description: replicate number/identifier
+Data Type: character
+Unique Values: (showing all 20 entries)
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   8
+   9
+   10
+   11
+   12
+   13
+   14
+   15
+   16
+   17
+   18
+   19
+   20
+
+column: replicatetype
+description: type of replicate
+Data Type: character
+Unique Values: (showing all 2 entries)
+   transect
+   site
+
+column: coralGenera
+description: coral genus
+Data Type: character
+Unique Values: (showing all 29 entries)
+   Millepora
+   Dendrogyra
+   Acropora
+   Orbicella
+   Scolymia
+   Porites
+   Mycetophyllia
+   Mussa
+   Madracis
+   Isopyhyllastrea
+   unknown
+   unknown juv.
+   Helioseris
+   Oculina
+   Solenastrea
+   Tubastraea
+   Stephanocoenia
+   Siderastrea
+   Montastraea
+   Meandrina
+   Favia
+   Eusmilia
+   Diploria
+   Dichocoenia
+   Colpophyllia
+   Pseudodiploria
+   Manicina
+   Agaricia
+   Isophyllia
+
+column: perccover
+description: percentage cover of that coral genus
+Data Type: numeric
+Mean: 0.400194128908685
+Min: 0
+Max: 74.23
+
+column: pres
+description: presence/absence of that coral genus
+Data Type: numeric
+Mean: 0.157833477580622
+Min: 0
+Max: 1

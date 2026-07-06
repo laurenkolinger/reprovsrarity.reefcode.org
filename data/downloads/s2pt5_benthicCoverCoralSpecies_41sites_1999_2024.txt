@@ -1,0 +1,177 @@
+###############################
+filename: s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv
+date: 2026-07-04 17:25:56.553361
+description: aggregated surveyed coral species and annual percent cover at TCRMP and VINPS sites. Correction 2026-06-29: VINPS records Undaria agaricites (a synonym of Agaricia agaricites) under taxon code UAGA. The prior benthic-code cross-reference omitted UAGA, so VINPS Agaricia agaricites cover was dropped. We re-dated the cross-reference table to benthicCodes_temp_29Jun2026.csv and mapped Agaricia agaricites to VINPS code UAGA, restoring 1070 VINPS transect-records of this species.
+###############################
+
+column names:
+year program date site period replicate replicatetype coralSpecies perccover pres
+
+column: year
+description: survey year
+Data Type: numeric
+Mean: 2013.45431504245
+Min: 1999
+Max: 2024
+
+column: program
+description: monitoring program
+Data Type: character
+Unique Values: (showing all 2 entries)
+   TCRMP
+   VINPS
+
+column: date
+description: date of survey
+Data Type: Date
+Date Range: 1999-03-23 to 2024-12-06
+
+column: site
+description: survey site
+Data Type: character
+Unique Values: (showing all 41 entries)
+   Cane Bay
+   Eagle Ray
+   Lang Bank Red Hind FSA
+   Jacks Bay
+   Buck Island STX
+   Salt River West
+   Coculus Rock
+   Magens Bay
+   Sprat Hole
+   Fish Bay
+   Brewers Bay
+   Botany Bay
+   Hind Bank East FSA
+   Castle
+   Grammanik Tiger FSA
+   College Shoal East
+   Mutton Snapper FSA
+   Flat Cay
+   Seahorse Cottage Shoal
+   Great Pond
+   Black Point
+   Savana
+   South Capella
+   Buck Island STT
+   South Water
+   St James
+   Meri Shoal
+   Kings Corner
+   Salt River Deep
+   Lang Bank EEMP
+   Cane Bay Deep
+   Ginsburg Fringe
+   Coral Bay
+   Buck Island STX Deep
+   VIIS-Newfound
+   VIIS-Yawzi
+   VIIS-Mennebeck
+   VIIS-Haulover
+   VIIS-Tektite
+   BUIS-Western Spur and Groove
+   BUIS-South Fore Reef
+
+column: period
+description: monitoring period
+Data Type: character
+Unique Values: (showing all 6 entries)
+   Annual
+   PeakBL
+   WS
+   SCTLD
+   PostBL
+   NA
+
+column: replicate
+description: replicate number/identifier
+Data Type: numeric
+Mean: 6.2330503104802
+Min: 1
+Max: 20
+
+column: replicatetype
+description: type of replicate
+Data Type: character
+Unique Values: (showing all 1 entries)
+   transect
+
+column: coralSpecies
+description: coral species
+Data Type: character
+Unique Values: (showing all 61 entries)
+   Millepora alcicornis
+   Millepora complanata
+   Millepora squarrosa
+   Dendrogyra cylindrus
+   Acropora cervicornis
+   Acropora palmata
+   Acropora prolifera
+   Orbicella faveolata
+   Orbicella franksii
+   Orbicella species complex
+   Scolymia lacera
+   Scolymia cubensis
+   Scolymia spp.
+   Porites branneri
+   Mycetophyllia aliciae
+   Mycetophyllia daniana
+   Mycetophyllia lamarckiana
+   Mycetophyllia spp.
+   Mussa angulosa
+   Madracis mirabilis
+   Isopyhyllastrea rigida
+   Coral spp.
+   Juvenile coral spp.
+   Helioseris cucullata
+   Oculina diffusa
+   Solenastrea bournoni
+   Solenastrea hyades
+   Tubastraea coccinea
+   Stephanocoenia intercepta
+   Siderastrea spp.
+   Siderastrea siderea
+   Orbicella annularis
+   Montastraea cavernosa
+   Montastraea spp.
+   Meandrina meandrites
+   Favia fragum
+   Eusmilia fastigiata
+   Diploria labyrinthiformis
+   Dichocoenia stokesii
+   Colpophyllia natans
+   Pseudodiploria clivosa
+   Pseudodiploria strigosa
+   Siderastrea radians
+   Porites divaricata
+   Porites astreoides
+   Porites furcata
+   Branching Porites spp.
+   Porites porites
+   Mycetophyllia ferox
+   Manicina areolata
+   Madracis decactis
+   Madracis formosa
+   Agaricia fragilis
+   Agaricia agaricites
+   Agaricia grahamae
+   Agaricia humilis
+   Agaricia spp.
+   Agaricia tenuifolia
+   Agaricia undata
+   Agaricia lamarcki
+   Isophyllia sinuosa
+
+column: perccover
+description: percentage cover of that coral species
+Data Type: numeric
+Mean: 0.189826977613749
+Min: 0
+Max: 73.85
+
+column: pres
+description: presence/absence of that coral species
+Data Type: numeric
+Mean: 0.0978703690238781
+Min: 0
+Max: 1

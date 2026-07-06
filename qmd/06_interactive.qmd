@@ -10516,7 +10516,7 @@ Analysis code:
 
 Input data:
 
-- Coral species cover, TCRMP and VINPS (2001–2023): [s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv](../data/downloads/s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv){download="s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv"}
-- Coral genus cover, CSUN (1992–2023): [s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv](../data/downloads/s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv){download="s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv"}
-- Octocoral colony surveys (2014–2024): [octocoral_adultSurveys_Lasker_20250409.csv](../data/downloads/octocoral_adultSurveys_Lasker_20250409.csv){download="octocoral_adultSurveys_Lasker_20250409.csv"}
+- Coral species cover, TCRMP and VINPS (2001–2023): [s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv](../data/downloads/s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv){download="s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv"} — metadata: [s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.txt](../data/downloads/s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.txt){download="s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.txt"}
+- Coral genus cover, CSUN (1992–2023): [s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv](../data/downloads/s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv){download="s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv"} — metadata: [s2pt4_benthicCoverCoralGenera_49sites_1987_2024.txt](../data/downloads/s2pt4_benthicCoverCoralGenera_49sites_1987_2024.txt){download="s2pt4_benthicCoverCoralGenera_49sites_1987_2024.txt"}
+- Octocoral colony surveys (2014–2024): [octocoral_adultSurveys_Lasker_20250409.csv](../data/downloads/octocoral_adultSurveys_Lasker_20250409.csv){download="octocoral_adultSurveys_Lasker_20250409.csv"} — metadata: [octocoral_adultSurveys_Lasker_20250409_metadata.txt](../data/downloads/octocoral_adultSurveys_Lasker_20250409_metadata.txt){download="octocoral_adultSurveys_Lasker_20250409_metadata.txt"}
 - Site metadata: [00_RRS_siteMaster_allSites_data.csv](../data/downloads/00_RRS_siteMaster_allSites_data.csv){download="00_RRS_siteMaster_allSites_data.csv"}

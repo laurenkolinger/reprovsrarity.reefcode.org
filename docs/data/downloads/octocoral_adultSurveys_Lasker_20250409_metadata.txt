@@ -1,0 +1,40 @@
+###############################
+# RAW DATA METADATA
+###############################
+File (in retrofit):   octocoral_adultSurveys_Lasker_20250409.csv
+Original file name:   data_from_Howie_9april25_adultsurveys.csv
+Ported into retrofit: 2026-06-28 (copied read-only from DataMetadata_TOEDIT, byte-identical; checksum verified)
+Source:               H. R. Lasker octocoral (gorgonian) monitoring program, Lameshur Bay, St. John; provided 2025-04-09.
+Description:          Adult octocoral colony survey records (per quadrat along transects): genus/species, sizes, damage, etc.
+Programs:             Lasker octocoral monitoring (3 sites, Lameshur Bay)
+Sites:                3 (Lameshur Bay, St. John)
+Year range:           n/a
+Rows x Cols:          15105 x ~20 (trailing empty columns present)
+Imported by:          04_octos_analysis.qmd
+
+COLUMN DEFINITIONS
+------------------------
+Census Year: year of census  [integer; YYYY]
+Date: date of survey  [character/Date]
+Site: survey site name  [character]
+Transect: transect identifier  [character/integer]
+Meter on transect: position along transect  [numeric; m]
+Side of transect: side of transect surveyed  [character]
+meter-side: combined meter and side identifier  [character]
+Quadrat: quadrat identifier  [character/integer]
+Genus: octocoral genus  [character]
+Species code: field species code  [character]
+Revised Species code: revised/corrected species code  [character]
+Revised species: revised/corrected species name  [character]
+Maximum height from base: maximum colony height  [numeric; cm]
+Living tissue, height from base (cm): height of living tissue from base  [numeric; cm]
+Basal damage: presence/type of basal damage  [character]
+Damage: damage description  [character]
+Cyphoma present: presence of Cyphoma (flamingo tongue snail)  [character]
+Comments 1: field comments  [character]
+Comments 2 (sample tag#): sample tag number or comments  [character]
+Living tissue size class,.1-9.9=0: living tissue size class code  [numeric/character]
+
+NOTES
+------------------------
+Raw survey table; the octocoral script (04_octos_analysis.qmd) aggregates to colony density by rank and reproductive mode. Trailing empty columns present in source file.
