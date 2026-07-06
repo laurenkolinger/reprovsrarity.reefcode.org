@@ -1,0 +1,8 @@
+###############################
+file: coralGenera_1992_2023.csv
+source dataset: s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv
+year range: 1992 to 2023
+rows: 219754
+columns: year, program, site, period, coralGenera, perccover
+description: Genus-level benthic coral cover (one row per observation), the Step 1 input to the CSUN analysis, clipped to the as-published year range.
+###############################

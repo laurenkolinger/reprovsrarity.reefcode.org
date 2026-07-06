@@ -23,3 +23,23 @@ body main#quarto-document-content p > img {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Tables: sit within the text column (never stretch full width), inside a scroll box no taller
+   than 500px, with the header row frozen while scrolling. */
+body main#quarto-document-content table.table {
+  display: block;
+  width: fit-content;
+  max-width: 100% !important;
+  max-height: 500px;
+  overflow: auto;
+  margin-left: 0;
+  margin-right: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+body main#quarto-document-content table.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #efe9dc;   /* opaque so scrolled rows do not show through */
+}

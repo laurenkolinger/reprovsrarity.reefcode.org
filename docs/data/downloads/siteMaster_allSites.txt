@@ -1,0 +1,8 @@
+###############################
+file: siteMaster_allSites.csv
+source dataset: 00_RRS_siteMaster_allSites_data.csv
+year range: all years (not year-bound)
+rows: 50
+columns: program, site, site_code, island, yearadded, lat, lon, depth, dist_from_shore, rugosity, rugosity_year, rugosity_source, lat_lon_source, depth_source, description_source, notes
+description: Site master table (program, site, island, depth, year added, coordinates), read in Step 1 of every analysis.
+###############################

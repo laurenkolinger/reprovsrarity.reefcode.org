@@ -697,7 +697,7 @@ common   Rare
 <img src="05_octocoral_files/figure-html/fig-octo-1.png" class="img-fluid figure-img" width="1056">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-octo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Octocorals. Left: baseline abundance distribution, species ranked by mean baseline colony density, colored by commonness and reproductive mode. Right: site-level group mean colony density over time on a log scale, with per-group linear fits.
+Figure&nbsp;1: Octocoral colony density patterns by abundance rank and reproductive mode from H. Lasker’s monitoring program at 3 sites in Lameshur Bay. Left panel shows baseline species abundance distributions for the 16 most abundant taxa, ranked by mean colony density during baseline periods. Right panel displays temporal trends of log₁₀-transformed colony density. Model-derived trends (slopes ± robust standard errors) are indicated by the colored lines, with shading representing 95% confidence intervals.
 </figcaption>
 </figure>
 </div>
@@ -724,14 +724,14 @@ Figure&nbsp;1: Octocorals. Left: baseline abundance distribution, species ranked
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">.sig =</span> p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(coef_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>.sig), <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Octocoral model coefficients with HC3 robust standard errors (log10 colony density)."</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Linear model results for octocoral colony density trends at three sites in Lameshur Bay, St. John. The table lists the slope estimates (± robust standard errors) for each reproductive mode group (brooders and broadcasters) across the three sites. The p-values indicate the significance of the temporal trends for each group."</span>) <span class="sc">|&gt;</span></span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="fu">which</span>(coef_tbl<span class="sc">$</span>.sig), <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="tbl-octo-coef" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-octo-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Octocoral model coefficients with HC3 robust standard errors (log10 colony density).
+Table&nbsp;1: Linear model results for octocoral colony density trends at three sites in Lameshur Bay, St. John. The table lists the slope estimates (± robust standard errors) for each reproductive mode group (brooders and broadcasters) across the three sites. The p-values indicate the significance of the temporal trends for each group.
 </figcaption>
 <div aria-describedby="tbl-octo-coef-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -875,7 +875,7 @@ Table&nbsp;2: Group-specific temporal slopes (octocorals), with robust SEs and a
 <img src="05_octocoral_files/figure-html/fig-octo-diagnostics-1.png" class="img-fluid figure-img" width="1056">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-octo-diagnostics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Octocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.
+Figure&nbsp;2: Diagnostic plots for linear models of log₁₀-transformed coral cover. Models were fit independently for (A-C) TCRMP species-level data, (D-F) VINPS species-level data, and (G-I) CSUN genus-level data. Columns from left to right display: Residuals versus fitted values plots, which are used to assess linearity of relationships and homogeneity of variance (homoscedasticity); Normal Q-Q (quantile-quantile) plots of standardized residuals, used to assess the normality of the residuals by comparing their distribution to a theoretical normal distribution; and Histograms of standardized residuals with an overlaid kernel density estimate (blue line), providing a visual representation of the distribution of residuals, further aiding in the assessment of normality.
 </figcaption>
 </figure>
 </div>

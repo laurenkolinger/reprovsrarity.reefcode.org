@@ -416,12 +416,12 @@ window.Quarto = {
 <section id="about-this-study" class="level2">
 <h2 data-anchor-id="about-this-study">About this study</h2>
 <p>This site accompanies a manuscript on how reproductive mode and rarity relate to coral population trajectories in the U.S. Virgin Islands. It presents four analyses, one per monitoring program: TCRMP, VINPS, and CSUN, which track coral cover on the reef, and the Lasker octocoral program, which tracks octocoral colony density.</p>
-<p>The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the Reef Code benthic cover section. The species-level file backs the TCRMP and VINPS analyses: <a href="https://reefcode.org/qmd/2_benthiccover/05_coral_species.html">coral species cover download</a>. The genus-level file backs the CSUN analysis: <a href="https://reefcode.org/qmd/2_benthiccover/04_coral_genera.html">coral genera cover download</a>. The octocoral analysis uses a separate, standalone collaborator dataset from the Lasker program, bundled with this site rather than drawn from the benthic cover section.</p>
+<p>The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the Reef Code benthic cover section. The species-level file backs the TCRMP and VINPS analyses: <a href="https://reefcode.org/qmd/2_benthiccover/05_coral_species.html">coral species cover download</a>. The genus-level file backs the CSUN analysis: <a href="https://reefcode.org/qmd/2_benthiccover/04_coral_genera.html">coral genera cover download</a>.</p>
 <section id="two-versions-of-each-analysis" class="level3">
 <h3 data-anchor-id="two-versions-of-each-analysis">Two versions of each analysis</h3>
 <p>Each of the four analyses appears on this site in two versions. Open a program from the Publications menu to read the as-published version, then use the toggle at the top of the page to switch to the updated version and back.</p>
-<p>The <strong>as published</strong> version reruns the analysis exactly as it appears in the manuscript. Each program clips the coral-cover or colony-survey data to the years used in the paper. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024. A manuscript reports a result for a fixed dataset, so the published version locks the year range to match. Locking the year range is what lets a reader trace every number in the paper back to a specific, unchanging slice of the monitoring record, regardless of how much new data has been collected since.</p>
-<p>The <strong>updated since publication</strong> version reruns the identical analysis: the same code, the same site scoping, and the same taxon scoping. Only the year range changes. It opens the year range to the full monitoring record bundled with this site. Monitoring for each program continues past the cutoff used in the paper, so the updated version extends the window to the most recent year available and lets the trajectories keep going. As new years are added to the underlying data files, the updated pages pick them up automatically the next time this site is rendered. The analysis itself does not change. Comparing the two versions side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the monitoring record grows.</p>
+<p>The <strong>as published</strong> version reruns the analysis exactly as it appears in the manuscript. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024.</p>
+<p>The <strong>updated since publication</strong> version reruns the identical analysis: the same code, the same site scoping, and the same taxon scoping. Only the year range changes. Comparing the two versions side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the monitoring record grows.</p>
 </section>
 </section>
 <section id="the-monitoring-programs" class="level2">
@@ -432,7 +432,7 @@ window.Quarto = {
 <img src="figures/Catalina_Map_300.png" class="img-fluid figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Study sites across the US Virgin Islands. The three stony-coral programs and the octocoral program monitor permanent reef sites off St.&nbsp;Thomas, St.&nbsp;John, and St.&nbsp;Croix.
+Figure&nbsp;1: Long-term coral monitoring sites across the US Virgin Islands from three independent programs: Territorial Coral Reef Monitoring Program (TCRMP, n = 20 sites), Virgin Islands National Park (VINPS, n = 7 sites), and California State University Northridge (CSUN, n = 8 sites). All sites were established before 2006 and are located at 0–20 m depth.
 </figcaption>
 </figure>
 </div>
@@ -456,7 +456,7 @@ Figure&nbsp;1: Study sites across the US Virgin Islands. The three stony-coral p
 <div id="tbl-si-sites" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-si-sites-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Monitoring sites analyzed for each program, with island, depth, and the year the site entered monitoring, drawn from the site master and the scoped analysis data.
+Table&nbsp;1: Site characteristics for the three long term monitoring programs. This table consolidates survey site information for the TCRMP, VINPS, and CSUN programs.
 </figcaption>
 <div aria-describedby="tbl-si-sites-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -696,7 +696,7 @@ Table&nbsp;1: Monitoring sites analyzed for each program, with island, depth, an
 <div id="tbl-species-traits" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-species-traits-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Every baseline taxon, its reproductive mode, and its common or rare status in each program. Species-level rows come from TCRMP and VINPS; genus-level rows come from CSUN. Rows are grouped by genus.
+Table&nbsp;2: Taxonomic classification of corals analyzed from three monitoring programs. Shown are all observed coral taxa (species or genera) observed in any monitoring program, indicating their reproductive mode (brooder or broadcaster) and commonness status (common or rare) within each program. For TCRMP and VINPS (species-level analyses), a ‘-’ indicates the species was not observed/recorded in that program. For CSUN (genus-level analyses), a ‘-’ indicates the genus was not observed/recorded. Blank cells indicate that the taxon was not part of that program’s taxonomic resolution. The reproductive mode of genus- and species- level taxa represent the classification used for CSUN or TCRMP/VINPS, respectively.
 </figcaption>
 <div aria-describedby="tbl-species-traits-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">

@@ -1,0 +1,8 @@
+###############################
+file: coralSpecies_2001_2023.csv
+source dataset: s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv
+year range: 2001 to 2023
+rows: 443409
+columns: year, program, site, period, coralSpecies, perccover
+description: Species-level benthic coral cover (one row per transect observation), the Step 1 input to the TCRMP and VINPS analyses, clipped to the as-published year range.
+###############################

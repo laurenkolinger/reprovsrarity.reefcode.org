@@ -9,15 +9,15 @@ subtitle: "About this study"
 
 This site accompanies a manuscript on how reproductive mode and rarity relate to coral population trajectories in the U.S. Virgin Islands. It presents four analyses, one per monitoring program: TCRMP, VINPS, and CSUN, which track coral cover on the reef, and the Lasker octocoral program, which tracks octocoral colony density.
 
-The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the Reef Code benthic cover section. The species-level file backs the TCRMP and VINPS analyses: [coral species cover download]({{< var data-source-species >}}). The genus-level file backs the CSUN analysis: [coral genera cover download]({{< var data-source-genera >}}). The octocoral analysis uses a separate, standalone collaborator dataset from the Lasker program, bundled with this site rather than drawn from the benthic cover section.
+The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the Reef Code benthic cover section. The species-level file backs the TCRMP and VINPS analyses: [coral species cover download]({{< var data-source-species >}}). The genus-level file backs the CSUN analysis: [coral genera cover download]({{< var data-source-genera >}}).
 
 ### Two versions of each analysis
 
 Each of the four analyses appears on this site in two versions. Open a program from the Publications menu to read the as-published version, then use the toggle at the top of the page to switch to the updated version and back.
 
-The **as published** version reruns the analysis exactly as it appears in the manuscript. Each program clips the coral-cover or colony-survey data to the years used in the paper. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024. A manuscript reports a result for a fixed dataset, so the published version locks the year range to match. Locking the year range is what lets a reader trace every number in the paper back to a specific, unchanging slice of the monitoring record, regardless of how much new data has been collected since.
+The **as published** version reruns the analysis exactly as it appears in the manuscript. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024.
 
-The **updated since publication** version reruns the identical analysis: the same code, the same site scoping, and the same taxon scoping. Only the year range changes. It opens the year range to the full monitoring record bundled with this site. Monitoring for each program continues past the cutoff used in the paper, so the updated version extends the window to the most recent year available and lets the trajectories keep going. As new years are added to the underlying data files, the updated pages pick them up automatically the next time this site is rendered. The analysis itself does not change. Comparing the two versions side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the monitoring record grows.
+The **updated since publication** version reruns the identical analysis: the same code, the same site scoping, and the same taxon scoping. Only the year range changes. Comparing the two versions side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the monitoring record grows.
 
 ```{r overview-setup}
 #| include: false
@@ -41,7 +41,7 @@ taxcol <- c(TCRMP = "coralSpecies", VINPS = "coralSpecies", CSUN = "coralGenera"
 
 ## The monitoring programs
 
-![Study sites across the US Virgin Islands. The three stony-coral programs and the octocoral program monitor permanent reef sites off St. Thomas, St. John, and St. Croix.](figures/Catalina_Map_300.png){#fig-map width=85%}
+![Long-term coral monitoring sites across the US Virgin Islands from three independent programs: Territorial Coral Reef Monitoring Program (TCRMP, n = 20 sites), Virgin Islands National Park (VINPS, n = 7 sites), and California State University Northridge (CSUN, n = 8 sites). All sites were established before 2006 and are located at 0–20 m depth.](figures/Catalina_Map_300.png){#fig-map width=85%}
 
 Our study used time-series analyses on the fringing reefs of St. John, St. Thomas, and St. Croix, US Virgin Islands (@fig-map, @tbl-si-sites). Each program has been established for at least two decades, and each involves annual transect and quadrat surveys at permanent sites across the USVI with different taxonomic foci, resolution, methods, and spatial extent. While combining studies introduces limitations with respect to the contrasts that can be supported, as we show, independent analyses combine to create emergent properties when common results are obtained. For stony corals, the study conducted at the largest spatial scale was completed at 20 sites around all three islands since 2001 by the Territorial Coral Reef Monitoring Program (hereafter "TCRMP"; [@SmithEtAl2016; @KrampitzEtAl2022]). The study with most extensive sampling (n = 20 transects / site) was completed at 7 sites since 2001 by the VI National Park Service (hereafter "VINPS"; [@MillerEtAl2017; @RogersEtAl2009]). The longest study comes from 8 sites (7–14 m depth) between White Point and Cabritte Horn, St. John, that have been studied since 1992 by California State University Northridge (hereafter "CSUN"; [@EdmundsEtAl2024]).
 
@@ -63,7 +63,7 @@ As a comparison to the scleractinian coral data, another dataset of octocoral su
 
 ```{r tbl-si-sites}
 #| echo: false
-#| tbl-cap: "Monitoring sites analyzed for each program, with island, depth, and the year the site entered monitoring, drawn from the site master and the scoped analysis data."
+#| tbl-cap: "Site characteristics for the three long term monitoring programs. This table consolidates survey site information for the TCRMP, VINPS, and CSUN programs."
 if (have_asp) {
   site_master <- read.csv("../data/site/00_RRS_siteMaster_allSites_data.csv")
   site_rows <- do.call(rbind, lapply(c("TCRMP", "VINPS", "CSUN"), function(p) {
@@ -90,7 +90,7 @@ Abundance was measured as percentage cover, a standard metric for colonial organ
 
 ```{r tbl-species-traits}
 #| echo: false
-#| tbl-cap: "Every baseline taxon, its reproductive mode, and its common or rare status in each program. Species-level rows come from TCRMP and VINPS; genus-level rows come from CSUN. Rows are grouped by genus."
+#| tbl-cap: "Taxonomic classification of corals analyzed from three monitoring programs. Shown are all observed  coral taxa (species or genera) observed in any monitoring program, indicating their reproductive mode (brooder or broadcaster) and commonness status (common or rare) within each program. For TCRMP and VINPS (species-level analyses), a '-' indicates the species was not observed/recorded in that program. For CSUN (genus-level analyses), a '-' indicates the genus was not observed/recorded. Blank cells indicate that the taxon was not part of that program's taxonomic resolution. The reproductive mode of genus- and species- level taxa represent the classification used for CSUN or TCRMP/VINPS, respectively."
 if (have_asp) {
   traits <- do.call(rbind, lapply(c("TCRMP", "VINPS", "CSUN"), function(p) {
     b <- asp[[p]]$baseline

@@ -216,7 +216,7 @@ The figure pairs the baseline abundance distribution with the temporal trends. T
 #| code-summary: "Step 11 code: build the two-panel figure"
 #| fig-width: 11
 #| fig-height: 5.5
-#| fig-cap: "Octocorals. Left: baseline abundance distribution, species ranked by mean baseline colony density, colored by commonness and reproductive mode. Right: site-level group mean colony density over time on a log scale, with per-group linear fits."
+#| fig-cap: "Octocoral colony density patterns by abundance rank and reproductive mode from H. Lasker's monitoring program at 3 sites in Lameshur Bay. Left panel shows baseline species abundance distributions for the 16 most abundant taxa, ranked by mean colony density during baseline periods. Right panel displays temporal trends of log₁₀-transformed colony density. Model-derived trends (slopes ± robust standard errors) are indicated by the colored lines, with shading representing 95% confidence intervals."
 title_case <- function(x) recode(x, "common" = "Common", "Rare" = "Rare",
                                   "broadcaster" = "Broadcaster", "brooder" = "Brooder")
 sad_df <- baseline |>
@@ -265,7 +265,7 @@ coef_tbl <- coef_robust |>
             .sig = p.value < 0.05)
 
 kbl(coef_tbl |> select(-.sig), align = c("l", "r", "r"),
-    caption = "Octocoral model coefficients with HC3 robust standard errors (log10 colony density).") |>
+    caption = "Linear model results for octocoral colony density trends at three sites in Lameshur Bay, St. John. The table lists the slope estimates (± robust standard errors) for each reproductive mode group (brooders and broadcasters) across the three sites. The p-values indicate the significance of the temporal trends for each group.") |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
   row_spec(which(coef_tbl$.sig), bold = TRUE)
 ```
@@ -306,6 +306,6 @@ The octocoral coefficient table uses the same HC3 robust standard errors as the 
 #| code-summary: "Step 14 code: model diagnostics from the fitted model"
 #| fig-width: 11
 #| fig-height: 3.5
-#| fig-cap: "Octocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+#| fig-cap: "Diagnostic plots for linear models of log₁₀-transformed coral cover. Models were fit independently for (A-C) TCRMP species-level data, (D-F) VINPS species-level data, and (G-I) CSUN genus-level data. Columns from left to right display: Residuals versus fitted values plots, which are used to assess linearity of relationships and homogeneity of variance (homoscedasticity); Normal Q-Q (quantile-quantile) plots of standardized residuals, used to assess the normality of the residuals by comparing their distribution to a theoretical normal distribution; and Histograms of standardized residuals with an overlaid kernel density estimate (blue line), providing a visual representation of the distribution of residuals, further aiding in the assessment of normality."
 model_diagnostics_plot(model_full)
 ```
