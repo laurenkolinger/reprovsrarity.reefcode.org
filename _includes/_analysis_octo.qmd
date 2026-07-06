@@ -253,10 +253,10 @@ The table reports the model coefficients with HC3 robust standard errors and p-v
 #| code-summary: "Step 12 code: format the coefficient table and the group slopes"
 term_labels <- c(
   "(Intercept)" = "Intercept", "yearind" = "Year",
-  "categoryRare" = "Category (rare)", "reproductive_modebrooder" = "Repro. mode (brooder)",
-  "yearind:categoryRare" = "Year x Category", "yearind:reproductive_modebrooder" = "Year x Repro. mode",
-  "categoryRare:reproductive_modebrooder" = "Category x Repro. mode",
-  "yearind:categoryRare:reproductive_modebrooder" = "Year x Category x Repro. mode"
+  "categoryRare" = "Rarity", "reproductive_modebrooder" = "Repro. mode (brooder)",
+  "yearind:categoryRare" = "Year x Rarity", "yearind:reproductive_modebrooder" = "Year x Repro. mode",
+  "categoryRare:reproductive_modebrooder" = "Rarity x Repro. mode",
+  "yearind:categoryRare:reproductive_modebrooder" = "Year x Rarity x Repro. mode"
 )
 coef_tbl <- coef_robust |>
   transmute(Predictor = term_labels[term],
