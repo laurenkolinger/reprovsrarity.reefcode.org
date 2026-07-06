@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2026-07-05">
 
-<title>Interactive dashboard – Reproductive mode and rarity</title>
+<title>Conclusions – Reproductive mode and rarity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -56,7 +56,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -144,7 +163,7 @@ main#quarto-document-content.content > :not(:first-child){
 }
 /* Quarto's banner title block was the reef-art hero (its own copy of the page title, plus a
    hard-coded 250px height). The image is gone and each page repeats its title as a body heading
-   (# Interactive dashboard), so the title block is now a redundant duplicate. Hide it and let the
+   (# Conclusions), so the title block is now a redundant duplicate. Hide it and let the
    body heading be the single title, sitting a tight, consistent gap below the nav. */
 #title-block-header{ display:none !important; }
 main#quarto-document-content.content > section:first-of-type{ padding-top:0 !important; }
@@ -377,8 +396,8 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Interactive dashboard</h1>
-<p class="subtitle lead">Slide the boundary along the abundance distribution and rebuild the results</p>
+<h1 class="title">Conclusions</h1>
+<p class="subtitle lead">The headline results, and a tool to test the rarity boundary</p>
 </div>
 
 
@@ -404,7 +423,142 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
 <blockquote class="blockquote">
 <p>Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.</p>
 </blockquote>
+<p>This page gathers the headline results of the study and pairs them with a tool to test the one choice they rest on. The figures below show the published analysis; open any program page for the full analysis and its updated version.</p>
+<section id="highlight-results" class="level2">
+<h2 data-anchor-id="highlight-results">Highlight results</h2>
+<section id="the-integrated-result" class="level3">
+<h3 data-anchor-id="the-integrated-result">The integrated result</h3>
+<p>The headline result combines the three programs in one figure (<a href="#fig-main-plot" class="quarto-xref">Figure&nbsp;1</a>). Each program contributes a row: on the left, the baseline abundance distribution with every taxon colored by its group; on the right, the site-level group cover over time on a log scale, with a linear trend per group. Read across the three rows, broadcast-spawning corals decline steeply while brooding corals hold or rise, and within each reproductive mode the common and rare taxa fall at the same proportional rate. The pattern tracks reproductive mode, not rarity.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-main-plot" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-main-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06_interactive_files/figure-html/fig-main-plot-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-main-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Integrated abundance and trend figure across the three stony-coral programs (as published). Rows: TCRMP (A, B), VINPS (C, D), CSUN (E, F). Left panels rank baseline taxa by mean cover and color them by group; right panels show site-level group cover over time on a log scale with a per-group linear fit.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The model behind the figure is a linear model of log₁₀ cover on year, rarity, reproductive mode, and every interaction, fit separately for each program with HC3 robust standard errors <span class="citation" data-cites="Zeileis2004">(<a href="#ref-Zeileis2004" role="doc-biblioref"><em>1</em></a>)</span>. <a href="#tbl-main-stats" class="quarto-xref">Table&nbsp;1</a> reports the coefficients side by side. The three-way Year × Rarity × Reproductive-mode term is where a rarity effect that differs by reproductive mode would appear.</p>
+<div class="cell">
+<div id="tbl-main-stats" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-main-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Table 1. Integrated model coefficients (estimate, HC3 robust SE) across the three programs, as published. Stars mark significance: *** p
+</figcaption>
+<div aria-describedby="tbl-main-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Predictor</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">TCRMP</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">VINPS</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">CSUN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">0.042 (0.039)</td>
+<td style="text-align: right;">0.070 (0.054)</td>
+<td style="text-align: right;">0.350 (0.081) ***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Year</td>
+<td style="text-align: right;">-0.019 (0.003) ***</td>
+<td style="text-align: right;">-0.010 (0.004) *</td>
+<td style="text-align: right;">-0.011 (0.004) **</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rarity</td>
+<td style="text-align: right;">-1.047 (0.056) ***</td>
+<td style="text-align: right;">-1.073 (0.078) ***</td>
+<td style="text-align: right;">-1.431 (0.118) ***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Repro. mode (brooder)</td>
+<td style="text-align: right;">-0.245 (0.055) ***</td>
+<td style="text-align: right;">-0.416 (0.079) ***</td>
+<td style="text-align: right;">-0.611 (0.097) ***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Year x Rarity</td>
+<td style="text-align: right;">-0.007 (0.005)</td>
+<td style="text-align: right;">0.004 (0.006)</td>
+<td style="text-align: right;">-0.001 (0.006)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Year x Repro. mode</td>
+<td style="text-align: right;">0.011 (0.004) *</td>
+<td style="text-align: right;">0.027 (0.005) ***</td>
+<td style="text-align: right;">0.019 (0.005) ***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rarity x Repro. mode</td>
+<td style="text-align: right;">-0.339 (0.084) ***</td>
+<td style="text-align: right;">-0.035 (0.115)</td>
+<td style="text-align: right;">0.463 (0.154) **</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Year x Rarity x Repro. mode</td>
+<td style="text-align: right;">0.009 (0.007)</td>
+<td style="text-align: right;">-0.023 (0.009) **</td>
+<td style="text-align: right;">-0.016 (0.008) *</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="occupancy-versus-extent" class="level3">
+<h3 data-anchor-id="occupancy-versus-extent">Occupancy versus extent</h3>
+<p>Two taxa can lose the same amount of cover in different ways: one by disappearing from sites (an occupancy loss), another by thinning where it persists (an extent loss). <a href="#fig-arrows-plot" class="quarto-xref">Figure&nbsp;2</a> separates the two. Each arrow runs from a taxon’s baseline occupancy and extent to its recent values, colored by group. Broadcasters tend to slide down and to the left (thinner and less widespread); several brooders hold or expand their occupancy.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-arrows-plot" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arrows-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06_interactive_files/figure-html/fig-arrows-plot-1.png" class="img-fluid figure-img" width="1056">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arrows-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Occupancy (x) versus extent (y), baseline to recent, per program (A TCRMP, B VINPS, C CSUN), as published. Occupancy is the proportion of surveyed sites where the taxon was present; extent is the mean cover where present. Both axes are log scaled.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="brooders-and-broadcasters-over-time" class="level3">
+<h3 data-anchor-id="brooders-and-broadcasters-over-time">Brooders and broadcasters over time</h3>
+<p>Reproductive mode reshapes the community. <a href="#fig-brooder-broadcaster-cover" class="quarto-xref">Figure&nbsp;3</a> follows the mean cover of broadcasters and brooders separately in each program, and tracks the brooder share of total coral cover. Broadcaster cover falls across all three programs while brooder cover holds steadier, so the brooder share of cover climbs over the record. In two programs it approaches the 50 percent parity line, meaning brooders may soon hold as much reef cover as broadcasters, a reversal of the historical dominance of broadcasting reef-builders.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-brooder-broadcaster-cover" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-brooder-broadcaster-cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06_interactive_files/figure-html/fig-brooder-broadcaster-cover-1.png" class="img-fluid figure-img" width="1152">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-brooder-broadcaster-cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Brooder versus broadcaster cover over time, all taxa (as published). (A) Mean cover per site for broadcasters (solid) and brooders (dashed) in each program. (B) Brooder proportion of total coral cover, with the dashed line marking 50 percent parity.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="test-the-rarity-boundary" class="level2">
+<h2 data-anchor-id="test-the-rarity-boundary">Test the rarity boundary</h2>
 <p>The rarity result rests on one choice: the boundary that separates common taxa from rare taxa along the ranked abundance distribution. The manuscript sets it where the top taxa reach 90 percent of baseline cover. This tool exposes that choice. At the paper’s boundary the tool reproduces the published results.</p>
+</section>
 <section id="the-live-tool-runs-in-your-browser" class="level2">
 <h2 data-anchor-id="the-live-tool-runs-in-your-browser">The live tool (runs in your browser)</h2>
 <p>The app below runs entirely in your browser through shinylive (WebAssembly R). The first load fetches the R runtime, so give it a moment. Every partition is pre-solved, so moving a boundary swaps stored results instead of fitting a model.</p>
@@ -10573,9 +10727,14 @@ H5YTNf8P689nBg==</code></pre>
 <p>The classification changes, and the slopes move with it, but the ranking of the four groups by rate of decline stays stable.</p>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-Zeileis2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">A. Zeileis, <a href="https://doi.org/10.18637/jss.v011.i10">Econometric computing with <span>HC</span> and <span>HAC</span> covariance matrix estimators</a>. <em>Journal of Statistical Software</em> <strong>11</strong>, 1–17.</div>
+</div>
+</div></section></div></main> <!-- /main -->
 <script>
 (function () {
   var path = location.pathname;
