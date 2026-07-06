@@ -309,3 +309,24 @@ The octocoral coefficient table uses the same HC3 robust standard errors as the 
 #| fig-cap: "Octocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
 model_diagnostics_plot(model_full)
 ```
+
+## Download the data and code
+
+The complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.
+
+- Analysis code: {{< downloadthis ../../_includes/_analysis_octo.qmd dname="analysis_octo.qmd" label="Download the analysis code (.qmd)" >}}
+
+```{r downloads-octo}
+#| echo: false
+#| output: asis
+.prog_key <- if (tolower(program) == "octocoral") "octo" else tolower(program)
+.files <- sort(list.files("../../data/derived", pattern = paste0("^pub_rarity_", .prog_key, "_.*\\.(csv|txt)$")))
+if (length(.files)) {
+  cat("| File | Type | Download |\n|:--|:--|:--|\n")
+  for (f in .files) {
+    lbl <- sub(paste0("^pub_rarity_", .prog_key, "_"), "", f)
+    typ <- if (grepl("\\.txt$", f)) "metadata" else "data"
+    cat(sprintf("| `%s` | %s | [download](../../data/derived/%s){download=\"%s\"} |\n", lbl, typ, f, f))
+  }
+}
+```

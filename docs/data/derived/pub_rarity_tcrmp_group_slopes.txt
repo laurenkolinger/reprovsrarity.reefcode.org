@@ -1,0 +1,45 @@
+###############################
+filename: pub_rarity_tcrmp_group_slopes.csv
+date: 2026-07-04 17:38:42.12841
+description: Group-specific temporal slopes for TCRMP coral cover, with HC3 robust standard errors and annual percent change.
+###############################
+
+column names:
+Group Slope SE Annual % change P-value
+
+column: Group
+description: analysis group (commonness x reproductive mode)
+Data Type: character
+Unique Values: (showing all 4 entries)
+   Common broadcaster
+   Rare broadcaster
+   Common brooder
+   Rare brooder
+
+column: Slope
+description: temporal slope of log10 cover (per year)
+Data Type: numeric
+Mean: -0.0146645654545687
+Min: -0.0257335253535186
+Max: -0.00570624244152869
+
+column: SE
+description: HC3 robust standard error of the slope
+Data Type: numeric
+Mean: 0.00324671914552273
+Min: 0.00265993467295895
+Max: 0.00377616627234478
+
+column: Annual % change
+description: annual percent change back-transformed from the log10 slope
+Data Type: numeric
+Mean: -3.30355586396384
+Min: -5.75323010036781
+Max: -1.30531675021144
+
+column: P-value
+description: two-sided p-value for the slope
+Data Type: numeric
+Mean: 0.0331356768031099
+Min: 8.28390059477185e-15
+Max: 0.13075774071396

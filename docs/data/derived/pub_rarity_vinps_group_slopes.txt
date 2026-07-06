@@ -1,0 +1,45 @@
+###############################
+filename: pub_rarity_vinps_group_slopes.csv
+date: 2026-07-04 17:38:50.302377
+description: Group-specific temporal slopes for VINPS coral cover, with HC3 robust standard errors and annual percent change.
+###############################
+
+column names:
+Group Slope SE Annual % change P-value
+
+column: Group
+description: analysis group (commonness x reproductive mode)
+Data Type: character
+Unique Values: (showing all 4 entries)
+   Common broadcaster
+   Rare broadcaster
+   Common brooder
+   Rare brooder
+
+column: Slope
+description: temporal slope of log10 cover (per year)
+Data Type: numeric
+Mean: -0.000207000204723416
+Min: -0.00992066534235337
+Max: 0.0174822479232725
+
+column: SE
+description: HC3 robust standard error of the slope
+Data Type: numeric
+Mean: 0.00429517313350928
+Min: 0.0036317017284199
+Max: 0.00518366393190898
+
+column: Annual % change
+description: annual percent change back-transformed from the log10 slope
+Data Type: numeric
+Mean: -0.0177076778911017
+Min: -2.25842461240087
+Max: 4.10755520957611
+
+column: P-value
+description: two-sided p-value for the slope
+Data Type: numeric
+Mean: 0.213051352254368
+Min: 1.48094746251318e-06
+Max: 0.698557803107007

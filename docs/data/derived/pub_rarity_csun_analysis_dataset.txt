@@ -1,0 +1,62 @@
+###############################
+filename: pub_rarity_csun_analysis_dataset.csv
+date: 2026-07-04 17:38:56.749306
+description: Analysis-ready CSUN dataset: group-by-site-by-year mean cover with year index and log10 cover.
+###############################
+
+column names:
+category Reproductive_mode year site perccover yearind perccoverLog
+
+column: category
+description: commonness class (Common or Rare)
+Data Type: factor
+Unique Values: (showing all 2 entries)
+   Common
+   Rare
+
+column: Reproductive_mode
+description: reproductive mode (Broadcaster or Brooder)
+Data Type: factor
+Unique Values: (showing all 2 entries)
+   Broadcaster
+   Brooder
+
+column: year
+description: survey year
+Data Type: integer
+Mean: 2007.6850117096
+Min: 1992
+Max: 2023
+
+column: site
+description: reef site name
+Data Type: character
+Unique Values: (showing all 7 entries)
+   Cabritte Horn
+   East Tektite
+   Europa Bay
+   Tektite
+   West Little Lameshur
+   White Point
+   Yawzi
+
+column: perccover
+description: group mean percent cover at the site-year
+Data Type: numeric
+Mean: 1.24665108342008
+Min: 0.0015625
+Max: 22.925
+
+column: yearind
+description: year index (0 at the first year)
+Data Type: integer
+Mean: 15.6850117096019
+Min: 0
+Max: 31
+
+column: perccoverLog
+description: log10 of group mean percent cover
+Data Type: numeric
+Mean: -0.615792757088091
+Min: -2.80617997398389
+Max: 1.36030934434206

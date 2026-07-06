@@ -1,0 +1,19 @@
+/* Repo-local overrides (do not touch the shared theme extension).
+   The theme forces main.content to full width and instead caps each content child at
+   --wrap (1180px). Narrow that to give the article real side margins. The `body` prefix
+   raises specificity above the theme rule so this wins regardless of stylesheet order. */
+body main#quarto-document-content.content > :not(:first-child),
+body main#quarto-document-content.content > section:first-of-type {
+  max-width: 780px !important;
+}
+
+/* Keep generated figures modest in size, like the study-site map. */
+body main#quarto-document-content .cell-output-display img,
+body main#quarto-document-content figure.quarto-figure img,
+body main#quarto-document-content p > img {
+  max-width: 80% !important;
+  height: auto !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

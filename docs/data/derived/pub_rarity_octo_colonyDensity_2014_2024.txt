@@ -1,0 +1,103 @@
+###############################
+filename: pub_rarity_octo_colonyDensity_2014_2024.csv
+date: 2026-07-04 17:39:02.919547
+description: Publication-ready octocoral colony density from the Lasker survey program, scoped to 2014-2024. One row per species-site-year.
+###############################
+
+column names:
+year_group year site coralSpecies ncols m2 coldens
+
+column: year_group
+description: two-year baseline/survey period group
+Data Type: factor
+Unique Values: (showing all 5 entries)
+   2014-2015
+   2016-2017
+   2018-2019
+   2020-2021
+   2022-2023
+
+column: year
+description: survey year
+Data Type: numeric
+Mean: 2018.66866566717
+Min: 2014
+Max: 2024
+
+column: site
+description: reef site name
+Data Type: character
+Unique Values: (showing all 3 entries)
+   Booby Rock
+   Europa
+   Grootpan
+
+column: coralSpecies
+description: octocoral species code (Revised Species code)
+Data Type: character
+Unique Values: (showing all 44 entries)
+   aa
+   ar
+   bau
+   ec
+   ecl
+   efl
+   ems
+   esp
+   eto
+   etoa
+   gvm
+   mf
+   ml
+   pc
+   pd
+   pfpw
+   ph
+   phk
+   pk
+   plxsp
+   pnu
+   pp
+   bae
+   ea
+   efu
+   elc
+   eta
+   mma
+   msp
+   pci
+   pg
+   pgu
+   pllsp
+   epa
+   pssp
+   ac
+   me
+   ptsp
+   epi
+   ah
+   epl
+   ek
+   ab
+   mpi
+
+column: ncols
+description: number of colonies counted
+Data Type: numeric
+Mean: 17.4152923538231
+Min: 1
+Max: 134
+
+column: m2
+description: area searched at the site-year (square meters)
+Data Type: numeric
+Mean: 49.0269865067466
+Min: 12
+Max: 61
+
+column: coldens
+description: colony density (colonies per square meter)
+Data Type: numeric
+Mean: 0.377541961121127
+Min: 0.0163934426229508
+Max: 2.66666666666667

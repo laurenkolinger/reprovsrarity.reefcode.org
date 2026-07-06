@@ -130,7 +130,14 @@
     "href": "qmd/updated/05_octocoral.html#step-14-si-figure-model-diagnostics",
     "title": "5. Octocorals (updated since publication)",
     "section": "Step 14 — SI figure: model diagnostics",
-    "text": "Step 14 — SI figure: model diagnostics\nThe octocoral coefficient table uses the same HC3 robust standard errors as the coral programs. These diagnostic panels show the residual structure that motivates them: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.\n\n\nStep 14 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nOctocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 14 — SI figure: model diagnostics\nThe octocoral coefficient table uses the same HC3 robust standard errors as the coral programs. These diagnostic panels show the residual structure that motivates them: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.\n\n\nStep 14 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: Octocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/updated/05_octocoral.html#download-the-data-and-code",
+    "href": "qmd/updated/05_octocoral.html#download-the-data-and-code",
+    "title": "5. Octocorals (updated since publication)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncolonyDensity_2014_2024.csv\ndata\ndownload\n\n\ncolonyDensity_2014_2024.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/updated/03_vinps.html",
@@ -256,7 +263,14 @@
     "href": "qmd/updated/03_vinps.html#step-16-si-figure-model-diagnostics",
     "title": "3. VINPS (updated since publication)",
     "section": "Step 16 — SI figure: model diagnostics",
-    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nVINPS model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: VINPS model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/updated/03_vinps.html#download-the-data-and-code",
+    "href": "qmd/updated/03_vinps.html#download-the-data-and-code",
+    "title": "3. VINPS (updated since publication)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncoralSpecies_2001_2023.csv\ndata\ndownload\n\n\ncoralSpecies_2001_2023.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/aspublished/05_octocoral.html",
@@ -368,7 +382,14 @@
     "href": "qmd/aspublished/05_octocoral.html#step-14-si-figure-model-diagnostics",
     "title": "5. Octocorals (as published)",
     "section": "Step 14 — SI figure: model diagnostics",
-    "text": "Step 14 — SI figure: model diagnostics\nThe octocoral coefficient table uses the same HC3 robust standard errors as the coral programs. These diagnostic panels show the residual structure that motivates them: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.\n\n\nStep 14 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nOctocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 14 — SI figure: model diagnostics\nThe octocoral coefficient table uses the same HC3 robust standard errors as the coral programs. These diagnostic panels show the residual structure that motivates them: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.\n\n\nStep 14 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: Octocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/aspublished/05_octocoral.html#download-the-data-and-code",
+    "href": "qmd/aspublished/05_octocoral.html#download-the-data-and-code",
+    "title": "5. Octocorals (as published)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncolonyDensity_2014_2024.csv\ndata\ndownload\n\n\ncolonyDensity_2014_2024.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/aspublished/03_vinps.html",
@@ -494,7 +515,14 @@
     "href": "qmd/aspublished/03_vinps.html#step-16-si-figure-model-diagnostics",
     "title": "3. VINPS (as published)",
     "section": "Step 16 — SI figure: model diagnostics",
-    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nVINPS model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: VINPS model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/aspublished/03_vinps.html#download-the-data-and-code",
+    "href": "qmd/aspublished/03_vinps.html#download-the-data-and-code",
+    "title": "3. VINPS (as published)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncoralSpecies_2001_2023.csv\ndata\ndownload\n\n\ncoralSpecies_2001_2023.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/00_overview.html",
@@ -655,7 +683,14 @@
     "href": "qmd/aspublished/02_tcrmp.html#step-16-si-figure-model-diagnostics",
     "title": "2. TCRMP (as published)",
     "section": "Step 16 — SI figure: model diagnostics",
-    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nTCRMP model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: TCRMP model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/aspublished/02_tcrmp.html#download-the-data-and-code",
+    "href": "qmd/aspublished/02_tcrmp.html#download-the-data-and-code",
+    "title": "2. TCRMP (as published)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncoralSpecies_2001_2023.csv\ndata\ndownload\n\n\ncoralSpecies_2001_2023.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/aspublished/04_csun.html",
@@ -781,7 +816,14 @@
     "href": "qmd/aspublished/04_csun.html#step-16-si-figure-model-diagnostics",
     "title": "4. CSUN (as published)",
     "section": "Step 16 — SI figure: model diagnostics",
-    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nCSUN model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: CSUN model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/aspublished/04_csun.html#download-the-data-and-code",
+    "href": "qmd/aspublished/04_csun.html#download-the-data-and-code",
+    "title": "4. CSUN (as published)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncoralGenera_1992_2023.csv\ndata\ndownload\n\n\ncoralGenera_1992_2023.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/updated/02_tcrmp.html",
@@ -907,7 +949,14 @@
     "href": "qmd/updated/02_tcrmp.html#step-16-si-figure-model-diagnostics",
     "title": "2. TCRMP (updated since publication)",
     "section": "Step 16 — SI figure: model diagnostics",
-    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nTCRMP model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: TCRMP model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/updated/02_tcrmp.html#download-the-data-and-code",
+    "href": "qmd/updated/02_tcrmp.html#download-the-data-and-code",
+    "title": "2. TCRMP (updated since publication)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncoralSpecies_2001_2023.csv\ndata\ndownload\n\n\ncoralSpecies_2001_2023.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/updated/04_csun.html",
@@ -1033,7 +1082,14 @@
     "href": "qmd/updated/04_csun.html#step-16-si-figure-model-diagnostics",
     "title": "4. CSUN (updated since publication)",
     "section": "Step 16 — SI figure: model diagnostics",
-    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\nCSUN model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+    "text": "Step 16 — SI figure: model diagnostics\nThe coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.\n\n\nStep 16 code: model diagnostics from the fitted model\nmodel_diagnostics_plot(model_full)\n\n\n\n\n\n\n\n\nFigure 2: CSUN model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+  },
+  {
+    "objectID": "qmd/updated/04_csun.html#download-the-data-and-code",
+    "href": "qmd/updated/04_csun.html#download-the-data-and-code",
+    "title": "4. CSUN (updated since publication)",
+    "section": "Download the data and code",
+    "text": "Download the data and code\nThe complete input data for this analysis (scoped to the as-published window), every derived dataset, all of the metadata, and the analysis code are available for download here.\n\nAnalysis code:  Download the analysis code (.qmd) \n\n\n\n\nFile\nType\nDownload\n\n\n\n\nanalysis_dataset.csv\ndata\ndownload\n\n\nanalysis_dataset.txt\nmetadata\ndownload\n\n\nbaseline_classification.csv\ndata\ndownload\n\n\nbaseline_classification.txt\nmetadata\ndownload\n\n\ncoralGenera_1992_2023.csv\ndata\ndownload\n\n\ncoralGenera_1992_2023.txt\nmetadata\ndownload\n\n\ngroup_slopes.csv\ndata\ndownload\n\n\ngroup_slopes.txt\nmetadata\ndownload\n\n\nmodel_coefficients.csv\ndata\ndownload\n\n\nmodel_coefficients.txt\nmetadata\ndownload"
   },
   {
     "objectID": "qmd/06_interactive.html",

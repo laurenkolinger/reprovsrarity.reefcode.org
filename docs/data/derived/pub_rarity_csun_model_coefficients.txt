@@ -1,0 +1,49 @@
+###############################
+filename: pub_rarity_csun_model_coefficients.csv
+date: 2026-07-04 17:38:58.103103
+description: Linear-model coefficients for CSUN coral cover (log10 cover ~ year x commonness x reproductive mode) with HC3 robust standard errors.
+###############################
+
+column names:
+term estimate std.error statistic p.value
+
+column: term
+description: model term
+Data Type: character
+Unique Values: (showing all 8 entries)
+   (Intercept)
+   yearind
+   categoryRare
+   Reproductive_modeBrooder
+   yearind:categoryRare
+   yearind:Reproductive_modeBrooder
+   categoryRare:Reproductive_modeBrooder
+   yearind:categoryRare:Reproductive_modeBrooder
+
+column: estimate
+description: coefficient estimate
+Data Type: numeric
+Mean: -0.154500178801273
+Min: -1.43112286005589
+Max: 0.463481995882639
+
+column: std.error
+description: HC3 robust standard error
+Data Type: numeric
+Mean: 0.0591048786939885
+Min: 0.00413573307454731
+Max: 0.153971801940245
+
+column: statistic
+description: test statistic
+Data Type: numeric
+Mean: -1.50237277782659
+Min: -12.1048406084812
+Max: 4.33347262618058
+
+column: p.value
+description: two-sided p-value
+Data Type: numeric
+Mean: 0.122077416738837
+Min: 3.20817182858263e-31
+Max: 0.919231670245805
