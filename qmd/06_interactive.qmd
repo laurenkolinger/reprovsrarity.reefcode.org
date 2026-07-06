@@ -10247,3 +10247,30 @@ do.call(rbind, lapply(ks, function(k) {
 ```
 
 The classification changes, and the slopes move with it, but the ranking of the four groups by rate of decline stays stable.
+
+## Download the data and code
+
+The complete input data for every program (scoped to the as-published window), all derived datasets, all of the metadata, and the full analysis code are available for download here.
+
+Analysis code:
+
+- TCRMP: {{< downloadthis ../_includes/_analysis_tcrmp.qmd dname="analysis_tcrmp.qmd" label="TCRMP code (.qmd)" >}}
+- VINPS: {{< downloadthis ../_includes/_analysis_vinps.qmd dname="analysis_vinps.qmd" label="VINPS code (.qmd)" >}}
+- CSUN: {{< downloadthis ../_includes/_analysis_csun.qmd dname="analysis_csun.qmd" label="CSUN code (.qmd)" >}}
+- Octocorals: {{< downloadthis ../_includes/_analysis_octo.qmd dname="analysis_octo.qmd" label="Octocoral code (.qmd)" >}}
+
+Data and metadata:
+
+```{r downloads-all}
+#| echo: false
+#| output: asis
+.files <- sort(list.files("../data/derived", pattern = "^pub_rarity_.*\\.(csv|txt)$"))
+if (length(.files)) {
+  cat("| File | Type | Download |\n|:--|:--|:--|\n")
+  for (f in .files) {
+    lbl <- sub("^pub_rarity_", "", f)
+    typ <- if (grepl("\\.txt$", f)) "metadata" else "data"
+    cat(sprintf("| `%s` | %s | [download](../data/derived/%s){download=\"%s\"} |\n", lbl, typ, f, f))
+  }
+}
+```

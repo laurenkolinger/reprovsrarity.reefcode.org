@@ -7,6 +7,12 @@ body main#quarto-document-content.content > section:first-of-type {
   max-width: 780px !important;
 }
 
+/* ...but the interactive tool needs room, so let its section span the full width. This keeps
+   the app's two panels side by side (and lets the pinched viewer height fit one screen). */
+body main#quarto-document-content.content > section:has(.shinylive-r) {
+  max-width: 1180px !important;
+}
+
 /* Keep generated figures modest in size, like the study-site map. */
 body main#quarto-document-content .cell-output-display img,
 body main#quarto-document-content figure.quarto-figure img,
