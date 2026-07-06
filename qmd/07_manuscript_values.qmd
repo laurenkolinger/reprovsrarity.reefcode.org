@@ -1,0 +1,269 @@
+---
+title: "Manuscript values"
+subtitle: "Every derived number, read live from the saved analysis objects"
+---
+
+> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L, Dahl A. Reproductive mode, but not rarity, influences population trajectories in corals. In Review 2026.
+
+This page collects every derived value the manuscript reports and computes each one live from the saved analysis objects, so no number on this page is typed by hand. Each analysis page writes its fitted model, its coefficient table, its group slopes, and its per-taxon descriptive table to a timestamped RData file (Step 14 of each analysis). This page loads the most recent file for each program and reads the values straight out of those objects.
+
+The values appear twice: once for the **as-published** range, which reproduces the numbers in the manuscript, and once for the **updated** range, which reruns the identical analysis on the full monitoring record and therefore differs where new survey years have been added. Each section is labeled with the range it came from.
+
+```{r values-setup}
+#| include: false
+#| warning: false
+#| message: false
+suppressWarnings(suppressPackageStartupMessages({
+  library(tidyverse)
+  library(kableExtra)
+  library(car)
+}))
+
+source("../_includes/_analysis_helpers.R")
+source("../_includes/_brooder_proportion.R")
+repo_root <- find_repo_root()
+
+# --- formatters (match the manuscript's format_helpers.R) --------------------------------------
+fmt_rate  <- function(x, d = 1) formatC(abs(as.numeric(x)), format = "f", digits = d)
+fmt_p     <- function(p) ifelse(as.numeric(p) < 0.001, "p < 0.001",
+                                paste0("p = ", formatC(as.numeric(p), format = "f", digits = 3)))
+fmt_occ   <- function(x, d = 1) formatC(as.numeric(x), format = "f", digits = d)
+fmt_cov   <- function(x, d = 2) formatC(as.numeric(x), format = "f", digits = d)
+fmt_int   <- function(x) formatC(round(as.numeric(x)), format = "d")
+
+# --- load every program's RData for a version (NULL if that render has not happened yet) -------
+load_ver <- function(version) {
+  progs <- c(TCRMP = "TCRMP", VINPS = "VINPS", CSUN = "CSUN", octocoral = "octocoral")
+  out <- lapply(progs, function(p)
+    tryCatch(load_latest_program(p, version, dir = file.path(repo_root, "data", "rdata")),
+             error = function(e) NULL))
+  out
+}
+
+# --- per-program scalars from a loaded env -----------------------------------------------------
+cb_slope     <- function(e) e$group_slopes$Slope[e$group_slopes$Group == "Common broadcaster"]
+cb_pctchange <- function(e) e$group_slopes$`Annual % change`[e$group_slopes$Group == "Common broadcaster"]
+cb_pval      <- function(e) e$group_slopes$`P-value`[e$group_slopes$Group == "Common broadcaster"]
+half_life    <- function(e) log10(0.5) / cb_slope(e)
+
+threeway_term <- function(e) {
+  # cover programs use Reproductive_modeBrooder; octo uses reproductive_modebrooder
+  t <- grep("yearind:categoryRare:[Rr]eproductive_mode[Bb]rooder", e$coef_robust$term, value = TRUE)
+  e$coef_robust$p.value[e$coef_robust$term == t]
+}
+within_brooder_p <- function(e) {
+  # HC3 Wald test that the Year x Rarity slope inside brooders is zero
+  brooder <- grep("^yearind:categoryRare:[Rr]eproductive_mode[Bb]rooder$", names(coef(e$model_full)), value = TRUE)
+  hyp <- paste("yearind:categoryRare +", brooder)
+  r <- car::linearHypothesis(e$model_full, hyp, vcov. = e$vcov_hc3)
+  r$`Pr(>F)`[2]
+}
+
+# --- taxa loss across the species programs -----------------------------------------------------
+lost_taxa <- function(e) e$species_table$taxon[e$species_table$occ_end == 0 | is.na(e$species_table$occ_end)]
+loss_summary <- function(envs) {
+  lt <- lost_taxa(envs$TCRMP); lv <- lost_taxa(envs$VINPS); lc <- lost_taxa(envs$CSUN)
+  base_union <- union(envs$TCRMP$species_table$taxon, envs$VINPS$species_table$taxon)
+  lost_union <- union(lt, lv); lost_both <- intersect(lt, lv)
+  list(
+    tcrmp_base = nrow(envs$TCRMP$species_table), tcrmp_lost = length(lt),
+    vinps_base = nrow(envs$VINPS$species_table), vinps_lost = length(lv),
+    csun_base  = nrow(envs$CSUN$species_table),  csun_lost  = length(lc),
+    base_union = length(base_union), lost_union = length(lost_union), lost_both = length(lost_both),
+    pct_species = 100 * length(lost_union) / length(base_union),
+    pct_genera  = 100 * length(lc) / nrow(envs$CSUN$species_table),
+    all_rare = all(envs$TCRMP$species_table$commonness[envs$TCRMP$species_table$taxon %in% lt] == "Rare") &&
+               all(envs$VINPS$species_table$commonness[envs$VINPS$species_table$taxon %in% lv] == "Rare") &&
+               all(envs$CSUN$species_table$commonness[envs$CSUN$species_table$taxon %in% lc] == "Rare")
+  )
+}
+
+# --- table builders (return data frames; kbl'd in each version section) ------------------------
+summary_table <- function(envs) {
+  progs <- c("TCRMP", "VINPS", "CSUN")
+  data.frame(
+    Program = progs,
+    `Common-broadcaster % / yr` = sapply(progs, function(p) sprintf("-%s", fmt_rate(cb_pctchange(envs[[p]])))),
+    `p (slope)` = sapply(progs, function(p) fmt_p(cb_pval(envs[[p]]))),
+    `Cover half-life (yr)` = sapply(progs, function(p) fmt_int(half_life(envs[[p]]))),
+    `Three-way p` = sapply(progs, function(p) fmt_p(threeway_term(envs[[p]]))),
+    `Within-brooder Year x Rarity p` = sapply(progs, function(p) fmt_p(within_brooder_p(envs[[p]]))),
+    check.names = FALSE, row.names = NULL
+  )
+}
+
+group_slopes_table <- function(envs) {
+  progs <- c("TCRMP", "VINPS", "CSUN", "octocoral")
+  do.call(rbind, lapply(progs, function(p) {
+    gs <- envs[[p]]$group_slopes
+    data.frame(Program = ifelse(p == "octocoral", "Octocorals", p), Group = gs$Group,
+               `% / yr` = sprintf("%.2f", gs$`Annual % change`),
+               `p` = ifelse(gs$`P-value` < 0.001, "< 0.001", sprintf("%.3f", gs$`P-value`)),
+               check.names = FALSE, row.names = NULL)
+  }))
+}
+
+named_occext_table <- function(envs) {
+  keep <- "Madracis|Agaricia|Stephanocoenia|Orbicella"
+  do.call(rbind, lapply(c("TCRMP", "VINPS", "CSUN"), function(p) {
+    st <- envs[[p]]$species_table
+    st <- st[grepl(keep, st$taxon), ]
+    if (nrow(st) == 0) return(NULL)
+    data.frame(
+      Program = p, Taxon = st$taxon,
+      `Occ. start (%)` = fmt_occ(st$occ_start), `Occ. end (%)` = fmt_occ(st$occ_end),
+      `Extent start (%)` = ifelse(is.na(st$ext_start), "-", fmt_cov(st$ext_start)),
+      `Extent end (%)` = ifelse(is.na(st$ext_end), "-", fmt_cov(st$ext_end)),
+      check.names = FALSE, row.names = NULL)
+  }))
+}
+
+octo_window <- function(envs) {
+  yr <- range(envs$octocoral$analysis_data$year, na.rm = TRUE)
+  list(start = yr[1], end = yr[2], span = yr[2] - yr[1])
+}
+
+# --- brooder proportion of total cover (all taxa, ports 06_additional_stats) -------------------
+brooder_series <- tryCatch(compute_brooder_series(repo_root)$ratio, error = function(e) NULL)
+brooder_table <- function(recent_years) {
+  if (is.null(brooder_series)) return(data.frame(Program = character(), check.names = FALSE))
+  bs <- brooder_series
+  do.call(rbind, lapply(c("TCRMP", "VINPS", "CSUN"), function(p) {
+    d <- bs[bs$program == p, ]
+    base_val <- d$prop_brooder[which.min(d$year)] * 100
+    rec <- d$prop_brooder[d$year %in% recent_years] * 100
+    data.frame(Program = p,
+               `Baseline brooder cover (%)` = fmt_int(base_val),
+               `Recent brooder cover (%)` = ifelse(length(rec) == 0, "-",
+                 sprintf("%s - %s", fmt_occ(min(rec)), fmt_occ(max(rec)))),
+               check.names = FALSE, row.names = NULL)
+  }))
+}
+```
+
+```{r values-load}
+#| include: false
+asp <- load_ver("aspublished")
+upd <- load_ver("updated")
+have_asp <- all(!sapply(asp, is.null))
+have_upd <- all(!sapply(upd, is.null))
+```
+
+## As published (through 2023)
+
+```{r asp-narrative}
+#| echo: false
+#| results: asis
+if (!have_asp) {
+  cat("*The as-published RData has not been generated yet. Render the analysis pages first.*\n")
+} else {
+  hl <- setNames(sapply(c("TCRMP","VINPS","CSUN"), function(p) fmt_int(half_life(asp[[p]]))), c("TCRMP","VINPS","CSUN"))
+  tw <- setNames(sapply(c("TCRMP","VINPS","CSUN"), function(p) fmt_p(threeway_term(asp[[p]]))), c("TCRMP","VINPS","CSUN"))
+  wb <- setNames(sapply(c("TCRMP","VINPS","CSUN"), function(p) fmt_p(within_brooder_p(asp[[p]]))), c("TCRMP","VINPS","CSUN"))
+  ls <- loss_summary(asp); ow <- octo_window(asp)
+  cat(sprintf(
+"The common-broadcaster cover half-life is **%s years** at TCRMP, **%s** at VINPS, and **%s** at CSUN (the years for the group to lose half its cover at the fitted rate). The three-way Year x Rarity x Reproductive-mode interaction is significant at VINPS (%s), marginal at CSUN (%s), and not significant at TCRMP (%s). Within brooders alone, the Year x Rarity interaction is significant at VINPS (%s) and CSUN (%s) but not at TCRMP (%s); within broadcasters the two rarity classes decline in parallel. Across TCRMP and VINPS, **%d of %d** baseline species were lost by the end of the record (%.0f%%), and CSUN lost **%d of %d** genera (%.0f%%); every lost taxon was classified rare (%s). The octocoral study window runs %d to %d, a span of %d years.\n\n",
+    hl["TCRMP"], hl["VINPS"], hl["CSUN"], tw["VINPS"], tw["CSUN"], tw["TCRMP"],
+    wb["VINPS"], wb["CSUN"], wb["TCRMP"],
+    ls$lost_union, ls$base_union, ls$pct_species, ls$csun_lost, ls$csun_base, ls$pct_genera,
+    ifelse(ls$all_rare, "all rare", "not all rare"), ow$start, ow$end, ow$span))
+}
+```
+
+```{r asp-tables}
+#| echo: false
+#| tbl-cap: "Per-program headline statistics (as published)."
+if (have_asp) {
+  kbl(summary_table(asp), align = c("l", rep("r", 5))) |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+}
+```
+
+```{r asp-slopes}
+#| echo: false
+if (have_asp) {
+  kbl(group_slopes_table(asp), align = c("l", "l", "r", "r"),
+      caption = "The four group slopes per program (annual percent change and p-value), as published.") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+    collapse_rows(columns = 1, valign = "top")
+}
+```
+
+```{r asp-brooder}
+#| echo: false
+if (have_asp) {
+  kbl(brooder_table(2021:2023), align = c("l", "r", "r"),
+      caption = "Brooder proportion of total coral cover: baseline (first survey year) and recent window (2021-2023), as published.") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+}
+```
+
+```{r asp-occext}
+#| echo: false
+if (have_asp) {
+  kbl(named_occext_table(asp), align = c("l", "l", "r", "r", "r", "r"),
+      caption = "Occupancy and extent, start to end, for the taxa the manuscript names (Madracis, Agaricia, Stephanocoenia, Orbicella), as published.") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+    collapse_rows(columns = 1, valign = "top")
+}
+```
+
+## Updated since publication (through the latest survey year)
+
+```{r upd-narrative}
+#| echo: false
+#| results: asis
+if (!have_upd) {
+  cat("*The updated RData has not been generated yet. Render the updated analysis pages first.*\n")
+} else {
+  hl <- setNames(sapply(c("TCRMP","VINPS","CSUN"), function(p) fmt_int(half_life(upd[[p]]))), c("TCRMP","VINPS","CSUN"))
+  tw <- setNames(sapply(c("TCRMP","VINPS","CSUN"), function(p) fmt_p(threeway_term(upd[[p]]))), c("TCRMP","VINPS","CSUN"))
+  wb <- setNames(sapply(c("TCRMP","VINPS","CSUN"), function(p) fmt_p(within_brooder_p(upd[[p]]))), c("TCRMP","VINPS","CSUN"))
+  ls <- loss_summary(upd); ow <- octo_window(upd)
+  cat(sprintf(
+"On the full monitoring record, the common-broadcaster cover half-life is **%s years** at TCRMP, **%s** at VINPS, and **%s** at CSUN. The three-way interaction reads %s at VINPS, %s at CSUN, and %s at TCRMP. Within brooders, the Year x Rarity interaction reads %s at VINPS, %s at CSUN, and %s at TCRMP. Across TCRMP and VINPS, **%d of %d** baseline species were lost by the most recent period (%.0f%%), and CSUN lost **%d of %d** genera (%.0f%%). The octocoral study window now runs %d to %d, a span of %d years. These numbers differ from the published section because the range extends past 2023.\n\n",
+    hl["TCRMP"], hl["VINPS"], hl["CSUN"], tw["VINPS"], tw["CSUN"], tw["TCRMP"],
+    wb["VINPS"], wb["CSUN"], wb["TCRMP"],
+    ls$lost_union, ls$base_union, ls$pct_species, ls$csun_lost, ls$csun_base, ls$pct_genera,
+    ow$start, ow$end, ow$span))
+}
+```
+
+```{r upd-tables}
+#| echo: false
+if (have_upd) {
+  kbl(summary_table(upd), align = c("l", rep("r", 5)),
+      caption = "Per-program headline statistics (updated).") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+}
+```
+
+```{r upd-slopes}
+#| echo: false
+if (have_upd) {
+  kbl(group_slopes_table(upd), align = c("l", "l", "r", "r"),
+      caption = "The four group slopes per program (annual percent change and p-value), updated.") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+    collapse_rows(columns = 1, valign = "top")
+}
+```
+
+```{r upd-brooder}
+#| echo: false
+if (have_upd) {
+  .maxyr <- max(upd$TCRMP$analysis_data$year, na.rm = TRUE)
+  kbl(brooder_table((.maxyr - 2):.maxyr), align = c("l", "r", "r"),
+      caption = "Brooder proportion of total coral cover: baseline and the most recent three years, updated.") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+}
+```
+
+```{r upd-occext}
+#| echo: false
+if (have_upd) {
+  kbl(named_occext_table(upd), align = c("l", "l", "r", "r", "r", "r"),
+      caption = "Occupancy and extent, start to end, for the named taxa, updated.") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+    collapse_rows(columns = 1, valign = "top")
+}
+```

@@ -18,3 +18,233 @@ Each of the four analyses appears on this site in two versions. Open a program f
 The **as published** version reruns the analysis exactly as it appears in the manuscript. Each program clips the coral-cover or colony-survey data to the years used in the paper. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024. A manuscript reports a result for a fixed dataset, so the published version locks the year range to match. Locking the year range is what lets a reader trace every number in the paper back to a specific, unchanging slice of the monitoring record, regardless of how much new data has been collected since.
 
 The **updated since publication** version reruns the identical analysis: the same code, the same site scoping, and the same taxon scoping. Only the year range changes. It opens the year range to the full monitoring record bundled with this site. Monitoring for each program continues past the cutoff used in the paper, so the updated version extends the window to the most recent year available and lets the trajectories keep going. As new years are added to the underlying data files, the updated pages pick them up automatically the next time this site is rendered. The analysis itself does not change. Comparing the two versions side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the monitoring record grows.
+
+```{r overview-setup}
+#| include: false
+#| warning: false
+#| message: false
+suppressWarnings(suppressPackageStartupMessages({
+  library(tidyverse); library(patchwork); library(kableExtra)
+}))
+source("../_includes/_analysis_helpers.R")
+repo_root <- find_repo_root()
+
+# Shared four-group palette, identical to the analysis pages.
+palette_grp <- c("Common.Broadcaster" = "#0072B2", "Rare.Broadcaster" = "#56B4E9",
+                 "Common.Brooder" = "#D55E00", "Rare.Brooder" = "#E69F00")
+label_grp <- c("Common.Broadcaster" = "Common broadcaster", "Rare.Broadcaster" = "Rare broadcaster",
+               "Common.Brooder" = "Common brooder", "Rare.Brooder" = "Rare brooder")
+
+# Load the published (as-published) analysis objects for the three cover programs. The overview
+# renders the headline result, which is the published version. If the RData is not present yet
+# (a first render before the analysis pages have run), the figures below degrade gracefully.
+asp <- setNames(lapply(c("TCRMP", "VINPS", "CSUN"), function(p)
+  tryCatch(load_latest_program(p, "aspublished", dir = file.path(repo_root, "data", "rdata")),
+           error = function(e) NULL)), c("TCRMP", "VINPS", "CSUN"))
+have_asp <- all(!sapply(asp, is.null))
+taxcol <- c(TCRMP = "coralSpecies", VINPS = "coralSpecies", CSUN = "coralGenera")
+
+# Brooder-vs-broadcaster cover over time (all taxa, ports 06_additional_stats).
+source("../_includes/_brooder_proportion.R")
+brooder <- tryCatch(compute_brooder_series(repo_root), error = function(e) NULL)
+program_colors <- c(CSUN = "#009E73", TCRMP = "#0072B2", VINPS = "#D55E00")
+```
+
+## The monitoring programs
+
+![Study sites across the US Virgin Islands. The three stony-coral programs and the octocoral program monitor permanent reef sites off St. Thomas, St. John, and St. Croix.](figures/Catalina_Map_300.png){#fig-map width=85%}
+
+The analysis draws on three independent long-term stony-coral monitoring programs and one octocoral program, each with its own sites, depths, sampling design, and taxonomic resolution (@fig-map, @stbl-si-sites). Combining programs that were built independently is a strength: when the same pattern emerges from methods that do not share equipment, observers, or reefs, the pattern is unlikely to be an artifact of any one design.
+
+The **Territorial Coral Reef Monitoring Program (TCRMP)** has recorded benthic cover at 20 shallow (0 to 20 m) sites across all three islands since 2001 [@SmithEtAl2016; @KrampitzEtAl2022]. Each site is surveyed annually along six 10 m permanent transects filmed with a high-definition video camera held about 40 cm above the reef; non-overlapping images are annotated with 380 random points per transect, and corals are identified to species where possible. This analysis uses the shallow sites and the species-level identifications.
+
+The **Virgin Islands National Park Service (VINPS)** program, part of the National Park Service South Florida/Caribbean Network, monitors 7 reefs off St. John and at Buck Island Reef National Monument, St. Croix, at 4 to 20 m depth [@MillerEtAl2017; @RogersEtAl2009; @SFCN2025]. Each site carries 20 permanent 10 m transects filmed with a digital video camera; sequential still frames are annotated with 10 random points each, and substrata are classified to coral species. Sites are surveyed annually.
+
+The **California State University Northridge (CSUN)** program is the longest record, running since 1992 at 8 sites on the fringing reefs between White Point and Cabritte Horn, St. John, at 7 to 9 m depth [@EdmundsEtAl2024]. Each site is sampled annually with random photoquadrats analyzed in CPCe or CoralNET; because image resolution and low cover limit species identification, CSUN corals are reported at genus level, so the CSUN analysis runs on genera.
+
+The **Lasker octocoral program** is a supplementary comparison. It counts octocoral colonies in randomly placed 1 m² quadrats along six 10 m transects at three sites on the southern shore of St. John (Grootpan Bay, Europa Bay, and Tektite) at 7 to 9 m depth, from 2014 onward [@tsounis2018; @LaskerCite]. It measures colony density rather than percent cover and tests whether the reproductive-mode pattern seen in stony corals extends to a different cnidarian group on the same reefs.
+
+```{r stbl-si-sites}
+#| echo: false
+#| tbl-cap: "Monitoring sites analyzed for each program, with island, depth, and the year the site entered monitoring, drawn from the site master and the scoped analysis data."
+if (have_asp) {
+  site_master <- read.csv("../data/site/00_RRS_siteMaster_allSites_data.csv")
+  site_rows <- do.call(rbind, lapply(c("TCRMP", "VINPS", "CSUN"), function(p) {
+    sites <- sort(unique(asp[[p]]$analysis_data$site))
+    sm <- site_master[site_master$site %in% sites, ]
+    data.frame(Program = p, Site = sm$site, Island = sm$island,
+               `Depth (m)` = round(sm$depth, 1), `Year added` = sm$yearadded,
+               check.names = FALSE)
+  }))
+  kbl(site_rows, align = c("l", "l", "l", "r", "r"),
+      caption = NULL) |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+    collapse_rows(columns = 1, valign = "top")
+}
+```
+
+## Reproductive mode and rarity
+
+Every taxon carries two labels: a reproductive mode and a historical-abundance class. Reproductive mode is brooder or broadcaster. For the species-level programs the assignment reads a compiled trait table (Mahoney) and fills any gaps from a second table (Olinger), a coalesce that prefers the primary source and falls back to the secondary. For the genus-level CSUN program, each genus is assigned the reproductive mode most common among its species in the region, from a genus-level trait table (Edmunds). Taxa that cannot be placed leave the analysis, because the model contrasts brooders with broadcasters and cannot position an unassigned taxon (@stbl-species-traits).
+
+Historical abundance is common or rare. Within each program, the taxa are ranked by mean cover over the baseline five-year period (2001 to 2005 for TCRMP and VINPS, 1992 to 1996 for CSUN), and the taxa that together hold the top 90 percent of cumulative baseline cover are common; the rest are rare. A sliding-window sensitivity analysis identified 90 percent as the strictest rarity threshold at which the temporal slopes stay stable. Baseline abundance is measured after the onset of regional coral decline that began in the 1980s [@JacksonEtAl2014; @Rogers1985; @GardnerEtAl2003], yet these baseline ranks resemble those described for Caribbean reefs in the 1950s and 1960s [@GoreauandWells1967] and in the fossil record [@Pandolfi2006; @Mesolella1967; @PradaEtAl2016]. Abundance is measured as percent cover, a standard metric for colonial organisms [@GardnerEtAl2003; @MillerEtAl2016], and the analysis models its log₁₀ so that slopes read as proportional annual rates of change [@KerkhoffEnquist2009; @VanKlinkEtAl2024].
+
+```{r stbl-species-traits}
+#| echo: false
+#| tbl-cap: "Every baseline taxon, its reproductive mode, and its common or rare status in each program. Species-level rows come from TCRMP and VINPS; genus-level rows come from CSUN. Rows are grouped by genus."
+if (have_asp) {
+  traits <- do.call(rbind, lapply(c("TCRMP", "VINPS", "CSUN"), function(p) {
+    b <- asp[[p]]$baseline
+    tcol <- taxcol[[p]]
+    data.frame(Taxon = b[[tcol]], Genus = sub(" .*$", "", b[[tcol]]),
+               Mode = as.character(b$Reproductive_mode), commonness = as.character(b$commonness),
+               Program = p, stringsAsFactors = FALSE)
+  }))
+  mode_by_taxon <- traits |> group_by(Taxon) |> summarise(Mode = dplyr::first(Mode), Genus = dplyr::first(Genus), .groups = "drop")
+  wide <- traits |>
+    select(Taxon, Program, commonness) |>
+    pivot_wider(names_from = Program, values_from = commonness, values_fill = "-") |>
+    left_join(mode_by_taxon, by = "Taxon") |>
+    arrange(Genus, Taxon) |>
+    transmute(Taxon, `Repro. mode` = Mode, TCRMP, VINPS, CSUN)
+  kbl(wide, align = c("l", "l", "c", "c", "c")) |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+    column_spec(1, italic = TRUE)
+}
+```
+
+## The integrated result
+
+The headline result combines the three programs in one figure (@fig-main-plot). Each program contributes a row: on the left, the baseline abundance distribution with every taxon colored by its group; on the right, the site-level group cover over time on a log scale, with a linear trend per group. Read across the three rows, broadcast-spawning corals decline steeply while brooding corals hold or rise, and within each reproductive mode the common and rare taxa fall at the same proportional rate. The pattern tracks reproductive mode, not rarity.
+
+```{r fig-main-plot}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 12
+#| fig-cap: "Integrated abundance and trend figure across the three stony-coral programs (as published). Rows: TCRMP (A, B), VINPS (C, D), CSUN (E, F). Left panels rank baseline taxa by mean cover and color them by group; right panels show site-level group cover over time on a log scale with a per-group linear fit."
+if (have_asp) {
+  build_panel <- function(e, tcol) {
+    b <- e$baseline; b <- b[b$meancov > 0, ]
+    b$grp <- interaction(b$commonness, b$Reproductive_mode)
+    b[[tcol]] <- factor(b[[tcol]], levels = rev(b[[tcol]][order(b$rank)]))
+    p_bar <- ggplot(b, aes(.data[[tcol]], meancov, fill = grp)) +
+      geom_col(width = 0.8) +
+      scale_fill_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+      coord_flip() + labs(x = NULL, y = "Baseline percent cover") +
+      theme_classic(base_size = 9) +
+      theme(legend.position = "none", axis.text.y = element_text(face = "italic", size = 6))
+    ad <- e$analysis_data; ad$grp <- interaction(ad$category, ad$Reproductive_mode)
+    p_tr <- ggplot(ad, aes(year, perccover, color = grp, fill = grp)) +
+      geom_jitter(shape = 21, color = "black", alpha = 0.12, width = 0.25, height = 0, show.legend = FALSE) +
+      geom_smooth(method = "lm", formula = y ~ x, se = TRUE, alpha = 0.15, linewidth = 0.7) +
+      scale_color_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+      scale_fill_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+      scale_y_log10() + labs(x = "Year", y = "Percent cover (log scale)") +
+      theme_classic(base_size = 9) + theme(legend.position = "none")
+    p_bar | p_tr
+  }
+  mains <- (build_panel(asp$TCRMP, "coralSpecies") + plot_annotation(title = "TCRMP"))
+  main_fig <- (build_panel(asp$TCRMP, "coralSpecies")) /
+              (build_panel(asp$VINPS, "coralSpecies")) /
+              (build_panel(asp$CSUN,  "coralGenera")) +
+    plot_annotation(tag_levels = "A") &
+    theme(legend.position = "bottom")
+  # collect a single shared legend at the bottom
+  legend_plot <- ggplot(data.frame(grp = factor(names(palette_grp), levels = names(palette_grp)), x = 1, y = 1),
+                        aes(x, y, fill = grp)) + geom_col() +
+    scale_fill_manual(values = palette_grp, labels = label_grp, name = NULL) +
+    theme_void() + theme(legend.position = "bottom")
+  main_fig
+}
+```
+
+The model behind the figure is a linear model of log₁₀ cover on year, rarity, reproductive mode, and every interaction, fit separately for each program with HC3 robust standard errors [@Zeileis2004]. @tbl-main-stats reports the coefficients side by side. The three-way Year × Rarity × Reproductive-mode term is where a rarity effect that differs by reproductive mode would appear.
+
+```{r tbl-main-stats}
+#| echo: false
+if (have_asp) {
+  term_labels <- c(
+    "(Intercept)" = "Intercept", "yearind" = "Year", "categoryRare" = "Rarity",
+    "Reproductive_modeBrooder" = "Repro. mode (brooder)", "yearind:categoryRare" = "Year x Rarity",
+    "yearind:Reproductive_modeBrooder" = "Year x Repro. mode",
+    "categoryRare:Reproductive_modeBrooder" = "Rarity x Repro. mode",
+    "yearind:categoryRare:Reproductive_modeBrooder" = "Year x Rarity x Repro. mode")
+  terms <- names(term_labels)
+  mk_col <- function(e) {
+    cr <- e$coef_robust
+    v <- sprintf("%.3f (%.3f)%s", cr$estimate, cr$std.error,
+                 ifelse(cr$p.value < 0.001, " ***", ifelse(cr$p.value < 0.01, " **",
+                        ifelse(cr$p.value < 0.05, " *", ""))))
+    setNames(v, cr$term)[terms]
+  }
+  t1 <- data.frame(Predictor = term_labels[terms],
+                   TCRMP = mk_col(asp$TCRMP), VINPS = mk_col(asp$VINPS), CSUN = mk_col(asp$CSUN),
+                   row.names = NULL, check.names = FALSE)
+  kbl(t1, align = c("l", "r", "r", "r"),
+      caption = "Table 1. Integrated model coefficients (estimate, HC3 robust SE) across the three programs, as published. Stars mark significance: *** p < 0.001, ** p < 0.01, * p < 0.05. Labels read Rarity.") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+}
+```
+
+## Occupancy versus extent
+
+Two taxa can lose the same amount of cover in different ways: one by disappearing from sites (an occupancy loss), another by thinning where it persists (an extent loss). @fig-arrows-plot separates the two. Each arrow runs from a taxon's baseline occupancy and extent to its recent values, colored by group. Broadcasters tend to slide down and to the left (thinner and less widespread); several brooders hold or expand their occupancy.
+
+```{r fig-arrows-plot}
+#| echo: false
+#| fig-width: 11
+#| fig-height: 4.5
+#| fig-cap: "Occupancy (x) versus extent (y), baseline to recent, per program (A TCRMP, B VINPS, C CSUN), as published. Occupancy is the proportion of surveyed sites where the taxon was present; extent is the mean cover where present. Both axes are log scaled."
+if (have_asp) {
+  arrows_panel <- function(e, prog) {
+    st <- e$species_table
+    st <- st[is.finite(st$occ_start) & is.finite(st$occ_end) &
+             is.finite(st$ext_start) & is.finite(st$ext_end) &
+             st$occ_start > 0 & st$occ_end > 0 & st$ext_start > 0 & st$ext_end > 0, ]
+    st$grp <- interaction(st$commonness, st$mode)
+    ggplot(st, aes(occ_start / 100, ext_start, color = grp)) +
+      geom_segment(aes(xend = occ_end / 100, yend = ext_end),
+                   arrow = arrow(length = unit(0.15, "cm"), type = "closed"), linewidth = 0.4) +
+      geom_point(size = 1.1) +
+      scale_color_manual(values = palette_grp, labels = label_grp, name = NULL, drop = FALSE) +
+      scale_x_log10() + scale_y_log10() +
+      labs(x = "Occupancy (proportion of sites)", y = "Extent (cover where present, %)", title = prog) +
+      theme_classic(base_size = 9) + theme(legend.position = "bottom")
+  }
+  (arrows_panel(asp$TCRMP, "TCRMP") | arrows_panel(asp$VINPS, "VINPS") | arrows_panel(asp$CSUN, "CSUN")) +
+    plot_layout(guides = "collect") + plot_annotation(tag_levels = "A") &
+    theme(legend.position = "bottom")
+}
+```
+
+## Brooders and broadcasters over time
+
+Reproductive mode reshapes the community. @sfig-brooder-broadcaster-cover follows the mean cover of broadcasters and brooders separately in each program, and tracks the brooder share of total coral cover. Broadcaster cover falls across all three programs while brooder cover holds steadier, so the brooder share of cover climbs over the record. In two programs it approaches the 50 percent parity line, meaning brooders may soon hold as much reef cover as broadcasters, a reversal of the historical dominance of broadcasting reef-builders.
+
+```{r sfig-brooder-broadcaster-cover}
+#| echo: false
+#| fig-width: 12
+#| fig-height: 5
+#| fig-cap: "Brooder versus broadcaster cover over time, all taxa (as published). (A) Mean cover per site for broadcasters (solid) and brooders (dashed) in each program. (B) Brooder proportion of total coral cover, with the dashed line marking 50 percent parity."
+if (!is.null(brooder)) {
+  cover_all <- brooder$cover_all
+  ratio_all <- brooder$ratio
+  p_cover <- ggplot(cover_all, aes(year, mean_cover, color = program, linetype = Reproductive_mode)) +
+    geom_line(linewidth = 0.8) + geom_point(size = 1.1, alpha = 0.7) +
+    scale_color_manual(values = program_colors, name = "Program") +
+    scale_linetype_manual(values = c(Broadcaster = "solid", Brooder = "dashed"), name = "Reproductive mode") +
+    labs(x = "Year", y = "Mean cover per site (%)") + theme_classic(base_size = 11)
+  p_prop <- ggplot(ratio_all, aes(year, prop_brooder, color = program)) +
+    geom_hline(yintercept = 0.5, linetype = "dashed", color = "grey40", linewidth = 0.5) +
+    geom_line(linewidth = 0.8) + geom_point(size = 1.3) +
+    scale_color_manual(values = program_colors, name = "Program") +
+    scale_y_continuous(labels = scales::percent_format(), limits = c(0, 0.65)) +
+    labs(x = "Year", y = "Brooder proportion of coral cover") + theme_classic(base_size = 11)
+  (p_cover + p_prop) + plot_layout(widths = c(1.2, 1)) + plot_annotation(tag_levels = "A")
+}
+```
+
+## References
+
+::: {#refs}
+:::

@@ -95,10 +95,12 @@ The baseline period is the first five-year group, `r earliest_year_group`. Two p
 
 ```{r step3-presence-vinps}
 #| code-summary: "Step 3 code: keep baseline-present species and in-range sites"
-spp_in_baseline <- benthiccover |>
+species_yeargroup_observed <- benthiccover |>
   group_by(coralSpecies, year_group) |>
   summarize(seen = max(perccover, na.rm = TRUE) > 0, .groups = "drop") |>
-  filter(seen, year_group == earliest_year_group) |>
+  filter(seen)
+spp_in_baseline <- species_yeargroup_observed |>
+  filter(year_group == earliest_year_group) |>
   pull(coralSpecies) |> unique()
 benthiccover <- benthiccover |> filter(coralSpecies %in% spp_in_baseline)
 
@@ -348,4 +350,29 @@ rdata_file <- save_program_rdata(program, version, list(
   species_table = species_table, pub_range = pub_range, program = program,
   taxon_level = taxon_level, version = version, earliest_year_group = earliest_year_group
 ))
+```
+
+## Step 15 — SI table: taxa excluded from the trend analysis
+
+The trend model runs only on species that were part of the baseline community, so that a modeled slope reflects a species present at the outset rather than one that arrived mid-record. Some species were observed at least once during the record but not during the baseline period, or could not be assigned a reproductive mode; those are held out of the trend analysis and listed here with the year each was first observed.
+
+```{r tbl-vinps-excluded}
+#| code-summary: "Step 15 code: taxa observed but absent from the baseline community"
+.excl <- excluded_taxa_table(species_yeargroup_observed, baseline$coralSpecies, "coralSpecies")
+kbl(.excl, align = c("l", "r"),
+    caption = sprintf("Taxa observed at VINPS but absent from the analyzed baseline community, and therefore excluded from the trend analysis (%d taxa).", nrow(.excl))) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+  column_spec(1, italic = TRUE)
+```
+
+## Step 16 — SI figure: model diagnostics
+
+The coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.
+
+```{r sfig-vinps-diagnostics}
+#| code-summary: "Step 16 code: model diagnostics from the fitted model"
+#| fig-width: 11
+#| fig-height: 3.5
+#| fig-cap: "VINPS model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+model_diagnostics_plot(model_full)
 ```

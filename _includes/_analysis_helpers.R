@@ -130,3 +130,42 @@ load_latest_program <- function(program, version, dir = rdata_dir()) {
   load(latest_rdata(rdata_prefix(program, version), dir), envir = e)
   e
 }
+
+# ---------------------------------------------------------------------------------------------
+# SI helpers used by the analysis pages.
+
+# Model diagnostics regenerated from a fitted lm: residuals vs fitted, normal Q-Q, and the
+# residual distribution. Mirrors the manuscript's sfig-model-diagnostics panels.
+model_diagnostics_plot <- function(model) {
+  suppressWarnings(suppressPackageStartupMessages({ library(ggplot2); library(patchwork) }))
+  mf <- ggplot2::fortify(model)
+  p1 <- ggplot(mf, aes(.fitted, .resid)) +
+    geom_point(alpha = 0.4, size = 0.7, shape = 1) +
+    geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
+    labs(x = "Fitted values", y = "Residuals", title = "Residuals vs fitted") +
+    theme_classic(base_size = 10)
+  p2 <- ggplot(mf, aes(sample = .stdresid)) +
+    stat_qq(alpha = 0.4, size = 0.7, shape = 1) +
+    stat_qq_line(linetype = "dashed", color = "grey50") +
+    labs(x = "Theoretical quantiles", y = "Standardized residuals", title = "Normal Q-Q") +
+    theme_classic(base_size = 10)
+  p3 <- ggplot(mf, aes(.stdresid)) +
+    geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "grey80",
+                   color = "black", linewidth = 0.3, alpha = 0.7) +
+    geom_density(color = "#0072B2", linewidth = 0.5) +
+    labs(x = "Standardized residuals", y = "Density", title = "Residual distribution") +
+    theme_classic(base_size = 10)
+  p1 | p2 | p3
+}
+
+# Taxa observed (cover > 0) at any point but absent from the analyzed baseline community, with
+# the year each was first observed. Mirrors the manuscript's stbl-excluded-taxa.
+excluded_taxa_table <- function(species_yeargroup_observed, baseline_taxa, taxon_col) {
+  obs <- species_yeargroup_observed
+  excl <- setdiff(unique(obs[[taxon_col]]), baseline_taxa)
+  obs[obs[[taxon_col]] %in% excl, , drop = FALSE] |>
+    dplyr::mutate(.yr = as.integer(substr(as.character(year_group), 1, 4))) |>
+    dplyr::group_by(Taxon = .data[[taxon_col]]) |>
+    dplyr::summarise(`Year first observed` = min(.yr), .groups = "drop") |>
+    dplyr::arrange(Taxon)
+}

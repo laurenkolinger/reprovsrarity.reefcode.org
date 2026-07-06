@@ -14,6 +14,7 @@ project:
     - qmd/updated/04_csun.qmd
     - qmd/updated/05_octocoral.qmd
     - qmd/06_interactive.qmd
+    - qmd/07_manuscript_values.qmd
 
 website:
   title: "Reproductive mode and rarity"

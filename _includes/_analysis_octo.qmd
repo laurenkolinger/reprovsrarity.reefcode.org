@@ -297,3 +297,15 @@ rdata_file <- save_program_rdata(program, version, list(
   taxon_level = taxon_level, version = version, earliest_year_group = earliest_year_group
 ))
 ```
+
+## Step 14 — SI figure: model diagnostics
+
+The octocoral coefficient table uses the same HC3 robust standard errors as the coral programs. These diagnostic panels show the residual structure that motivates them: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution.
+
+```{r sfig-octo-diagnostics}
+#| code-summary: "Step 14 code: model diagnostics from the fitted model"
+#| fig-width: 11
+#| fig-height: 3.5
+#| fig-cap: "Octocoral model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+model_diagnostics_plot(model_full)
+```

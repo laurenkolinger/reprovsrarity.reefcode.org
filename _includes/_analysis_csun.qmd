@@ -89,10 +89,12 @@ Two presence rules keep the analysis on genera that were part of the community a
 
 ```{r step3-presence-csun}
 #| code-summary: "Step 3 code: keep baseline-present genera and in-range sites"
-gen_in_baseline <- benthiccover |>
+genus_yeargroup_observed <- benthiccover |>
   group_by(coralGenera, year_group) |>
   summarize(seen = max(perccover, na.rm = TRUE) > 0, .groups = "drop") |>
-  filter(seen, year_group == earliest_year_group) |>
+  filter(seen)
+gen_in_baseline <- genus_yeargroup_observed |>
+  filter(year_group == earliest_year_group) |>
   pull(coralGenera) |> unique()
 benthiccover <- benthiccover |> filter(coralGenera %in% gen_in_baseline)
 
@@ -337,4 +339,29 @@ rdata_file <- save_program_rdata(program, version, list(
   species_table = species_table, pub_range = pub_range, program = program,
   taxon_level = taxon_level, version = version, earliest_year_group = earliest_year_group
 ))
+```
+
+## Step 15 — SI table: genera excluded from the trend analysis
+
+The trend model runs only on genera that were part of the baseline community, so that a modeled slope reflects a genus present at the outset rather than one that arrived mid-record. Some genera were observed at least once during the record but not during the baseline period, or could not be assigned a reproductive mode; those are held out of the trend analysis and listed here with the year each was first observed.
+
+```{r tbl-csun-excluded}
+#| code-summary: "Step 15 code: genera observed but absent from the baseline community"
+.excl <- excluded_taxa_table(genus_yeargroup_observed, baseline$coralGenera, "coralGenera")
+kbl(.excl, align = c("l", "r"),
+    caption = sprintf("Genera observed at CSUN but absent from the analyzed baseline community, and therefore excluded from the trend analysis (%d genera).", nrow(.excl))) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+  column_spec(1, italic = TRUE)
+```
+
+## Step 16 — SI figure: model diagnostics
+
+The coefficient table uses HC3 robust standard errors because the residual variance is not constant across groups. These diagnostic panels show why. Residuals versus fitted values reveal the unequal spread, the normal Q-Q plot shows the tails, and the residual distribution summarizes the whole. The robust standard errors used throughout the analysis are the response to exactly this structure.
+
+```{r sfig-csun-diagnostics}
+#| code-summary: "Step 16 code: model diagnostics from the fitted model"
+#| fig-width: 11
+#| fig-height: 3.5
+#| fig-cap: "CSUN model diagnostics: residuals versus fitted values, a normal Q-Q plot of standardized residuals, and the residual distribution."
+model_diagnostics_plot(model_full)
 ```
