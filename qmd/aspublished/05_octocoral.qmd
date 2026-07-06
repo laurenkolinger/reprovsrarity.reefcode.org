@@ -19,7 +19,7 @@ The Lasker octocoral program counts octocoral colonies in fixed quadrats at 3 si
 
 ```{r params-octo}
 #| code-summary: "Set the publication parameters for this version"
-pub_range <- c(2014, 2024); program <- "octocoral"; taxon_level <- "species"
+pub_range <- c(2014, 2024); program <- "octocoral"; taxon_level <- "species"; version <- "aspublished"
 ```
 
 {{< include ../../_includes/_analysis_octo.qmd >}}

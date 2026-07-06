@@ -280,3 +280,20 @@ group_slopes |>
       caption = "Group-specific temporal slopes (octocorals), with robust SEs and annual percent change.") |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 ```
+
+## Step 13 — Save the analysis objects
+
+The octocoral analysis keeps the same abundance table it already builds above. Like the coral programs, it now also writes its analysis objects to a timestamped RData file under `data/rdata/`, tagged with the program and the version (as published or updated) so the two ranges never overwrite each other. The manuscript-values page reads the octocoral study window and the octocoral group slopes from this saved file.
+
+```{r save-rdata-octo}
+#| code-summary: "Step 13 code: save the key objects to a timestamped RData"
+#| include: false
+source("../../_includes/_analysis_helpers.R")
+if (!exists("version")) version <- "unversioned"
+rdata_file <- save_program_rdata(program, version, list(
+  baseline = baseline, analysis_data = analysis_data, model_full = model_full,
+  vcov_hc3 = vcov_hc3, coef_robust = coef_robust, group_slopes = group_slopes,
+  species_table = baseline, pub_range = pub_range, program = program,
+  taxon_level = taxon_level, version = version, earliest_year_group = earliest_year_group
+))
+```

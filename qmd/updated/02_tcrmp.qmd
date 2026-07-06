@@ -27,6 +27,6 @@ The Territorial Coral Reef Monitoring Program records coral cover at the species
 #| code-summary: "Set the parameters for this version: open the range to the full bundled record"
 cover_files <- sort(list.files("../../data/cover", pattern = "s2pt5.*\\.csv$", full.names = TRUE))
 max_year <- max(readr::read_csv(tail(cover_files, 1), show_col_types = FALSE)$year)
-pub_range <- c(2001, max_year); program <- "TCRMP"; taxon_level <- "species"
+pub_range <- c(2001, max_year); program <- "TCRMP"; taxon_level <- "species"; version <- "updated"
 ```
 {{< include ../../_includes/_analysis_tcrmp.qmd >}}

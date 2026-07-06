@@ -27,6 +27,6 @@ The California State University Northridge program records coral cover at the ge
 #| code-summary: "Set the parameters for this version: open the range to the full bundled record"
 cover_files <- sort(list.files("../../data/cover", pattern = "s2pt4.*\\.csv$", full.names = TRUE))
 max_year <- max(readr::read_csv(tail(cover_files, 1), show_col_types = FALSE)$year)
-pub_range <- c(1992, max_year); program <- "CSUN"; taxon_level <- "genera"
+pub_range <- c(1992, max_year); program <- "CSUN"; taxon_level <- "genera"; version <- "updated"
 ```
 {{< include ../../_includes/_analysis_csun.qmd >}}

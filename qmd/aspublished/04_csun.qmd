@@ -19,7 +19,7 @@ The California State University Northridge program records coral cover at the ge
 
 ```{r params-csun}
 #| code-summary: "Set the publication parameters for this version"
-pub_range <- c(1992, 2023); program <- "CSUN"; taxon_level <- "genera"
+pub_range <- c(1992, 2023); program <- "CSUN"; taxon_level <- "genera"; version <- "aspublished"
 ```
 
 {{< include ../../_includes/_analysis_csun.qmd >}}

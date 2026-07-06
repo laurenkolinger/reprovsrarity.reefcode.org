@@ -19,7 +19,7 @@ The Virgin Islands National Park Service program records coral cover at the spec
 
 ```{r params-vinps}
 #| code-summary: "Set the publication parameters for this version"
-pub_range <- c(2001, 2023); program <- "VINPS"; taxon_level <- "species"
+pub_range <- c(2001, 2023); program <- "VINPS"; taxon_level <- "species"; version <- "aspublished"
 ```
 
 {{< include ../../_includes/_analysis_vinps.qmd >}}

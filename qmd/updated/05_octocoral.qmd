@@ -27,6 +27,6 @@ The Lasker octocoral program counts octocoral colonies in fixed quadrats at 3 si
 #| code-summary: "Set the parameters for this version: open the range to the full bundled record"
 octo_years <- readr::read_csv("../../data/collab/octocoral_adultSurveys_Lasker_20250409.csv", show_col_types = FALSE)[["Census Year"]]
 max_year <- max(floor(as.numeric(octo_years)), na.rm = TRUE)
-pub_range <- c(2014, max_year); program <- "octocoral"; taxon_level <- "species"
+pub_range <- c(2014, max_year); program <- "octocoral"; taxon_level <- "species"; version <- "updated"
 ```
 {{< include ../../_includes/_analysis_octo.qmd >}}

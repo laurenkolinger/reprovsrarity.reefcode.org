@@ -287,3 +287,54 @@ group_slopes |>
       caption = "Group-specific temporal slopes (CSUN), with robust SEs and annual percent change.") |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 ```
+
+## Step 13 — Table: full descriptive statistics per genus
+
+The coefficient table reports the fitted trends. This table steps back to the genera themselves and reports, for every genus in the baseline community, how abundant and how widespread it was at the start of the record and how that changed by the end. Three complementary measures separate the different ways a genus can decline. Cover is the mean percent cover across the genus range. Occupancy is the proportion of surveyed sites where the genus was present, so it tracks range contraction independent of local abundance. Extent is the mean cover at the sites where the genus was actually present, so it tracks thinning within the occupied range. A genus can hold its occupancy while its extent falls, or contract its range while staying dense where it persists; reporting both separates the two. Start values average over the baseline five-year group, and end values average over the last three years of the record. Occupancy counts a site only from the year it entered monitoring, so the denominator follows the site-by-site survey history rather than assuming every reef was watched from the first year.
+
+```{r tbl-csun-descriptive}
+#| code-summary: "Step 13 code: per-genus descriptive change-metrics table"
+source("../../_includes/_analysis_helpers.R")
+species_table <- compute_change_metrics(benthiccover, baseline, sitedat, earliest_year_group, "coralGenera")
+
+.end_yrs <- (max(benthiccover$year) - 2):max(benthiccover$year)
+.desc_tbl <- species_table |>
+  arrange(rank_start) |>
+  transmute(
+    Genus = taxon,
+    `Repro. mode` = mode,
+    Commonness = commonness,
+    `Start rank` = rank_start,
+    `End rank` = ifelse(is.na(rank_end), "-", as.character(rank_end)),
+    `Start cover (%)` = sprintf("%.3f", cover_start),
+    `End cover (%)` = ifelse(is.na(cover_end), "-", sprintf("%.3f", cover_end)),
+    `Start occ. (%)` = sprintf("%.1f", occ_start),
+    `End occ. (%)` = sprintf("%.1f", occ_end),
+    `Start extent (%)` = ifelse(is.na(ext_start), "-", sprintf("%.2f", ext_start)),
+    `End extent (%)` = ifelse(is.na(ext_end), "-", sprintf("%.2f", ext_end)),
+    .common = commonness == "Common"
+  )
+kbl(.desc_tbl |> select(-.common), align = c("l", "l", "l", rep("r", 8)),
+    caption = sprintf(
+      "Descriptive statistics for every baseline CSUN genus. Start metrics average over the baseline period (%s); end metrics average over the last three years (%d-%d). Cover is mean percent cover across the genus range; occupancy is the proportion of surveyed sites where the genus was present; extent is the mean cover at sites where present. Common genera are shown in bold.",
+      earliest_year_group, min(.end_yrs), max(.end_yrs))) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
+  column_spec(1, italic = TRUE) |>
+  row_spec(which(.desc_tbl$.common), bold = TRUE)
+```
+
+## Step 14 — Save the analysis objects
+
+The analysis objects are written to a timestamped RData file under `data/rdata/`, tagged with the program and the version (as published or updated) so the two ranges never overwrite each other. The manuscript-values page loads the most recent file for each program and version and reads every derived number from these saved objects, rather than repeating the computation. The derived CSVs written elsewhere are left unchanged.
+
+```{r save-rdata-csun}
+#| code-summary: "Step 14 code: save the key objects to a timestamped RData"
+#| include: false
+if (!exists("version")) version <- "unversioned"
+rdata_file <- save_program_rdata(program, version, list(
+  baseline = baseline, analysis_data = analysis_data, model_full = model_full,
+  vcov_hc3 = vcov_hc3, coef_robust = coef_robust, group_slopes = group_slopes,
+  species_table = species_table, pub_range = pub_range, program = program,
+  taxon_level = taxon_level, version = version, earliest_year_group = earliest_year_group
+))
+```

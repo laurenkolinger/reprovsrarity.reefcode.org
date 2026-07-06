@@ -19,7 +19,7 @@ The Territorial Coral Reef Monitoring Program records coral cover at the species
 
 ```{r params-tcrmp}
 #| code-summary: "Set the publication parameters for this version"
-pub_range <- c(2001, 2023); program <- "TCRMP"; taxon_level <- "species"
+pub_range <- c(2001, 2023); program <- "TCRMP"; taxon_level <- "species"; version <- "aspublished"
 ```
 
 {{< include ../../_includes/_analysis_tcrmp.qmd >}}
