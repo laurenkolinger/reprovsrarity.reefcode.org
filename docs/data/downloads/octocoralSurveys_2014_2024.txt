@@ -1,8 +1,0 @@
-###############################
-file: octocoralSurveys_2014_2024.csv
-source dataset: octocoral_adultSurveys_Lasker_20250409.csv
-year range: 2014 to 2024
-rows: 15106
-columns: Census Year, Date, Site, Transect, Meter on transect, Side of transect, meter-side, Quadrat, Genus, Species code, Revised Species code, Revised species, Maximum height from base, Living tissue, height from base (cm), Basal damage, Damage, Cyphoma present, Comments 1, Comments 2 (sample tag#), Living tissue size class,.1-9.9=0, , , , , , 
-description: Octocoral colony survey records (Lasker program), the Step 1 input to the octocoral analysis, clipped to the as-published year range.
-###############################

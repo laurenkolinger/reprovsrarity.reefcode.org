@@ -10505,7 +10505,7 @@ if (have_asp) {
 
 ## Download the data and code
 
-The original datasets read in Step 1 of each analysis, clipped to the as-published year range, together with their metadata and the full analysis code, are available for download here.
+The input datasets read in Step 1 of each analysis, and the full analysis code, are available for download here. Each dataset keeps its original file name; the cover and survey files are clipped to their analysis year range.
 
 Analysis code:
 
@@ -10514,17 +10514,9 @@ Analysis code:
 - CSUN: {{< downloadthis ../_includes/_analysis_csun.qmd dname="analysis_csun.qmd" label="CSUN code (.qmd)" >}}
 - Octocorals: {{< downloadthis ../_includes/_analysis_octo.qmd dname="analysis_octo.qmd" label="Octocoral code (.qmd)" >}}
 
-Data and metadata (each dataset clipped to its analysis year range):
+Input data:
 
-```{r downloads-all}
-#| echo: false
-#| output: asis
-.files <- sort(list.files("../data/downloads", pattern = "\\.(csv|txt)$"))
-if (length(.files)) {
-  cat("| File | Type | Download |\n|:--|:--|:--|\n")
-  for (f in .files) {
-    typ <- if (grepl("\\.txt$", f)) "metadata" else "data"
-    cat(sprintf("| `%s` | %s | [download](../data/downloads/%s){download=\"%s\"} |\n", f, typ, f, f))
-  }
-}
-```
+- Coral species cover, TCRMP and VINPS (2001–2023): [s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv](../data/downloads/s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv){download="s2pt5_benthicCoverCoralSpecies_41sites_1999_2024.csv"}
+- Coral genus cover, CSUN (1992–2023): [s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv](../data/downloads/s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv){download="s2pt4_benthicCoverCoralGenera_49sites_1987_2024.csv"}
+- Octocoral colony surveys (2014–2024): [octocoral_adultSurveys_Lasker_20250409.csv](../data/downloads/octocoral_adultSurveys_Lasker_20250409.csv){download="octocoral_adultSurveys_Lasker_20250409.csv"}
+- Site metadata: [00_RRS_siteMaster_allSites_data.csv](../data/downloads/00_RRS_siteMaster_allSites_data.csv){download="00_RRS_siteMaster_allSites_data.csv"}
