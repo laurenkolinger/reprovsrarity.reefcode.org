@@ -25,6 +25,11 @@ format:
     date-format: "MMMM D, YYYY"
     published-title: "Last updated"
 
+# Shared bibliography and Science CSL (paths relative to the project root). Every page can
+# resolve [@key] citations against these; a References section renders where citations appear.
+bibliography: references.bib
+csl: science.csl
+
 execute:
   freeze: auto
   warning: false
