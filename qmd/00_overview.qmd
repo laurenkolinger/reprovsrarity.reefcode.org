@@ -7,17 +7,17 @@ subtitle: "About this study"
 
 ## About this study
 
-This site accompanies a manuscript on how reproductive mode and rarity relate to coral population trajectories in the U.S. Virgin Islands. It presents four analyses, one per monitoring program: TCRMP, VINPS, and CSUN, which track coral cover on the reef, and the Lasker octocoral program, which tracks octocoral colony density.
+This analysis accompanies the manuscript above on how reproductive mode and rarity relate to long term coral population trajectories in the U.S. Virgin Islands. It presents four analyses, one per monitoring program: TCRMP, VINPS, and CSUN track coral cover on the reef, and the octocoral program tracks octocoral colony density.
 
-The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the Reef Code benthic cover section. The species-level file backs the TCRMP and VINPS analyses: [coral species cover download]({{< var data-source-species >}}). The genus-level file backs the CSUN analysis: [coral genera cover download]({{< var data-source-genera >}}).
+The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the Reef Code benthic cover section. A species-level file backs TCRMP and VINPS ([coral species cover download]({{< var data-source-species >}})); a genus-level file backs CSUN ([coral genera cover download]({{< var data-source-genera >}})).
 
 ### Two versions of each analysis
 
-Each of the four analyses appears on this site in two versions. Open a program from the Publications menu to read the as-published version, then use the toggle at the top of the page to switch to the updated version and back.
+Each analysis appears in two versions. Open a program from the Publications menu to read the as submitted version, then use the toggle at the top of the page to switch to the updated version and back (as of July 2026, the two are the same).
 
-The **as published** version reruns the analysis exactly as it appears in the manuscript. TCRMP and VINPS clip to 2001 through 2023. CSUN clips to 1992 through 2023. The octocoral program clips to 2014 through 2024.
+The **as submitted** version reruns the analysis exactly as in the manuscript. TCRMP and VINPS clip to 2001–2023, CSUN to 1992–2023, and the octocoral program to 2014–2024.
 
-The **updated since publication** version reruns the identical analysis: the same code, the same site scoping, and the same taxon scoping. Only the year range changes. Comparing the two versions side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the monitoring record grows.
+The **updated** version reruns the identical analysis: same code, same site and taxon scoping. Only the year range changes. Comparing the two side by side shows whether the pattern reported in the paper is holding, strengthening, or shifting as the record grows.
 
 ```{r overview-setup}
 #| include: false
@@ -41,7 +41,7 @@ taxcol <- c(TCRMP = "coralSpecies", VINPS = "coralSpecies", CSUN = "coralGenera"
 
 ## The monitoring programs
 
-![Long-term coral monitoring sites across the US Virgin Islands from three independent programs: Territorial Coral Reef Monitoring Program (TCRMP, n = 20 sites), Virgin Islands National Park (VINPS, n = 7 sites), and California State University Northridge (CSUN, n = 8 sites). All sites were established before 2006 and are located at 0–20 m depth.](figures/Catalina_Map_300.png){#fig-map width=85%}
+![Long-term coral monitoring sites across the US Virgin Islands from three independent programs: Territorial Coral Reef Monitoring Program (TCRMP, n = 20 sites), Virgin Islands National Park (VINPS, n = 7 sites), and California State University Northridge (CSUN, n = 8 sites). All sites were established before 2006 and are located at 0–20 m depth.](figures/Catalina_Map_300.png){#fig-map width="85%"}
 
 Our study used time-series analyses on the fringing reefs of St. John, St. Thomas, and St. Croix, US Virgin Islands (@fig-map, @tbl-si-sites). Each program has been established for at least two decades, and each involves annual transect and quadrat surveys at permanent sites across the USVI with different taxonomic foci, resolution, methods, and spatial extent. While combining studies introduces limitations with respect to the contrasts that can be supported, as we show, independent analyses combine to create emergent properties when common results are obtained. For stony corals, the study conducted at the largest spatial scale was completed at 20 sites around all three islands since 2001 by the Territorial Coral Reef Monitoring Program (hereafter "TCRMP"; [@SmithEtAl2016; @KrampitzEtAl2022]). The study with most extensive sampling (n = 20 transects / site) was completed at 7 sites since 2001 by the VI National Park Service (hereafter "VINPS"; [@MillerEtAl2017; @RogersEtAl2009]). The longest study comes from 8 sites (7–14 m depth) between White Point and Cabritte Horn, St. John, that have been studied since 1992 by California State University Northridge (hereafter "CSUN"; [@EdmundsEtAl2024]).
 
