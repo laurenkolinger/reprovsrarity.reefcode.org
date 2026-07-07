@@ -1,36 +1,43 @@
 # Deploy: reprovsrarity.reefcode.org (run these yourself)
 
 This file stages the GitHub and DNS steps for the
-`reprovsrarity.reefcode.org` repo. Nothing in this repo has been pushed, no
-remote has been added, and no GitHub setting has been changed. Run the
-commands below yourself, in order, when ready.
+`reprovsrarity.reefcode.org` repo.
 
-## PRECONDITION (must be confirmed before this repo goes public)
+## STATUS (updated 2026-07-06)
 
-**Confirm co-author data clearance before flipping this repository public.**
-This site bundles reproductive-mode tables (Mahoney/Olinger) and Lasker
-octocoral data. Do not run the `--public` repo-creation step below, and do not
-make this repository or its Pages site public, until that clearance is
-confirmed with the co-authors.
+Co-author data clearance was confirmed, so the repo was published. State:
 
-## 1. Create the GitHub repo (public, after clearance above) and push
+- **Step 1 — repo + push: DONE.** `laurenkolinger/reprovsrarity.reefcode.org`
+  was created **public**, `origin` added, and `main` pushed.
+- **Step 2 — Pages: DONE.** Pages is enabled from `main` / `/docs` with the
+  custom domain `reprovsrarity.reefcode.org` (read from `docs/CNAME`).
+- **Step 3 — DNS: PENDING (do this at the reefcode.org registrar).** See below.
+- **Step 4 — HTTPS: after DNS.** Once the `reprovsrarity` host resolves,
+  GitHub issues the TLS cert; then turn on **Enforce HTTPS** in Settings > Pages.
+
+## PRECONDITION (was required before going public)
+
+Co-author data clearance for the reproductive-mode tables (Mahoney/Olinger)
+and octocoral data was confirmed on 2026-07-06, before the repo was made public.
+
+## 1. Create the GitHub repo (public) and push — DONE
 
 ```bash
 gh repo create "laurenkolinger/reprovsrarity.reefcode.org" --public --source=. --remote=origin
 git push -u origin main
 ```
 
-## 2. GitHub Pages settings
+## 2. GitHub Pages settings — DONE
 
-In the repo on GitHub: **Settings > Pages > Build and deployment > Source:
-Deploy from a branch**, then set **Branch: `main`, folder: `/docs`**.
+Pages source is **Deploy from a branch**, **Branch: `main`, folder: `/docs`**
+(set via the API; visible under **Settings > Pages**).
 
 ## 3. DNS at the reefcode.org registrar
 
 Add a `CNAME` record for the `reprovsrarity` host pointing at
 `laurenkolinger.github.io`:
 
-```
+```text
 reprovsrarity.reefcode.org.   CNAME   laurenkolinger.github.io.
 ```
 
