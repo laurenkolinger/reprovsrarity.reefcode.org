@@ -1,6 +1,6 @@
 # Shared helpers for the analysis includes and the manuscript-values page.
 # Sourced by each _analysis_*.qmd (from a page directory) and by qmd/07_manuscript_values.qmd.
-# Two jobs: (1) the per-taxon descriptive change-metrics table (occupancy / extent / cover /
+# Two jobs: (1) the per-taxon descriptive change-metrics table (occupancy / local cover / cover /
 # rank, start vs end), mirroring the manuscript's all_species_change_metrics; (2) timestamped
 # RData saving/loading per program and version, mirroring the manuscript's helpers.R.
 
@@ -25,7 +25,7 @@ rdata_dir <- function() file.path(find_repo_root(), "data", "rdata")
 #   - Occupancy(taxon, year) = proportion of ACTIVE sites (yearadded <= year) where the taxon was
 #     present (cover > 0); years with no active site are dropped (matches the manuscript's
 #     year >= yearadded filter over the zero-filled site grid). Start/End = mean over the period.
-#   - Extent(taxon) = mean cover across present (cover > 0) site-years within the period.
+#   - Local cover(taxon) = mean cover across present (cover > 0) site-years within the period.
 #   - Start cover = baseline mean cover (meancov). End cover = zero-filled mean cover across
 #     active sites over the end years. Ranks: start = baseline rank; end = rank of end cover.
 compute_change_metrics <- function(benthiccover, baseline, sitedat, earliest_year_group, taxon_col) {

@@ -195,7 +195,7 @@ group_slope <- function(terms) {
   est <- sum(L * coef(model_full))
   se <- sqrt(as.numeric(t(L) %*% vcov_hc3 %*% L))
   tibble(Slope = est, SE = se, `Annual % change` = 100 * (10^est - 1),
-         `P-value` = 2 * pnorm(-abs(est / se)))
+         `P-value` = 2 * pt(-abs(est / se), df = df.residual(model_full)))
 }
 group_slopes <- bind_rows(
   "Common broadcaster" = group_slope("yearind"),

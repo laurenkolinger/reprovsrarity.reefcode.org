@@ -13,7 +13,7 @@ The coral-cover data behind the TCRMP, VINPS, and CSUN analyses comes from the R
 
 ### Two versions of each analysis
 
-Each analysis appears in two versions. Open a program from the Publications menu to read the as submitted version, then use the toggle at the top of the page to switch to the updated version and back (as of July 2026, the two are the same).
+Each analysis appears in two versions. Open a program from the Outputs menu to read the as submitted version, then use the toggle at the top of the page to switch to the updated version and back (as of July 2026, the two are the same).
 
 The **as submitted** version reruns the analysis exactly as in the manuscript. TCRMP and VINPS clip to 2001–2023, CSUN to 1992–2023, and the octocoral program to 2014–2024.
 

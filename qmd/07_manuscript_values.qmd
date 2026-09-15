@@ -112,8 +112,8 @@ named_occext_table <- function(envs) {
     data.frame(
       Program = p, Taxon = st$taxon,
       `Occ. start (%)` = fmt_occ(st$occ_start), `Occ. end (%)` = fmt_occ(st$occ_end),
-      `Extent start (%)` = ifelse(is.na(st$ext_start), "-", fmt_cov(st$ext_start)),
-      `Extent end (%)` = ifelse(is.na(st$ext_end), "-", fmt_cov(st$ext_end)),
+      `Local cover start (%)` = ifelse(is.na(st$ext_start), "-", fmt_cov(st$ext_start)),
+      `Local cover end (%)` = ifelse(is.na(st$ext_end), "-", fmt_cov(st$ext_end)),
       check.names = FALSE, row.names = NULL)
   }))
 }
@@ -202,7 +202,7 @@ if (have_asp) {
 #| echo: false
 if (have_asp) {
   kbl(named_occext_table(asp), align = c("l", "l", "r", "r", "r", "r"),
-      caption = "Occupancy and extent, start to end, for the taxa the manuscript names (Madracis, Agaricia, Stephanocoenia, Orbicella), as published.") |>
+      caption = "Occupancy and local cover, start to end, for the taxa the manuscript names (Madracis, Agaricia, Stephanocoenia, Orbicella), as published.") |>
     kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
     collapse_rows(columns = 1, valign = "top")
 }
@@ -262,7 +262,7 @@ if (have_upd) {
 #| echo: false
 if (have_upd) {
   kbl(named_occext_table(upd), align = c("l", "l", "r", "r", "r", "r"),
-      caption = "Occupancy and extent, start to end, for the named taxa, updated.") |>
+      caption = "Occupancy and local cover, start to end, for the named taxa, updated.") |>
     kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
     collapse_rows(columns = 1, valign = "top")
 }

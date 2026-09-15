@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-07-06">
+<meta name="dcterms.date" content="2026-09-15">
 
 <title>2. TCRMP (updated since publication) – Reproductive mode and rarity</title>
 <style>
@@ -385,7 +385,7 @@ body.section-publications .rn-row[data-sec="publications"]{ display:flex; }
     <div>
     <div class="quarto-title-meta-heading">Last updated</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 6, 2026</p>
+      <p class="date">September 15, 2026</p>
     </div>
   </div>
   
@@ -677,7 +677,7 @@ Common   Rare
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">sum</span>(L <span class="sc">*</span> <span class="fu">coef</span>(model_full))</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">as.numeric</span>(<span class="fu">t</span>(L) <span class="sc">%*%</span> vcov_hc3 <span class="sc">%*%</span> L))</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">Slope =</span> est, <span class="at">SE =</span> se, <span class="st">`</span><span class="at">Annual % change</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">10</span><span class="sc">^</span>est <span class="sc">-</span> <span class="dv">1</span>),</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">P-value</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(est <span class="sc">/</span> se)))</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">P-value</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(est <span class="sc">/</span> se), <span class="at">df =</span> <span class="fu">df.residual</span>(model_full)))</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>group_slopes <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common broadcaster"</span> <span class="ot">=</span> <span class="fu">group_slope</span>(<span class="st">"yearind"</span>),</span>
@@ -890,7 +890,7 @@ Table&nbsp;2: Group-specific temporal slopes estimated by Wald tests on linear c
 </section>
 <section id="step-13-table-full-descriptive-statistics-per-species" class="level2">
 <h2 data-anchor-id="step-13-table-full-descriptive-statistics-per-species">Step 13 — Table: full descriptive statistics per species</h2>
-<p>The coefficient table reports the fitted trends. This table steps back to the species themselves and reports, for every taxon in the baseline community, how abundant and how widespread it was at the start of the record and how that changed by the end. Three complementary measures separate the different ways a species can decline. Cover is the mean percent cover across the species range. Occupancy is the proportion of surveyed sites where the species was present, so it tracks range contraction independent of local abundance. Extent is the mean cover at the sites where the species was actually present, so it tracks thinning within the occupied range. A species can hold its occupancy while its extent falls, or contract its range while staying dense where it persists; reporting both separates the two. Start values average over the baseline five-year group, and end values average over the last three years of the record. Occupancy counts a site only from the year it entered monitoring, so the denominator follows the site-by-site survey history rather than assuming every reef was watched from the first year.</p>
+<p>The coefficient table reports the fitted trends. This table steps back to the species themselves and reports, for every taxon in the baseline community, how abundant and how widespread it was at the start of the record and how that changed by the end. Three complementary measures separate the different ways a species can decline. Cover is the mean percent cover across the species range. Occupancy is the proportion of surveyed sites where the species was present, so it tracks range contraction independent of local abundance. Local cover is the mean cover at the sites where the species was actually present, so it tracks thinning within the occupied range. A species can hold its occupancy while its local cover falls, or contract its range while staying dense where it persists; reporting both separates the two. Start values average over the baseline five-year group, and end values average over the last three years of the record. Occupancy counts a site only from the year it entered monitoring, so the denominator follows the site-by-site survey history rather than assuming every reef was watched from the first year.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Step 13 code: per-species descriptive change-metrics table</summary>
@@ -910,13 +910,13 @@ Table&nbsp;2: Group-specific temporal slopes estimated by Wald tests on linear c
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End cover (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(cover_end), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, cover_end)),</span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start occ. (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f"</span>, occ_start),</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End occ. (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f"</span>, occ_end),</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start extent (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ext_start), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, ext_start)),</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End extent (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ext_end), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, ext_end)),</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start local cover (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ext_start), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, ext_start)),</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End local cover (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ext_end), <span class="st">"-"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, ext_end)),</span>
 <span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">.common =</span> commonness <span class="sc">==</span> <span class="st">"Common"</span></span>
 <span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(.desc_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>.common), <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>, <span class="fu">rep</span>(<span class="st">"r"</span>, <span class="dv">8</span>)),</span>
 <span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">sprintf</span>(</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Descriptive statistics for coral species in the TCRMP monitoring program. Species are ordered by their rank in the baseline period (%s). Reproductive Mode ('Repro. Mode') indicates reproductive strategy. Rows in bold signify common species, determined by the top 90%% cumulative cover threshold during the baseline period. Start Cover (%%), Start Occupancy (Start Occup. (%%)), Start Extent (%%), and Start Rank are metrics from the baseline period. End Cover (%%), End Occupancy (End Occup. (%%)), End Extent (%%), and End Rank are metrics for the recent period (%d-%d)."</span>,</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Descriptive statistics for coral species in the TCRMP monitoring program. Species are ordered by their rank in the baseline period (%s). Reproductive Mode ('Repro. Mode') indicates reproductive strategy. Rows in bold signify common species, determined by the top 90%% cumulative cover threshold during the baseline period. Start Cover (%%), Start Occupancy (Start Occup. (%%)), Start Local cover (%%), and Start Rank are metrics from the baseline period. End Cover (%%), End Occupancy (End Occup. (%%)), End Local cover (%%), and End Rank are metrics for the recent period (%d-%d)."</span>,</span>
 <span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>      earliest_year_group, <span class="fu">min</span>(.end_yrs), <span class="fu">max</span>(.end_yrs))) <span class="sc">|&gt;</span></span>
 <span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">italic =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
@@ -925,7 +925,7 @@ Table&nbsp;2: Group-specific temporal slopes estimated by Wald tests on linear c
 <div id="tbl-tcrmp-descriptive" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tcrmp-descriptive-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3: Descriptive statistics for coral species in the TCRMP monitoring program. Species are ordered by their rank in the baseline period (2001-2005). Reproductive Mode ('Repro. Mode') indicates reproductive strategy. Rows in bold signify common species, determined by the top 90% cumulative cover threshold during the baseline period. Start Cover (%), Start Occupancy (Start Occup. (%)), Start Extent (%), and Start Rank are metrics from the baseline period. End Cover (%), End Occupancy (End Occup. (%)), End Extent (%), and End Rank are metrics for the recent period (2022-2024).
+Table&nbsp;3: Descriptive statistics for coral species in the TCRMP monitoring program. Species are ordered by their rank in the baseline period (2001-2005). Reproductive Mode ('Repro. Mode') indicates reproductive strategy. Rows in bold signify common species, determined by the top 90% cumulative cover threshold during the baseline period. Start Cover (%), Start Occupancy (Start Occup. (%)), Start Local cover (%), and Start Rank are metrics from the baseline period. End Cover (%), End Occupancy (End Occup. (%)), End Local cover (%), and End Rank are metrics for the recent period (2022-2024).
 </figcaption>
 <div aria-describedby="tbl-tcrmp-descriptive-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -942,8 +942,8 @@ Table&nbsp;3: Descriptive statistics for coral species in the TCRMP monitoring p
 <th style="text-align: right;" data-quarto-table-cell-role="th">End cover (%)</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Start occ. (%)</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">End occ. (%)</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Start extent (%)</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">End extent (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Start local cover (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">End local cover (%)</th>
 </tr>
 </thead>
 <tbody>

@@ -225,7 +225,7 @@ group_slope <- function(terms) {
   est <- sum(L * coef(model_full))
   se <- sqrt(as.numeric(t(L) %*% vcov_hc3 %*% L))
   tibble(Slope = est, SE = se, `Annual % change` = 100 * (10^est - 1),
-         `P-value` = 2 * pnorm(-abs(est / se)))
+         `P-value` = 2 * pt(-abs(est / se), df = df.residual(model_full)))
 }
 group_slopes <- bind_rows(
   "Common broadcaster" = group_slope("yearind"),
@@ -311,7 +311,7 @@ group_slopes |>
 
 ## Step 13 — Table: full descriptive statistics per species
 
-The coefficient table reports the fitted trends. This table steps back to the species themselves and reports, for every taxon in the baseline community, how abundant and how widespread it was at the start of the record and how that changed by the end. Three complementary measures separate the different ways a species can decline. Cover is the mean percent cover across the species range. Occupancy is the proportion of surveyed sites where the species was present, so it tracks range contraction independent of local abundance. Extent is the mean cover at the sites where the species was actually present, so it tracks thinning within the occupied range. A species can hold its occupancy while its extent falls, or contract its range while staying dense where it persists; reporting both separates the two. Start values average over the baseline five-year group, and end values average over the last three years of the record. Occupancy counts a site only from the year it entered monitoring, so the denominator follows the site-by-site survey history rather than assuming every reef was watched from the first year.
+The coefficient table reports the fitted trends. This table steps back to the species themselves and reports, for every taxon in the baseline community, how abundant and how widespread it was at the start of the record and how that changed by the end. Three complementary measures separate the different ways a species can decline. Cover is the mean percent cover across the species range. Occupancy is the proportion of surveyed sites where the species was present, so it tracks range contraction independent of local abundance. Local cover is the mean cover at the sites where the species was actually present, so it tracks thinning within the occupied range. A species can hold its occupancy while its local cover falls, or contract its range while staying dense where it persists; reporting both separates the two. Start values average over the baseline five-year group, and end values average over the last three years of the record. Occupancy counts a site only from the year it entered monitoring, so the denominator follows the site-by-site survey history rather than assuming every reef was watched from the first year.
 
 ```{r tbl-tcrmp-descriptive}
 #| code-summary: "Step 13 code: per-species descriptive change-metrics table"
@@ -331,13 +331,13 @@ species_table <- compute_change_metrics(benthiccover, baseline, sitedat, earlies
     `End cover (%)` = ifelse(is.na(cover_end), "-", sprintf("%.2f", cover_end)),
     `Start occ. (%)` = sprintf("%.1f", occ_start),
     `End occ. (%)` = sprintf("%.1f", occ_end),
-    `Start extent (%)` = ifelse(is.na(ext_start), "-", sprintf("%.2f", ext_start)),
-    `End extent (%)` = ifelse(is.na(ext_end), "-", sprintf("%.2f", ext_end)),
+    `Start local cover (%)` = ifelse(is.na(ext_start), "-", sprintf("%.2f", ext_start)),
+    `End local cover (%)` = ifelse(is.na(ext_end), "-", sprintf("%.2f", ext_end)),
     .common = commonness == "Common"
   )
 kbl(.desc_tbl |> select(-.common), align = c("l", "l", "l", rep("r", 8)),
     caption = sprintf(
-      "Descriptive statistics for coral species in the TCRMP monitoring program. Species are ordered by their rank in the baseline period (%s). Reproductive Mode ('Repro. Mode') indicates reproductive strategy. Rows in bold signify common species, determined by the top 90%% cumulative cover threshold during the baseline period. Start Cover (%%), Start Occupancy (Start Occup. (%%)), Start Extent (%%), and Start Rank are metrics from the baseline period. End Cover (%%), End Occupancy (End Occup. (%%)), End Extent (%%), and End Rank are metrics for the recent period (%d-%d).",
+      "Descriptive statistics for coral species in the TCRMP monitoring program. Species are ordered by their rank in the baseline period (%s). Reproductive Mode ('Repro. Mode') indicates reproductive strategy. Rows in bold signify common species, determined by the top 90%% cumulative cover threshold during the baseline period. Start Cover (%%), Start Occupancy (Start Occup. (%%)), Start Local cover (%%), and Start Rank are metrics from the baseline period. End Cover (%%), End Occupancy (End Occup. (%%)), End Local cover (%%), and End Rank are metrics for the recent period (%d-%d).",
       earliest_year_group, min(.end_yrs), max(.end_yrs))) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) |>
   column_spec(1, italic = TRUE) |>
