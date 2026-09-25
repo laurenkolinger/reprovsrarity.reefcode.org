@@ -1,0 +1,70 @@
+{
+  "title": "Reproductive mode, but not rarity, influences population trajectories in corals: derived data and analysis code",
+  "upload_type": "software",
+  "description": "<p>Derived datasets from three long-term coral reef monitoring programs in the US Virgin Islands (the USVI Territorial Coral Reef Monitoring Program, the National Park Service South Florida/Caribbean Network program in the Virgin Islands, and the California State University Northridge program at St. John), arborescent octocoral colony density surveys from St. John, and all analysis code (R scripts and Quarto files) used for data processing, statistical analyses, and figure generation for Olinger et al., \"Reproductive mode, but not rarity, influences population trajectories in corals\" (submitted to Science).</p><p>This archive is a snapshot of the GitHub repository that builds the companion website, <a href=\"https://reprovsrarity.reefcode.org\">https://reprovsrarity.reefcode.org</a>, which shows the analysis as published and as a version that re-runs as monitoring data are added. Each GitHub release creates a new version of this record; the concept DOI always resolves to the latest version.</p>",
+  "creators": [
+    {
+      "name": "Olinger, L. K.",
+      "affiliation": "Center for Marine and Environmental Studies, University of the Virgin Islands",
+      "orcid": "0000-0003-1078-522X"
+    },
+    {
+      "name": "Dahl, A. D.",
+      "affiliation": "Department of Ecology, Evolution, and Marine Biology, University of California, Santa Barbara",
+      "orcid": "0009-0007-2754-4533"
+    },
+    {
+      "name": "Feeley, M. W.",
+      "affiliation": "National Park Service, South Florida/Caribbean Network",
+      "orcid": "0009-0005-2093-0154"
+    },
+    {
+      "name": "Lasker, H. R.",
+      "affiliation": "Department of Earth Sciences, University at Buffalo",
+      "orcid": "0000-0002-5280-0742"
+    },
+    {
+      "name": "Levitan, D. R.",
+      "affiliation": "Department of Biological Science, Florida State University",
+      "orcid": "0000-0001-5318-3312"
+    },
+    {
+      "name": "Mahoney, L.",
+      "affiliation": "Department of Biology, California State University, Northridge",
+      "orcid": "0009-0002-3808-5372"
+    },
+    {
+      "name": "Smith, T. B.",
+      "affiliation": "Center for Marine and Environmental Studies, University of the Virgin Islands",
+      "orcid": "0000-0002-5256-6087"
+    },
+    {
+      "name": "Edmunds, P. J.",
+      "affiliation": "Department of Biology, California State University, Northridge",
+      "orcid": "0000-0002-9039-9347"
+    }
+  ],
+  "keywords": [
+    "coral reefs",
+    "reproductive mode",
+    "rarity",
+    "brooding",
+    "broadcast spawning",
+    "long-term monitoring",
+    "US Virgin Islands",
+    "reproducible research"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://reprovsrarity.reefcode.org",
+      "relation": "isDocumentedBy",
+      "resource_type": "other"
+    },
+    {
+      "identifier": "https://github.com/laurenkolinger/reprovsrarity.reefcode.org",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ],
+  "license": "other-closed"
+}

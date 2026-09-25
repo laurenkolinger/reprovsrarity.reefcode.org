@@ -7,9 +7,9 @@ and figures alongside the results.
 
 **Live site:** https://reprovsrarity.reefcode.org
 
-> Olinger LK, Edmunds PJ, Levitan D, Smith TB, Lasker H, Feeley M, Mahoney L,
-> Dahl A. Reproductive mode, but not rarity, influences population trajectories
-> in corals. In Review 2026.
+> Olinger LK, Dahl AD, Feeley MW, Lasker HR, Levitan DR, Mahoney L, Smith TB,
+> Edmunds PJ. Reproductive mode, but not rarity, influences population
+> trajectories in corals. In Review 2026.
 
 This repo is one publication in the **Reef Code** family: the main analyses site
 [reefcode.org](https://reefcode.org), each publication on its own subdomain, and
@@ -97,5 +97,9 @@ current status.
 ## License and attribution
 
 This site accompanies a manuscript in review and bundles co-author data
-(reproductive-mode classifications and octocoral surveys). Please cite the
-manuscript above and contact the authors before reusing the data.
+(reproductive-mode classifications and octocoral surveys). Each GitHub release of
+this repository is archived on Zenodo; the Zenodo concept DOI always resolves to
+the latest release. While the manuscript is under review, the archive files are
+available on request from the corresponding author, Lauren K. Olinger
+(lauren.olinger@uvi.edu). Please cite the manuscript and the Zenodo archive, and
+contact the authors before reusing the data.
